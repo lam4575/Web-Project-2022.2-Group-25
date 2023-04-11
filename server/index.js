@@ -1,11 +1,12 @@
 const express = require('express')
 const userRouter = require('./routers/user');
-const connectToDB = require('../BE/DB/connectDB')
+const connectToDB = require('./DB/connectDB');
+const { PORT } = require('./configs');
 const app = express();
 
 
 
-const port = 3030;
+const port = PORT;
 app.use(
   express.urlencoded({ extended: true })
 );
