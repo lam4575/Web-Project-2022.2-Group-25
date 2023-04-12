@@ -1,10 +1,11 @@
-const mongoose = require('mongoose')
-const connectionString = 'mongodb+srv://admin1:1597532486ls@webproject.33ja8hi.mongodb.net/test';
-const options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-};
-mongoose.connect('mongodb+srv://admin1:1597532486ls@webproject.33ja8hi.mongodb.net/test', options)
+const mongoose = require('mongoose');
+const { MONGODB_URI, mongooseOptions } = require('../configs');
+
+// const connectionString = 'mongodb+srv://admin1:1597532486ls@webproject.33ja8hi.mongodb.net/test';
+
+
+
+mongoose.connect(MONGODB_URI, mongooseOptions)
   .then(() => {
     console.log('Connected to MongoDB Atlas!');
   })
