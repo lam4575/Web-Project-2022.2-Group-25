@@ -1,10 +1,33 @@
 const express = require('express');
-const router = express.Router();
+const loginRouter = express.Router();
+const User = require('../models/user');
+const bcryptjs = require('bcryptjs')
 
-// Import login controller
-const loginController = require('../controllers/loginController');
+
+
 
 // Login route
-router.post('/', loginController.login);
+loginRouter.post('/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+    const isPasswordCorrect = await bcryptjs.compare(password, user.password);
+    if (!isPasswordCorrect) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+    const token = await user.generateAuthToken();
+    user.tokens = user.tokens.concat(token);
+    await user.save();
+    res.json({ token });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 
-module.exports = router;
+
+
+module.exports = loginRouter;

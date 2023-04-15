@@ -1,8 +1,9 @@
 const express = require('express')
 const userRouter = require('./routers/user');
-const connectToDB = require('./DB/connectDB');
 const { PORT } = require('./configs');
+const loginRouter = require('./routers/login');
 const app = express();
+require('./DB/connectDB');
 
 
 
@@ -18,6 +19,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api', userRouter);
+
+app.use('/api', loginRouter)
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

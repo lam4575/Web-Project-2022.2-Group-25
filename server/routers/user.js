@@ -1,14 +1,16 @@
 const express = require('express');
 const User = require('../models/user');
 const router = express.Router();
-
+const {authenticateUser} = require('../middlewares/auth')
 
 // CREATE
 router.post('/users', async (req, res) => {
     const user = new User({
       username: req.body.username,
       password: req.body.password,
-      email: req.body.email});
+      email: req.body.email,
+      token: []
+    });
     try {
       await user.save();
       res.status(201).send(user);
@@ -17,6 +19,10 @@ router.post('/users', async (req, res) => {
       res.status(400).send(error);
     }
   });
+
+  router.get('/users/me', authenticateUser ,async (req,res) => {
+    res.send("Authenticate successfully")
+  })
   
   // READ
   router.get('/users', async (req, res) => {
