@@ -1,28 +1,37 @@
 // Importing the necessary modules
 const jwt = require('jsonwebtoken');
 const {JWT_SECRET} = require('../configs');
+const User = require('../models/user')
 
 // Defining the authentication function
-function authenticateUser(req, res, next) {
+async function authenticateUser(req, res, next) {
   // Extracting the token from the request header
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split('Bearer ')[1];
-  console.log(token)
   // Checking if the token exists
   if (!token) {
     return res.status(401).json({ message: 'No token, authorization denied' });
   }
 
-  try {
+try {
     // Verifying the token
     const decoded = jwt.verify(token, JWT_SECRET);
+    // Finding the user with the token id and decoded id
+    const user = await User.findOne({ '_id': decoded._id});
+    // Checking if the user exists
+    if (!user) {
+      return res.status(401).json({ message: 'User not found' });
+    }
 
     // Adding the user object to the request
-    req.user = decoded.user;
+    req.user = user;
+    req.token = token
+
     next();
   } catch (err) {
     res.status(401).json({ message: 'Token is not valid' });
   }
+
 }
 
 

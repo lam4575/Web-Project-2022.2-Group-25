@@ -1,7 +1,8 @@
 const express = require('express');
 const loginRouter = express.Router();
 const User = require('../models/user');
-const bcryptjs = require('bcryptjs')
+const bcryptjs = require('bcryptjs');
+const { authenticateUser } = require('../middlewares/auth');
 
 
 
@@ -28,6 +29,20 @@ loginRouter.post('/login', async (req, res) => {
   }
 });
 
+
+// Logout route
+loginRouter.post('/logout', authenticateUser ,async (req, res) => {
+  try {
+    req.user.tokens = req.user.tokens.filter((token) => {
+      return token !== req.token;
+    });
+    await req.user.save();
+    res.json({ message: 'Logout successful' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 
 
 module.exports = loginRouter;

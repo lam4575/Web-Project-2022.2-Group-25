@@ -17,9 +17,11 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  tokens:[{
-    type:String
-  }]
+  tokens: [
+    String
+  ]
+
+
 }, { timestamps: true });
 
 userSchema.pre('save', async function(next) {
