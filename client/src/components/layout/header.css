@@ -1,0 +1,60 @@
+.header {
+  width: 80%;
+  height: 60px;
+  display: flex;
+  margin: 0 auto;
+  border: 1px solid #333;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+}
+
+.logo-img {
+  width: 20%;
+  margin: auto 24px;
+}
+
+.seach-input {
+  width: 60%;
+  margin: auto 0;
+}
+
+.icon-seach {
+  width: 5%;
+  height: 20px;
+  padding: 0 4px;
+}
+
+.input-text {
+  width: 95%;
+  border-radius: 25px;
+  border: 1px solid #897f7f;
+  padding: 6px 14px;
+}
+
+.navbar {
+  padding: 0 32px;
+  width: 20%;
+  margin: auto 0;
+}
+
+.list-navbar {
+  display: flex;
+  justify-content: space-around;
+}
+
+.navbar-item {
+  width: 32px;
+  height: 32px;
+  text-align: center;
+}
+
+.navbar-item-button {
+  width: 32px;
+  height: 32px;
+  text-align: center;
+  line-height: 32px;
+  border-radius: 50%;
+  border: 1px solid #897f7f;
+}
