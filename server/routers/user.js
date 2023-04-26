@@ -1,7 +1,7 @@
 const express = require('express');
 const User = require('../models/user');
 const router = express.Router();
-const {authenticateUser} = require('../middlewares/auth')
+const {auth} = require('../middlewares/auth')
 
 // CREATE
 router.post('/users', async (req, res) => {
@@ -20,7 +20,7 @@ router.post('/users', async (req, res) => {
     }
   });
 
-  router.get('/users/me', authenticateUser ,async (req,res) => {
+  router.get('/users/me', auth ,async (req,res) => {
     res.send("Authenticate successfully")
   })
   

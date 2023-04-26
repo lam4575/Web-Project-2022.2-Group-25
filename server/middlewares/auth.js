@@ -4,7 +4,7 @@ const {JWT_SECRET} = require('../configs');
 const User = require('../models/user')
 
 // Defining the authentication function
-async function authenticateUser(req, res, next) {
+async function auth(req, res, next) {
   // Extracting the token from the request header
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split('Bearer ')[1];
@@ -35,4 +35,4 @@ try {
 }
 
 
-module.exports = {authenticateUser}
+module.exports = {auth}

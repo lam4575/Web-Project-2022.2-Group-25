@@ -5,6 +5,12 @@ const boardSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  description: String,
+  visibility:String,
+  members:[{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'

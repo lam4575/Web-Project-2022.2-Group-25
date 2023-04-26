@@ -2,7 +2,7 @@ const express = require('express');
 const loginRouter = express.Router();
 const User = require('../models/user');
 const bcryptjs = require('bcryptjs');
-const { authenticateUser } = require('../middlewares/auth');
+const { auth } = require('../middlewares/auth');
 
 
 
@@ -31,7 +31,7 @@ loginRouter.post('/login', async (req, res) => {
 
 
 // Logout route
-loginRouter.post('/logout', authenticateUser ,async (req, res) => {
+loginRouter.post('/logout', auth ,async (req, res) => {
   try {
     req.user.tokens = req.user.tokens.filter((token) => {
       return token !== req.token;
