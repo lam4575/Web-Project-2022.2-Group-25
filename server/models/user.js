@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const bcryptjs = require('bcryptjs'); // require bcryptjs here
-const jwt = require('jsonwebtoken'); // require bcryptjs here
+const jwt = require('jsonwebtoken'); 
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -19,9 +19,24 @@ const userSchema = new mongoose.Schema({
   },
   tokens: [
     String
+  ],
+  first_name: {
+    type: String
+  },
+  last_name: {
+    type: String
+  },
+  boards: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Board'
+  }],
+  activityLog: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Activity'
+  }],
+  tokens: [
+    String
   ]
-
-
 }, { timestamps: true });
 
 userSchema.pre('save', async function(next) {
