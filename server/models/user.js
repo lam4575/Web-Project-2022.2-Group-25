@@ -23,10 +23,13 @@ const userSchema = new mongoose.Schema({
   last_name: {
     type: String
   },
-  boards: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Board'
-  }],
+  boards: {
+    type: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Board'
+    }],
+    unique: true
+  },
   activityLog: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Activity'

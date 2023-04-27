@@ -12,7 +12,7 @@ const cardSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
-  assignTo: [{
+  assignedTo: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   }],
