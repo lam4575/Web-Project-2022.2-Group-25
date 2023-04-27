@@ -19,7 +19,7 @@ try {
     // Finding the user with the token id and decoded id
     const user = await User.findOne({ '_id': decoded._id});
     // Checking if the user exists
-    if (!user) {
+    if (!user.tokens.includes(token)) {
       return res.status(401).json({ message: 'User not found' });
     }
 
