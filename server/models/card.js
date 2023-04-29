@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const mongoose = require('mongoose');
 const User = require('./user');
 const Activity = require('./activity');
 
@@ -8,11 +7,14 @@ const cardSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  deadline: {
-    type: Date,
-    required: true
+  labels:[{
+    lableTitle:String,
+    color: String
+  }],
+  dueDate: {
+    type: Date
   },
-  assignedTo: [{
+  assignTo: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   }],
@@ -20,9 +22,13 @@ const cardSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  activityLog: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Activity'
+  createdBy:{
+    type:mongoose.ObjectId,
+    ref:"User"
+  },
+  comments:[{
+    type:mongoose.ObjectId,
+    ref:"Comment"
   }]
 });
 

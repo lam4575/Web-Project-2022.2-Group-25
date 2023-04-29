@@ -27,13 +27,8 @@ const userSchema = new mongoose.Schema({
     type: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Board'
-    }],
-    unique: true
+    }]
   },
-  activityLog: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Activity'
-  }],
   tokens: [
     String
   ]
