@@ -20,7 +20,6 @@ loginRouter.post('/login', async (req, res) => {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
     const token = await user.generateAuthToken();
-    user.tokens = user.tokens.concat(token);
     await user.save();
     res.json({ token });
   } catch (error) {

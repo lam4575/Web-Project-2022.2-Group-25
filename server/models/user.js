@@ -23,14 +23,12 @@ const userSchema = new mongoose.Schema({
   last_name: {
     type: String
   },
-  boards: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Board'
-  }],
-  activityLog: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Activity'
-  }],
+  boards: {
+    type: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Board'
+    }]
+  },
   tokens: [
     String
   ]

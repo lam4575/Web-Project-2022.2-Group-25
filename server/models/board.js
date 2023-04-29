@@ -7,6 +7,10 @@ const boardSchema = new mongoose.Schema({
   },
   description: String,
   visibility:String,
+  closed:{
+   type: Boolean,
+   default : 'false'
+  },
   members:[{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
@@ -15,6 +19,10 @@ const boardSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
+  adminMembers: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
   createdAt: {
     type: Date,
     default: Date.now

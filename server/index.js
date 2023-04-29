@@ -3,7 +3,9 @@ const userRouter = require('./routers/user');
 const { PORT } = require('./configs');
 const loginRouter = require('./routers/login');
 const app = express();
-const boardRoutes = require('./routers/board') 
+const boardRoutes = require('./routers/board');
+const listRoutes = require('./routers/list');
+
 require('./DB/connectDB');
 
 
@@ -15,8 +17,9 @@ app.use(
   
 app.use(express.json());
 
+app.use('/api', listRoutes);
 
-app.use('/api/board',boardRoutes);
+app.use('/api/boards',boardRoutes);
 
 app.use('/api', userRouter);
 
