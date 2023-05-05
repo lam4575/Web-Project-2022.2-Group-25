@@ -9,7 +9,6 @@ testRouter.post('/test/mail', async (req, res) => {
             subject: subject,
             content: content
         };
-        console.log(req.body);
         
         const returnMessage = await sendMail(mail, recceiver);
 
