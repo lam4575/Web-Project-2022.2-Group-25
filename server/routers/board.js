@@ -6,7 +6,8 @@ const Activity = require('../models/activity');
 const User = require('../models/user')
 const List = require('../models/list')
 const {auth} = require('../middlewares/auth');
-const {createActivity, updateBoardActivityLog} = require('../utils/createActivity')
+const {createActivity, updateBoardActivityLog} = require('../utils/createActivity');
+const Card = require('../models/card');
 
 // Create a new board
 router.post('/', auth, async (req, res, next) => {
@@ -140,11 +141,16 @@ router.post('/:id/share', auth, async (req, res) => {
 // Leave board route
 router.post('/:id/leave', auth, async (req, res) => {
   try {
-    const board = await Board.findById(req.params.id);
+    const board = await Board.findById(req.params.id).populate({
+      path: 'lists',
+      populate: {
+        path: 'cards'
+      }
+    });
     if (!board) {
       return res.status(404).send();
     }
-  if (board.createdBy.toString() === req.user._id.toString() && boards.adminMembers.length == 1) {
+    if (board.createdBy.toString() === req.user._id.toString() && boards.adminMembers.length == 1) {
       // If the user is the owner of the board
       board.closed = true;
       await board.save();
@@ -152,7 +158,7 @@ router.post('/:id/leave', auth, async (req, res) => {
       const activity = await createActivity('User', req.user._id, 'closed', req.user._id);
       await updateBoardActivityLog(board._id, activity);
 
-  } else {
+    } else {
       // If the user is not the owner of the board, remove the user from the members array and remove any card that the user is assigned to
       const adminIndex = board.adminMembers.indexOf(req.user._id);
       const memberIndex = board.members.indexOf(req.user._id);
@@ -161,18 +167,15 @@ router.post('/:id/leave', auth, async (req, res) => {
         if ( adminIndex > -1) board.adminMembers.splice(adminIndex, 1);
         await board.save();
         
-        // const cards = await Card.find({ board: board._id, $in:[assignedTo]});
-        // if (cards.length > 0) {
-        //     for (let i = 0; i < cards.length; i++) {
-        //     const card = cards[i];
-        //     const assignedToIndex = card.assignedTo.indexOf(req.user._id);
-        //     if (assignedToIndex > -1) {
-        //       card.assignedTo.splice(assignedToIndex, 1);
-        //       await card.save();
-        //     }
-        //   }
-        // }
-        
+        board.lists.forEach(list => {
+          list.cards.forEach(async card => {
+            if(card.assignTo.includes(req.user._id)) {
+              card.assignTo.splice(card.assignTo.indexOf(req.user._id), 1);
+              await card.save();
+            }
+          });
+        });
+
         const activity = await createActivity('User', req.user._id, 'left', req.user._id);
         await updateBoardActivityLog(board._id, activity);
       }
@@ -182,7 +185,7 @@ router.post('/:id/leave', auth, async (req, res) => {
         user.boards.splice(index,1);
         await user.save();
       }
-  }
+    }
     res.send(board);
   } catch (error) {
     res.status(500).send(error);
