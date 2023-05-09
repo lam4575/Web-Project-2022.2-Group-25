@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "./header.css";
-import { FaBeer } from "react-icons/fa";
 
 const Header = () => {
   return (

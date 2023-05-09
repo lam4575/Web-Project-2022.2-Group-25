@@ -160,3 +160,32 @@
 .active {
   display: block !important;
 }
+
+.content-start {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.footer-skip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  flex: 1;
+}
+
+.text-content {
+  flex: 1;
+}
+
+.text-content p {
+  font-size: 1;
+}
+
+.skip-target-end {
+  background-color: rgb(23, 43, 77);
+}
