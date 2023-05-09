@@ -32,7 +32,7 @@ const PageOne = () => {
             <div className="container-content">
               <div className="container-content-img">
                 <img
-                  src={require("../assets/img/TrelloUICollage_4x.webp")}
+                  src={require("../../assets/img/TrelloUICollage_4x.webp")}
                   alt="ảnh minh họa"
                   className="img-content"
                 />
@@ -53,6 +53,7 @@ const PageOne = () => {
           </div>
         </div>
       </div>
+
       <div className="skip-target-two">
         <section className="ui-section">
           <div className="content-info">
@@ -90,7 +91,7 @@ const PageOne = () => {
             <div className="content-default-img">
               <div className="default-img">
                 <img
-                  src={require("../assets/img/Carousel_Image_Boards_2x.webp")}
+                  src={require("../../assets/img/Carousel_Image_Boards_2x.webp")}
                   alt="Ảnh minh họa"
                   className="img-content"
                 />
@@ -98,7 +99,7 @@ const PageOne = () => {
 
               <div className="default-img active">
                 <img
-                  src={require("../assets/img/Carousel_Image_Lists_2x.webp")}
+                  src={require("../../assets/img/Carousel_Image_Lists_2x.webp")}
                   alt="Ảnh minh họa"
                   className="img-content"
                 />
@@ -106,7 +107,7 @@ const PageOne = () => {
 
               <div className="default-img ">
                 <img
-                  src={require("../assets/img/Carousel_Image_Cards_2x.webp")}
+                  src={require("../../assets/img/Carousel_Image_Cards_2x.webp")}
                   alt="Ảnh minh họa"
                   className="img-content"
                 />
@@ -115,11 +116,55 @@ const PageOne = () => {
           </div>
         </section>
       </div>
-      <div className="skip-target">
-        <div className="ui-section"></div>
+
+      <div className="skip-target-three">
+        <div className="ui-section">
+          <div className="content-start">
+            <h3>Bắt đầu sử dụng Trello ngay hôm nay</h3>
+            <form action="" className="form-skip">
+              <input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Email"
+                className="input-skip-container"
+              />
+              <button className="button-skip" type="submit">
+                Đăng ký - hoàn toàn miễn phí
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
-      <div className="skip-target">
-        <div className="ui-section"></div>
+
+      <div className="skip-target-end">
+        <div className="ui-section">
+          <div className="footer-skip">
+            <div className="logo">
+              <img src={require("../../assets/img/logo.png")} alt="" />
+            </div>
+            <div className="text-content">
+              <h4>Tìm hiểu về Trello</h4>
+              <p>Công nghệ nền tảng.</p>
+            </div>
+            <div className="text-content">
+              <h4>Việc làm</h4>
+              <p>
+                Tìm hiểu về các vai trò chưa ai đảm nhiệm trong nhóm Trello.
+              </p>
+            </div>
+            <div className="text-content">
+              <h4>Ứng dụng</h4>
+              <p>
+                Tải xuống Ứng dụng Trello cho Máy tính hoặc Thiết bị di động.
+              </p>
+            </div>
+            <div className="text-content">
+              <h4>Liên hệ với chúng tôi</h4>
+              <p>Bạn cần giúp đỡ? Hãy liên lạc để chúng tôi có thể hỗ trợ</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

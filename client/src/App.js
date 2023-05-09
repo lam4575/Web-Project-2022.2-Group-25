@@ -1,13 +1,17 @@
-import { NavLink, Box, Badge } from "@mantine/core";
 import "./App.css";
-import Header from "./components/layout/header";
-import Signup from "./components/layout/signup";
-import PageOne from "./components/layout/pageone";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import PageOne from "./pages/pageOne/pageone";
+import Boards from "./pages/PageTwo";
 
 function App() {
   return (
     <div className="App">
-      <PageOne />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<PageOne />} />
+          <Route path="/boards" element={<Boards />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
