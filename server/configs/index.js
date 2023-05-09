@@ -6,6 +6,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const BASE_URL = process.env.BASE_URL;
 const EMAIL_USERNAME = process.env.EMAIL_USERNAME;
 const EMAIL_PASSWORD = process.env.EMAIL_PASSWORD;
+const ROOT_ABSOLUTE = process.env.ROOT_ABSOLUTE;
 
 
 
@@ -22,7 +23,8 @@ const CONFIGS = {
     BASE_URL,
     mongooseOptions,
     EMAIL_USERNAME,
-    EMAIL_PASSWORD
+    EMAIL_PASSWORD,
+    ROOT_ABSOLUTE
 }
 
 

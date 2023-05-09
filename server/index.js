@@ -1,4 +1,5 @@
 const express = require('express')
+const fileUpload = require('express-fileupload');
 const userRouter = require('./routers/user');
 const { PORT } = require('./configs');
 const loginRouter = require('./routers/login');
@@ -15,6 +16,8 @@ const port = PORT;
 app.use(
   express.urlencoded({ extended: true })
 );
+
+app.use(fileUpload());
   
 app.use(express.json());
 
