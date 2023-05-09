@@ -1,0 +1,162 @@
+.main {
+  margin: 68px 0 0 0;
+  padding: 0;
+}
+
+.skip-target {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(60deg, rgb(82, 67, 170), rgb(237, 80, 180));
+}
+
+.ui-section {
+  width: 80%;
+  margin: 32px auto;
+  padding: 0 32px 16px 32px;
+}
+
+.container {
+  display: flex;
+  margin: 16px 24px;
+}
+
+.container-content {
+  flex: 1;
+  width: 50%;
+  margin-top: 50px;
+}
+
+.img-content {
+  object-fit: cover;
+  width: 100%;
+}
+
+.text-content-header {
+  font-size: 3rem;
+  line-height: 1.25;
+  font-weight: 550;
+  font-family: "Charlie Display", sans-serif;
+  color: white;
+  margin-bottom: 24px;
+}
+
+.text-content {
+  font-size: 1.25rem;
+  line-height: 1.5;
+  font-weight: 400;
+  color: white;
+  margin-bottom: 30px;
+}
+
+.form-skip {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-skip-container {
+  border: 1px solid rgb(223, 225, 230);
+  max-width: 300px;
+  font-size: 1rem;
+  padding: 0.7rem 0.75rem 0.8rem;
+  overflow: visible;
+  border-radius: 5px;
+  margin-bottom: 36px;
+}
+
+.button-skip {
+  align-items: center;
+  display: inline-flex;
+  text-align: center;
+  -webkit-box-align: center;
+  text-decoration: none;
+  background-color: rgb(0, 101, 255);
+  border: 1px solid rgb(0, 101, 255);
+  font-size: 1rem;
+  padding: 0.7rem 1rem 0.8rem;
+  color: white !important;
+  border-radius: 5px;
+  max-width: 280px;
+}
+
+.main-content {
+  max-width: 40%;
+  padding: 12px 24px;
+}
+
+.main-content-header {
+  font-weight: 600;
+}
+
+.main-content h2 {
+  font-weight: 700;
+  margin: 16px 0;
+}
+
+.main-content p {
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.5;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Two */
+.skip-target-two {
+  background: linear-gradient(0deg, rgb(230, 252, 255), rgb(255, 255, 255)) 0%
+    0% / auto repeat scroll padding-box border-box rgb(178, 212, 255);
+}
+
+.content-info {
+  display: flex;
+  margin: 16px 24px;
+}
+
+.content-default {
+  flex: 1;
+}
+
+.content-default-img {
+  flex: 2;
+}
+
+.default {
+  margin: 16px 40px 0px 4px;
+  padding: 8px 4px 0 4px;
+  border: none;
+  background-color: transparent;
+  text-align: left;
+}
+
+.default h6 {
+  line-height: 2;
+  padding-left: 14px;
+}
+
+.default p {
+  line-height: 1.5;
+  padding: 0 14px;
+}
+
+.default-chart {
+  box-shadow: rgba(9, 30, 66, 0.15) 0px 0.5rem 1rem 0px;
+  border-radius: 0.3em;
+  position: relative;
+}
+
+.default-chart ::after {
+  background-color: rgb(0, 199, 229);
+  border-radius: 0.3rem 0px 0px 0.3rem;
+  bottom: 0px;
+  content: "";
+  left: 0px;
+  position: absolute;
+  top: 0px;
+  width: 0.5rem;
+}
+
+.default-img {
+  display: none;
+}
+
+.active {
+  display: block !important;
+}
