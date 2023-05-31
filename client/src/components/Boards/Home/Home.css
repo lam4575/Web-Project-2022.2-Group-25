@@ -1,0 +1,78 @@
+.home-main {
+  margin: 4px 0;
+  padding: 0 12px;
+  display: flex;
+  flex-direction: row;
+}
+
+.stay_date {
+  flex: 2;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+}
+
+.img_stay {
+  object-fit: cover;
+  width: 100%;
+  overflow: hidden;
+}
+
+.stay_date-text {
+  margin: 12px 12px 0px 12px;
+  padding: 12px;
+}
+
+.stay_date-text h4 {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 2;
+  text-align: center;
+}
+
+.stay_date-text p {
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.recently {
+  flex: 1;
+  margin: 8px 4px;
+  padding: 0 24px;
+}
+
+.recently_header {
+  height: 24px;
+  margin-bottom: 16px;
+}
+
+.recently_header span {
+  margin-top: 4px;
+}
+
+.recently_header span,
+.recently_header p {
+  font-size: 14px;
+  height: 24px;
+  margin-right: 2px;
+  font-weight: 400;
+}
+
+.creat_boards {
+  display: flex;
+  height: 40px;
+  border-radius: 8px;
+  border: transparent;
+  width: 100%;
+  margin: 0;
+  align-items: center;
+}
+
+.creat_boards p,
+.creat_boards span {
+  font-size: 13px;
+  margin-bottom: 0;
+  padding: 8px;
+  font-weight: 400;
+}

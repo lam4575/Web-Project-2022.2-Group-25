@@ -1,0 +1,67 @@
+.header {
+  width: 100%;
+  display: flex;
+  top: 0;
+  height: 48px;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.presentation-button {
+  border: transparent;
+  background-color: white;
+  margin: 0 12px;
+  height: 36px;
+  border-radius: 8px;
+  align-items: center;
+}
+
+.presentation-button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  width: 100px;
+  margin: 0 12px 0 4px;
+  flex: 0;
+}
+
+.logo-name {
+  height: 48px;
+}
+
+.img-logo {
+  object-fit: cover;
+  height: 48px;
+}
+
+.select {
+  display: flex;
+}
+
+.select-button {
+  border: transparent;
+  border-radius: 8px;
+  background-color: white;
+  text-align: center;
+  height: 36px;
+  margin: auto;
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.select-text {
+  text-align: center;
+}
+
+.select-button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.select-icon-item {
+  margin-left: 2px;
+  margin-top: 6px;
+}
