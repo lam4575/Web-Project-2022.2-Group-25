@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PageOne from "./pages/pageOne/pageone";
 import Boards from "./pages/PageTwo";
-import { Login } from "./login_page/login";
+import Login from "./pages/login_page/login";
 
 
 function App() {
@@ -12,6 +12,7 @@ function App() {
         <Routes>
           <Route path="/" element={<PageOne />} />
           <Route path="/boards" element={<Boards />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
     </div>

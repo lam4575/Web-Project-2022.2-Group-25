@@ -7,9 +7,11 @@ const app = express();
 const boardRoutes = require('./routers/board');
 const listRoutes = require('./routers/list');
 const testRouter = require('./routers/test');
-
+const cardRouter = require('./routers/card')
 require('./DB/connectDB');
+var cors = require('cors')
 
+app.use(cors()) // Use this after the variable declaration
 
 
 const port = PORT;
@@ -28,6 +30,8 @@ app.use('/api/boards',boardRoutes);
 app.use('/api', userRouter);
 
 app.use('/api', loginRouter);
+
+app.use('/api', cardRouter);
 
 
 //For testing routes
