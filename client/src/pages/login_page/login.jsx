@@ -22,11 +22,9 @@ const Login = (props) => {
             const token = response.data.token;
             Cookies.set('token', token, { expires: 7 }); // Expires in 7 days
             //Routing to the profile page
-            navigate('/');
+            navigate('/boards');
             const tokenCookie = Cookies.get('token');
             console.log(tokenCookie);
-
-
           } catch (error) {
             // Handle any error that occurred during the API request
             alert("Login Failed!");
