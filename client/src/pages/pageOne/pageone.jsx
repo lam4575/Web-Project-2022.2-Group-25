@@ -2,6 +2,24 @@ import { React } from "react";
 import "./pageOne.css";
 
 const PageOne = () => {
+  const handleClick = (e) => {
+    for (let i = 0; i < items.length; i++) {
+      items[i].addEventListener("click", function () {
+        for (let i = 0; i < items.length; i++) {
+          if (items[i].classList.contains("default-chart")) {
+            items[i].classList.remove("default-chart");
+            itemdetails[i].classList.remove("active");
+          }
+        }
+        items[i].classList.add("default-chart");
+        itemdetails[i].classList.add("active");
+      });
+    }
+  };
+
+  const items = document.getElementsByClassName("default");
+  const itemdetails = document.getElementsByClassName("default-img");
+
   return (
     <div className="main">
       <div className="skip-target">
@@ -58,7 +76,7 @@ const PageOne = () => {
         <section className="ui-section">
           <div className="content-info">
             <div className="content-default">
-              <button className="default default-chart">
+              <button className="default default-chart" onClick={handleClick}>
                 <h6>Các bảng</h6>
                 <p>
                   Bảng Trello giúp bạn sắp xếp hợp lý các nhiệm vụ và thúc đẩy
@@ -67,7 +85,7 @@ const PageOne = () => {
                 </p>
               </button>
 
-              <button className="default">
+              <button className="default" onClick={handleClick}>
                 <h6>DANH SÁCH</h6>
                 <p>
                   Các giai đoạn khác nhau của một nhiệm vụ. Hãy bắt đầu thật đơn
@@ -77,7 +95,7 @@ const PageOne = () => {
                 </p>
               </button>
 
-              <button className="default">
+              <button className="default" onClick={handleClick}>
                 <h6>THẺ</h6>
                 <p>
                   Thẻ trình bày các nhiệm vụ và ý tưởng, đồng thời lưu giữ mọi
@@ -89,7 +107,7 @@ const PageOne = () => {
             </div>
 
             <div className="content-default-img">
-              <div className="default-img">
+              <div className="default-img active">
                 <img
                   src={require("../../assets/img/Carousel_Image_Boards_2x.webp")}
                   alt="Ảnh minh họa"
@@ -97,7 +115,7 @@ const PageOne = () => {
                 />
               </div>
 
-              <div className="default-img active">
+              <div className="default-img">
                 <img
                   src={require("../../assets/img/Carousel_Image_Lists_2x.webp")}
                   alt="Ảnh minh họa"

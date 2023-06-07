@@ -1,0 +1,148 @@
+.boards {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.container-control {
+  width: 70%;
+  height: 500px;
+  margin: 24px auto 0 auto;
+  padding: 24px 20px;
+  display: flex;
+}
+
+.sidebar {
+  flex: 2;
+}
+
+.content {
+  flex: 5;
+}
+
+.list-control {
+  list-style: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding-left: 2px;
+}
+
+.active {
+  background-color: #e5ecee !important;
+}
+
+.active p,
+.active span {
+  color: #82cdd6;
+}
+
+.control-item,
+.box-control,
+.workspace_header {
+  padding: 0;
+  margin-right: 24px;
+  color: #536d98;
+  font-size: 14px;
+  font-weight: 800;
+  border-radius: 6px;
+}
+
+.box-control {
+  border: transparent;
+  background-color: transparent;
+  width: 100%;
+}
+
+.box-control,
+.workspace_header {
+  border-radius: 6px;
+  margin: 6px 0px 0px 0;
+  padding: 4px;
+  height: 32px;
+  line-height: 20px;
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans,
+    Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
+  display: flex;
+}
+
+.box-control:hover,
+.button_add-icon:hover,
+.workspace_button:hover,
+.workspace_header:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.box-icon {
+  font-size: 16px;
+  margin-top: 3px;
+  margin-right: 6px;
+  padding: 0 2px;
+  color: #536d98;
+}
+
+.workspace_text {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #536d98;
+  height: 32px;
+  padding: 0 16px;
+  align-items: center;
+  border-radius: 8px;
+}
+
+.workspace_text p {
+  margin: 0;
+}
+
+.button_add {
+  border: none;
+  background-color: transparent;
+}
+
+.button_add-icon {
+  font-size: 24px;
+  margin-top: 4px;
+  border-radius: 4px;
+}
+
+.workspace_header {
+  display: flex;
+  border: transparent;
+  background-color: transparent;
+  width: 100%;
+}
+
+.list-workspace {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.workspace_button {
+  display: flex;
+  border: transparent;
+  background-color: transparent;
+  width: 100%;
+  padding-left: 32px;
+  border-radius: 8px;
+  align-items: center;
+  text-align: center;
+  margin: 8px 0 8px 0;
+  font-size: 12px;
+  height: 28px;
+}
+
+.workspace_button p {
+  margin: auto 4px;
+}
+
+.workspace_details {
+  display: none;
+}
+
+.onblock {
+  display: block;
+}
