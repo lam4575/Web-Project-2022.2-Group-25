@@ -1,6 +1,8 @@
 import { React } from "react";
 import "./pageOne.css";
 
+import Header from "../../components/layout/Header/header";
+
 const PageOne = () => {
   const handleClick = (e) => {
     for (let i = 0; i < items.length; i++) {
@@ -22,6 +24,7 @@ const PageOne = () => {
 
   return (
     <div className="main">
+      <Header className="header-page" />
       <div className="skip-target">
         <section className="ui-section">
           <div className="container">
@@ -161,24 +164,28 @@ const PageOne = () => {
             <div className="logo">
               <img src={require("../../assets/img/logo.png")} alt="" />
             </div>
+
             <div className="text-content">
-              <h4>Tìm hiểu về Trello</h4>
+              <h4 className="text-title">Tìm hiểu về Trello</h4>
               <p>Công nghệ nền tảng.</p>
             </div>
+
             <div className="text-content">
-              <h4>Việc làm</h4>
+              <h4 className="text-title">Việc làm</h4>
               <p>
                 Tìm hiểu về các vai trò chưa ai đảm nhiệm trong nhóm Trello.
               </p>
             </div>
+
             <div className="text-content">
-              <h4>Ứng dụng</h4>
+              <h4 className="text-title">Ứng dụng</h4>
               <p>
                 Tải xuống Ứng dụng Trello cho Máy tính hoặc Thiết bị di động.
               </p>
             </div>
+
             <div className="text-content">
-              <h4>Liên hệ với chúng tôi</h4>
+              <h4 className="text-title">Liên hệ với chúng tôi</h4>
               <p>Bạn cần giúp đỡ? Hãy liên lạc để chúng tôi có thể hỗ trợ</p>
             </div>
           </div>

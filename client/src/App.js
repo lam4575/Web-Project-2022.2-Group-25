@@ -4,6 +4,7 @@ import PageOne from "./pages/pageOne/pageone";
 import Boards from "./pages/Boards/Boards";
 import Login from "./pages/login_page/login";
 
+import SurFaceScreen from "./pages/SurFace/surFace";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<PageOne />} />
           <Route path="/boards" element={<Boards />} />
+          <Route path="/surface" element={<SurFaceScreen />} />
           <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
