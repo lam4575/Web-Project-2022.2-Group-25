@@ -1,7 +1,7 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PageOne from "./pages/pageOne/pageone";
-import Boards from "./pages/PageTwo";
+import Boards from "./pages/Boards/Boards";
 import Login from "./pages/login_page/login";
 
 
