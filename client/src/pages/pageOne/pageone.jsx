@@ -1,6 +1,8 @@
 import { React } from "react";
 import "./pageOne.css";
 
+import Header from "../../components/layout/Header/header";
+
 const PageOne = () => {
   const handleClick = (e) => {
     for (let i = 0; i < items.length; i++) {

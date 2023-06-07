@@ -1,0 +1,69 @@
+.cards {
+  margin: 12px 6px;
+  border: 1px solid #d4dae1;
+  border-radius: 8px;
+  box-shadow: 0 1px 0 #091e4240;
+  padding: 2px 6px;
+  background-color: #fff;
+  cursor: pointer;
+  position: relative;
+}
+.btn-edit {
+  display: none;
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  border: transparent;
+  background-color: transparent;
+}
+
+.edit-icon {
+  font-size: 16px;
+}
+
+.cards:hover {
+  background-color: #a9adb340;
+}
+
+.cards:hover .btn-edit {
+  display: block;
+}
+
+.card-content {
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans,
+    Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
+  margin-bottom: -12px;
+  padding-left: 6px;
+}
+
+.badges {
+  margin-bottom: 4px;
+  padding-left: 2px;
+}
+
+.badges-info {
+  padding: 0;
+}
+
+.badge {
+  margin: 0;
+  padding: 0 8px !important;
+  height: 24px;
+}
+
+.badge-icon {
+  color: black;
+  font-size: 16px;
+  padding: 0;
+  margin: 5px 0;
+}
+
+.badge-time {
+  background-color: #1f845a;
+  min-width: 42px;
+}
+
+.badge-time .badge-icon {
+  color: white;
+}
