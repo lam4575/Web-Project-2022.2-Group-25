@@ -38,7 +38,6 @@ const Login = (props) => {
     }
 
     return (
-        
         <div className="container_login">
             <h1 id="trello">Trello</h1>
             <div className="login">

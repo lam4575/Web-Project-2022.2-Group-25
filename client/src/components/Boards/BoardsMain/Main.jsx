@@ -1,7 +1,13 @@
 import React from "react";
 import "./Main.css";
 
-const MainScreen = () => {
+const MainScreen = ({ boards }) => {
+  const handleBoardClick = (boardId) => {
+    // Navigate to the detail page using the boardId
+    window.location.href = `/boards/${boardId}`;
+  };
+
+
   return (
     <div className="main-body">
       <div className="recently">
@@ -10,6 +16,21 @@ const MainScreen = () => {
             schedule
           </span>
           <p>Recently viewed</p>
+        </div>
+        <div style={{display : "block"}}>
+        <ul className="boards-page-board-section-list">
+          {boards.slice(0,4).map(board => (
+            <li className="boards-page-board-section-list-item" key={board._id}>
+              <a className="board-tile" onClick={() => handleBoardClick(board._id)}>
+                <div className="board-tile-details is-badged">
+                  <div className="board-tile-details-name">
+                    {board.boardName}
+                  </div>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
         </div>
       </div>
 

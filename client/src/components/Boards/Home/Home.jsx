@@ -2,6 +2,7 @@ import React from "react";
 import "./Home.css";
 
 const HomeScreen = () => {
+
   return (
     <div className="home-main">
       <div className="stay_date">
@@ -27,6 +28,7 @@ const HomeScreen = () => {
             schedule
           </span>
           <p>Recently viewed</p>
+
         </div>
 
         <div className="list_workspace"></div>
@@ -34,7 +36,7 @@ const HomeScreen = () => {
         <div className="links">
           <p>Links</p>
           <button className="creat_boards">
-            <span class="material-symbols-outlined">add</span>
+            <span className="material-symbols-outlined">add</span>
             <p>Creat a board</p>
           </button>
         </div>

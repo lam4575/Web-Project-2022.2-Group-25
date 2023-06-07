@@ -8,7 +8,7 @@
 .recently {
   margin: 8px 6px 4px 0;
   padding: 8px 6px 4px 0px;
-  height: 200px;
+  height: auto;
 }
 
 .recently_header {
@@ -89,4 +89,63 @@
 .button_works span,
 .button_works p {
   line-height: 36px;
+}
+
+.boards-page-board-section-list {
+  display: flex;
+  justify-content: flex-start;
+}
+
+li {
+  display: list-item;
+  text-align: -webkit-match-parent;
+}
+
+.board-tile {
+  border-radius: 3px;
+  display: block;
+  height: 80px;
+  background-image: url(https://d2k1ftgv7pobq7.cloudfront.net/images/backgrounds/gradients/snow.svg);
+}
+
+ul, li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.board-tile-details {
+  display: flex;
+  flex-direction: column;
+  height: 80px;
+  justify-content: space-between;
+  position: relative;
+}
+
+.board-tile-details-name {
+  word-wrap: break-word;
+  display: inline-block;
+  flex: 0 0 auto;
+  font-size: 16px;
+  font-weight: 700;
+  max-height: 40px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.board-tile {
+  background-color: var(--ds-skeleton,#97a0af);
+  background-position: 50%;
+  background-size: cover;
+  color: #fff;
+  line-height: 20px;
+  padding: 8px;
+  position: relative;
+  text-decoration: none;
+}
+
+.boards-page-board-section-list-item {
+    margin-bottom: 8px;
+    margin-right: 8px;
+    width: calc(50% - 4px);
 }
