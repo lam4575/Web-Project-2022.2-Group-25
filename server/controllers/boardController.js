@@ -140,8 +140,11 @@ const createBoard = async (req, res) => {
 
 const getAllBoards = async (req, res) => {
   try {
+    const user = req.user._id.toString();
     const boards = await Board.find({});
-    res.send(boards);
+    const userBoards = boards.filter(board => board.members.includes(user));
+    console.log(userBoards)
+    res.send(userBoards);
   } catch (error) {
     res.status(500).send(error);
   }
@@ -149,7 +152,13 @@ const getAllBoards = async (req, res) => {
 
 const getBoardById = async (req, res) => {
   try {
-    const board = await Board.findById(req.params.id);
+    const board = await Board.findById(req.params.id).populate("lists").populate("activityLog").populate({
+      path: 'lists',
+      populate: {
+        path: 'cards',
+        model: 'Card',
+      },
+    });
     if (!board) {
       return res.status(404).send();
     }

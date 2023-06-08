@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import "./Cards.css";
 
-const Cards = (props) => {
+const Cards = ({card}) => {
   return (
     <div className="cards">
       <div className="card-content">
-        <p>Linh</p>
+        <p>{card.cardTitle}</p>
       </div>
 
       <div className="edit">
@@ -37,7 +37,7 @@ const Cards = (props) => {
             <span className="material-symbols-outlined badge-icon">
               mark_chat_unread
             </span>
-            <span className="number">1</span>
+            <span className="number">{card.comments.length>0 && card.comments.length}</span>
           </div>
         </div>
         <div className="avatar-user"></div>

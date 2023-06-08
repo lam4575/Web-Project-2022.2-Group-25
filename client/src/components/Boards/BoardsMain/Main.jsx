@@ -3,7 +3,6 @@ import "./Main.css";
 
 const MainScreen = ({ boards }) => {
   const handleBoardClick = (boardId) => {
-    // Navigate to the detail page using the boardId
     window.location.href = `/boards/${boardId}`;
   };
 

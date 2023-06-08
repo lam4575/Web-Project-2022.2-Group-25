@@ -176,6 +176,7 @@
 }
 
 .add-card-item {
+  position: relative;
   display: flex;
   border-radius: 6px;
   border: 1px solid rgba(0, 0, 0, 0.3);
@@ -204,4 +205,16 @@
     Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
   color: #5f6d84;
   font-weight: 400;
+}
+
+
+
+.calendar {
+  border: 1px solid;
+  z-index: 9999;
+  position: absolute;
+  top: -1px;
+  left: -15px;
+  border-radius: 1rem;
+  background-color: #fff;
 }

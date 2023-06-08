@@ -6,7 +6,7 @@ const Header = () => {
     <header className="header">
       <div className="presentation">
         <button className="presentation-button">
-          <span class="material-symbols-outlined">format_align_justify</span>
+          <span className="material-symbols-outlined">format_align_justify</span>
         </button>
       </div>
 

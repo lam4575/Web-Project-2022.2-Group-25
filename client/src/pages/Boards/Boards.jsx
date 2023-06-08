@@ -13,14 +13,13 @@ const Boards = () => {
   const [boards, setBoards] = useState([]);
   useEffect(()=>{
     const token = getTokenFromCookie();
-    fetchUserData(token);
-  },)
+    fetchBoards(token);
+  }, [])
 
-  function fetchUserData(token) {
+  function fetchBoards(token) {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
-  
     // Make a GET request to fetch user data and boards
     return axios.get('http://localhost:3030/api/boards/', { headers })
       .then(response => {
@@ -37,19 +36,19 @@ const Boards = () => {
       });
   }
 
-  
   function getTokenFromCookie() {
     const cookieString = document.cookie;
-    const cookieArray = cookieString.split(';');
+    const cookieArray = cookieString.split(";");
   
     for (let i = 0; i < cookieArray.length; i++) {
       const cookie = cookieArray[i].trim();
-      if (cookie.startsWith('token=')) {
-        return cookie.substring('token='.length, cookie.length);
+      if (cookie.startsWith("token=")) {
+        const token = cookie.substring("token=".length);
+        return token;
       }
     }
   
-    return null; // Token not found
+    return null; // Return null if the cookie is not found
   }
 
   const [activeTab, setActiveTab] = useState(0);

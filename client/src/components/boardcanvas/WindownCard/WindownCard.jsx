@@ -12,9 +12,6 @@ const WindownCard = (props) => {
     setWatching(!watching);
   };
 
-  const handleChangeDate = (value) => {
-    alert(value);
-  };
 
   return (
     <div className="windown-card">
@@ -29,11 +26,11 @@ const WindownCard = (props) => {
 
           <div className="header-name">
             <div className="header-title">
-              <p className="name-inline">{}Linh</p>
+              <p className="name-inline">{ }Linh</p>
             </div>
 
             <div className="header-inline-card">
-              <p>in list{}</p>
+              <p>in list{ }</p>
             </div>
           </div>
         </div>
@@ -56,7 +53,7 @@ const WindownCard = (props) => {
                     {watching ? (
                       <div className="watching">
                         <p className="watch-title">Watching</p>
-                        <input type="checkbox" checked="true" />
+                        <input type="checkbox" defaultChecked />
                       </div>
                     ) : (
                       <p className="watch-title">Watch</p>
@@ -111,7 +108,7 @@ const WindownCard = (props) => {
             {/* Activity */}
             <div className="card-item card-activity">
               <div className="card-icon">
-                <span class="material-symbols-outlined icon-detail">mist</span>
+                <span className="material-symbols-outlined icon-detail">mist</span>
               </div>
 
               <div className="card-item-content">
@@ -142,28 +139,31 @@ const WindownCard = (props) => {
                   </span>
                   <p className="add-card-item_content">Checklist</p>
                 </button>
-
-                <button
-                  className="add-card-item"
-                  onClick={() => setOpenCalendar(!openCalendar)}
-                >
-                  <span className="material-symbols-outlined add-card-item_icon">
-                    schedule
-                  </span>
-                  <p className="add-card-item_content">Dates</p>
+                <div style={{position: "relative"}}>
+                  <button
+                    className="add-card-item"
+                    onClick={() => setOpenCalendar(!openCalendar)}
+                  >
+                    <span className="material-symbols-outlined add-card-item_icon">
+                      schedule
+                    </span>
+                    <p className="add-card-item_content">Dates</p>
+                  </button>
                   {openCalendar && (
                     <div className="calendar">
                       <Group position="center">
                         <Calendar
                           defaultDate={new Date()}
-                          onDateChange={(value) => alert(value)}
                         />
                       </Group>
-                      {/* 
-                      <Calendar onChange={handleChangeDate} value={value} /> */}
+                      <div className="button-container">
+                        <button type="button" onClick={() => { setOpenCalendar(!openCalendar) }}> Save </button>
+                        <button type="button" onClick={() => { setOpenCalendar(!openCalendar) }}> Cancle </button>
+                      </div>
                     </div>
                   )}
-                </button>
+                </div>
+
 
                 <button className="add-card-item">
                   <span className="material-symbols-outlined add-card-item_icon">

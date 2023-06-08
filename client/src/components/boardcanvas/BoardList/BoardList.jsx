@@ -3,9 +3,10 @@ import "./BoardList.css";
 import Cards from "../Cards/Cards";
 import WindownCard from "../WindownCard/WindownCard";
 
-const BoardList = (props) => {
+const BoardList = ({title, cards}) => {
   const [editing, setEditing] = useState(false);
-  const [titleheader, setTitleheader] = useState(props.title);
+  const [titleheader, setTitleheader] = useState(title);
+  console.log(cards)
   //set add card
   const [addcard, setAddcard] = useState(false);
   const handleAddCard = () => {
@@ -52,8 +53,9 @@ const BoardList = (props) => {
       </div>
 
       <div className="list-cards">
-        <Cards />
-        <Cards />
+        {cards.map((card)=>{
+          return <Cards card = {card}></Cards>
+        })}
       </div>
       {addcard ? (
         <div className="card-composer-container add-container">
@@ -94,10 +96,10 @@ const BoardList = (props) => {
         </div>
       )}
 
-      <div className="windown-overplay">
+      {/* <div className="windown-overplay">
         <div className="overplay"></div>
         <WindownCard />
-      </div>
+      </div> */}
     </div>
   );
 };

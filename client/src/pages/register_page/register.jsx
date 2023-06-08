@@ -23,11 +23,11 @@ export const Register = (props) => {
                     <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Enter your email" className="input"/>
                     <label for="password" className="label">Password</label>
                     <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="Enter your password" className="input"/>
-                    <button class="submit">Register</button>
+                    <button className="submit">Register</button>
                 </form>
                 <p>
                     <span className="account">Already have an account?</span>
-                    <a href="#" class="link" onClick={() => setCurrentForm('login')}>Login</a>
+                    <a href="#" className="link" onClick={() => setCurrentForm('login')}>Login</a>
                 </p>
             </div>
         </div>

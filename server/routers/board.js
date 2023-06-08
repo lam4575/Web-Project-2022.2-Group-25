@@ -27,7 +27,7 @@ module.exports = router;
 router.post('/', auth, createBoard);
 
 // Get all boards
-router.get('/', getAllBoards);
+router.get('/', auth ,getAllBoards);
 
 // Get a board by ID
 router.get('/:id', getBoardById);
