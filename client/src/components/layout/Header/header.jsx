@@ -1,12 +1,21 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import "./header.css";
 
 const Header = () => {
+  const [onNav, setOnNav] = useState(false);
+  const [onNavWorkspaces, setOnNavWorkspaces] = useState(false);
+
+  const onOffNav = () => {
+    setOnNav(!onNav);
+  };
+
   return (
     <header className="header">
       <div className="presentation">
         <button className="presentation-button">
-          <span className="material-symbols-outlined">format_align_justify</span>
+          <span className="material-symbols-outlined">
+            format_align_justify
+          </span>
         </button>
       </div>
 
@@ -21,13 +30,46 @@ const Header = () => {
       </div>
 
       <div className="select">
-        <button className="select-button">
+        <button
+          className="select-button"
+          onClick={() => setOnNavWorkspaces(!onNavWorkspaces)}
+          onBlur={() => setOnNavWorkspaces(false)}
+        >
           <span className="select-text">Workspaces </span>
           <div className="select-icon">
             <span className="material-symbols-outlined select-icon-item">
               expand_more
             </span>
           </div>
+
+          {/* Nav workspaces */}
+          {onNavWorkspaces ? (
+            <div className="nav-workspaces">
+              <div className="nav-current">
+                <div className="nav-current-header">
+                  <p className="nav-current-header_text">Current Workspace</p>
+                </div>
+
+                <nav className="nav-current-user">
+                  <img src="" alt="" />
+                  <p className="nav-current-user name">Ngoc Linh</p>
+                </nav>
+              </div>
+              {/* nav your workspace */}
+              <div className="nav-yourworkspace">
+                <div className="nav-current-header">
+                  <p className="nav-current-header_text">Current Workspace</p>
+                </div>
+
+                <nav className="nav-current-user">
+                  <img src="" alt="" />
+                  <p className="nav-current-user name">Ngoc Linh</p>
+                </nav>
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
         </button>
 
         <button className="select-button">
@@ -39,13 +81,38 @@ const Header = () => {
           </div>
         </button>
 
-        <button className="select-button">
+        <button
+          className="select-button"
+          onClick={() => onOffNav()}
+          onBlur={() => setOnNav(false)}
+        >
           <span className="select-text">Started</span>
           <div className="select-icon">
             <span className="material-symbols-outlined select-icon-item">
               expand_more
             </span>
           </div>
+
+          {/* nav started */}
+          {onNav ? (
+            <div className="nav-starred">
+              <div className="starred-img">
+                <img
+                  src={require("../../../assets/img/details.jpg")}
+                  alt="Starred"
+                  className="img-starred"
+                />
+              </div>
+
+              <div className="starred-title">
+                <p className="starred-text">
+                  Star import boards to access them quickly<br></br> and easily.
+                </p>
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
         </button>
 
         <button className="select-button">

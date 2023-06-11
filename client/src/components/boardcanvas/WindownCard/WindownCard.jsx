@@ -5,13 +5,17 @@ import "./WindownCard.css";
 
 const WindownCard = (props) => {
   const [watching, setWatching] = useState(true);
+  const [onCheckList, setOnCheckList] = useState(false);
   const [openCalendar, setOpenCalendar] = useState(false);
-  const [value, onChange] = useState(new Date());
+
+  /* CheckList */
+  const [persent, setPersent] = useState(0);
+
+  /*  */
 
   const handleSavedataNotifi = () => {
     setWatching(!watching);
   };
-
 
   return (
     <div className="windown-card">
@@ -26,11 +30,11 @@ const WindownCard = (props) => {
 
           <div className="header-name">
             <div className="header-title">
-              <p className="name-inline">{ }Linh</p>
+              <p className="name-inline">{}Linh</p>
             </div>
 
             <div className="header-inline-card">
-              <p>in list{ }</p>
+              <p>in list{}</p>
             </div>
           </div>
         </div>
@@ -89,30 +93,61 @@ const WindownCard = (props) => {
               </div>
             </div>
             {/* Checklist */}
-            <div className="card-item card-checklist">
+            {onCheckList ? (
+              <div className="card-item">
+                <div className="card-icon">
+                  <span className="material-symbols-outlined icon-detail">
+                    select_check_box
+                  </span>
+                </div>
+
+                <div className="card-item-content">
+                  <div className="card-item-header card-show">
+                    <div className="">
+                      <p className="title-header">Checklist</p>
+                    </div>
+                    <div className="header-button">
+                      <button
+                        className="btn-header"
+                        onClick={() => setOnCheckList(!onCheckList)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="checklist-detail">
+                    <div className="checklist-progress-bar">
+                      <span className="progress-bar_percent">%</span>
+                      <div class="progress" id="progress"></div>
+                    </div>
+                    {/* List Checklist */}
+                    <div className="checklist-item-list">
+                      <input type="checkbox" id="progress-bar_input" />
+                      <p className="checklist-item-list_title">Linh</p>
+                    </div>
+
+                    <div className="checklist-item-list">
+                      <input type="checkbox" id="progress-bar_input" />
+                      <p className="checklist-item-list_title">Linh</p>
+                    </div>
+
+                    {/*  */}
+                  </div>
+                </div>
+              </div>
+            ) : null}
+
+            {/* Activity */}
+            <div className="card-item card-activity">
               <div className="card-icon">
                 <span className="material-symbols-outlined icon-detail">
-                  select_check_box
+                  mist
                 </span>
               </div>
 
               <div className="card-item-content">
-                <div className="card-item-header">
-                  <p className="title-header">Checklist</p>
-                  <div className="header-button">
-                    <button className="btn-header">Delete</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* Activity */}
-            <div className="card-item card-activity">
-              <div className="card-icon">
-                <span className="material-symbols-outlined icon-detail">mist</span>
-              </div>
-
-              <div className="card-item-content">
-                <div className="card-item-header">
+                <div className="card-item-header card-show">
                   <p className="title-header">Activity</p>
                   <div className="header-button">
                     <button className="btn-header">Show Detail</button>
@@ -133,13 +168,16 @@ const WindownCard = (props) => {
                   <p className="add-card-item_content">Members</p>
                 </button>
 
-                <button className="add-card-item">
+                <button
+                  className="add-card-item"
+                  onClick={() => setOnCheckList(!onCheckList)}
+                >
                   <span className="material-symbols-outlined add-card-item_icon">
                     select_check_box
                   </span>
                   <p className="add-card-item_content">Checklist</p>
                 </button>
-                <div style={{position: "relative"}}>
+                <div style={{ position: "relative" }}>
                   <button
                     className="add-card-item"
                     onClick={() => setOpenCalendar(!openCalendar)}
@@ -152,18 +190,31 @@ const WindownCard = (props) => {
                   {openCalendar && (
                     <div className="calendar">
                       <Group position="center">
-                        <Calendar
-                          defaultDate={new Date()}
-                        />
+                        <Calendar defaultDate={new Date()} />
                       </Group>
                       <div className="button-container">
-                        <button type="button" onClick={() => { setOpenCalendar(!openCalendar) }}> Save </button>
-                        <button type="button" onClick={() => { setOpenCalendar(!openCalendar) }}> Cancle </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setOpenCalendar(!openCalendar);
+                          }}
+                        >
+                          {" "}
+                          Save{" "}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setOpenCalendar(!openCalendar);
+                          }}
+                        >
+                          {" "}
+                          Cancle{" "}
+                        </button>
                       </div>
                     </div>
                   )}
                 </div>
-
 
                 <button className="add-card-item">
                   <span className="material-symbols-outlined add-card-item_icon">

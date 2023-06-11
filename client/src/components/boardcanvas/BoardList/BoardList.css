@@ -1,9 +1,8 @@
 .js-list-content {
   width: 272px;
-  min-height: 100px;
   background-color: #f1f2f4;
   box-sizing: border-box;
-  margin: 0 6px;
+  margin: 12px 8px;
   border-radius: 10px;
   scroll-margin: 8px;
 }
@@ -31,6 +30,7 @@
 .title-header {
   padding: 0 4px;
   margin: 0;
+  text-align: left;
 }
 
 .title-area {

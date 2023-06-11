@@ -13,8 +13,9 @@ function App() {
         <Routes>
           <Route path="/" element={<PageOne />} />
           <Route path="/boards" element={<Boards />} />
-          <Route path="/boards/:boardId" element={<SurFaceScreen/>} />
+          <Route path="/boards/:boardId" element={<SurFaceScreen />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/surface" element={<SurFaceScreen />} />
         </Routes>
       </BrowserRouter>
     </div>

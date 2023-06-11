@@ -3,10 +3,10 @@ import "./BoardList.css";
 import Cards from "../Cards/Cards";
 import WindownCard from "../WindownCard/WindownCard";
 
-const BoardList = ({title, cards}) => {
+const BoardList = ({ title /* , cards */ }) => {
   const [editing, setEditing] = useState(false);
   const [titleheader, setTitleheader] = useState(title);
-  console.log(cards)
+  //console.log(cards);
   //set add card
   const [addcard, setAddcard] = useState(false);
   const handleAddCard = () => {
@@ -49,13 +49,16 @@ const BoardList = ({title, cards}) => {
             </p>
           )}
         </div>
-        <div className="list-header-extras">yeeu</div>
+        <div className="list-header-extras">
+          <span className="material-symbols-outlined">more_horiz</span>
+        </div>
       </div>
 
       <div className="list-cards">
-        {cards.map((card)=>{
-          return <Cards card = {card}></Cards>
-        })}
+        {/* {cards.map((card) => {
+          return <Cards card={card}></Cards>;
+        })} */}
+        <Cards card="Linh"></Cards>
       </div>
       {addcard ? (
         <div className="card-composer-container add-container">
