@@ -3,12 +3,13 @@ import "./BoardContent.css";
 import BoardList from "../BoardList/BoardList";
 import axios from 'axios';
 import { useParams } from "react-router-dom";
+import AddList from "../AddList/AddList"
 
 
 const BoardContentScreen = () => {
-  const {boardId} = useParams();
-  const [board,setBoard] = useState({});
-  useEffect(()=>{
+  const { boardId } = useParams();
+  const [board, setBoard] = useState({});
+  useEffect(() => {
     fetchBoard(boardId);
   }, [])
 
@@ -33,8 +34,9 @@ const BoardContentScreen = () => {
   return (
     <div className="board-content">
       {board.lists && board.lists.map((list) => (
-        <BoardList key={list.id} title={list.listTitle} cards={list.cards}/>
-      ))}      
+        <BoardList board_id={boardId} list_id={list._id} title={list.listTitle} cards={list.cards} />
+      ))}
+      <AddList></AddList>
     </div>
   );
 };

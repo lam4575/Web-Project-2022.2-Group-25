@@ -1,17 +1,38 @@
 import React, { Component, useState } from "react";
 import "./BoardList.css";
 import Cards from "../Cards/Cards";
+import axios from "axios";
 import WindownCard from "../WindownCard/WindownCard";
+import Cookies from 'js-cookie';
 
-const BoardList = ({title, cards}) => {
+const BoardList = ({ board_id, list_id, title, cards }) => {
+  const [cardText, setCardText] = useState('');
   const [editing, setEditing] = useState(false);
   const [titleheader, setTitleheader] = useState(title);
-  console.log(cards)
   //set add card
   const [addcard, setAddcard] = useState(false);
   const handleAddCard = () => {
     setAddcard(true);
   };
+
+  const addCard = () => {
+    console.log(board_id, list_id)
+    const token = Cookies.get('token'); // assuming the token is stored in a cookie named 'token'
+    axios.post(`http://localhost:3030/api/boards/${board_id}/lists/${list_id}/create-card`, {
+      cardTitle: cardText // assuming you want to send the card text as the request body
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}` // set the token as a Bearer token in the Authorization header
+      }
+    })
+      .then(response => {
+        alert("Add card success!");
+        window.location.reload(); 
+      })
+      .catch(error => {
+        alert("Failed to create card!");
+      });
+  }
 
   const handleCloseCard = () => {
     setAddcard(false);
@@ -44,27 +65,29 @@ const BoardList = ({title, cards}) => {
               onClick={(e) => e.stopPropagation()}
             />
           ) : (
-            <p className="title-header" dir="auto" onClick={handleTitleClick}>
+            <span className="title-header" dir="auto" onClick={handleTitleClick}>
               {titleheader}
-            </p>
+            </span>
           )}
         </div>
-        <div className="list-header-extras">yeeu</div>
+        <div className="list-header-extras">...</div>
       </div>
 
       <div className="list-cards">
-        {cards.map((card)=>{
-          return <Cards card = {card}></Cards>
+        {cards.map((card) => {
+          return <Cards card={card}></Cards>
         })}
       </div>
       {addcard ? (
         <div className="card-composer-container add-container">
           <div className="card-content">
-            <textarea className="content-title" id="" rows="5"></textarea>
+            <textarea className="content-title" id="" rows="5"
+              value={cardText}
+              onChange={(e) => setCardText(e.target.value)}></textarea>
           </div>
           <div className="add-card">
             <div className="add">
-              <button className="btn-add" onClick={handleCloseCard}>
+              <button className="btn-add" onClick={addCard}>
                 Add card
               </button>
               <span
@@ -95,11 +118,6 @@ const BoardList = ({title, cards}) => {
           </div>
         </div>
       )}
-
-      {/* <div className="windown-overplay">
-        <div className="overplay"></div>
-        <WindownCard />
-      </div> */}
     </div>
   );
 };

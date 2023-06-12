@@ -19,8 +19,7 @@ const cardSchema = new mongoose.Schema({
     ref: 'User'
   }],
   description: {
-    type: String,
-    required: true
+    type: String
   },
   createdBy:{
     type:mongoose.ObjectId,

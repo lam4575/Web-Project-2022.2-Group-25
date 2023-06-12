@@ -143,7 +143,6 @@ const getAllBoards = async (req, res) => {
     const user = req.user._id.toString();
     const boards = await Board.find({});
     const userBoards = boards.filter(board => board.members.includes(user));
-    console.log(userBoards)
     res.send(userBoards);
   } catch (error) {
     res.status(500).send(error);
