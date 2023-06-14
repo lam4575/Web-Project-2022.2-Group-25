@@ -7,7 +7,7 @@ const { createCard, updateCard, deleteCard } = require('../controllers/cardContr
 router.post('/boards/:boardId/lists/:listId/create-card', auth, createCard);
 
 // Create route for updating a card
-router.put('/cards/:cardId/update-card', auth, updateCard);
+router.patch('/cards/:cardId/update-card', auth, updateCard);
 
 // Create route for deleting a card
 router.delete('/cards/:cardId/delete-card', auth, deleteCard);

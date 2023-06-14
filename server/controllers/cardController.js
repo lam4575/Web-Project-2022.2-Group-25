@@ -5,10 +5,11 @@ const { createActivity, updateBoardActivityLog } = require('../utils/createActiv
 const createCard = async (req, res) => {
   try {
     const { listId, boardId } = req.params;
-    const { cardTitle, description } = req.body;
+    const createdBy =  req.user._id
+    const { cardTitle , description} = req.body;
 
     const list = await List.findById(listId).populate('cards');
-    const card = await Card.create({ cardTitle, description });
+    const card = await Card.create({ cardTitle , description, createdBy });
     list.cards.push(card)
     await list.save();
     res.status(201).json(card);
@@ -26,15 +27,15 @@ const createCard = async (req, res) => {
 const updateCard = async (req, res) => {
   try {
     const { cardId } = req.params;
-    const { cardTitle, description } = req.body;
-    const card = await Card.findByIdAndUpdate(cardId, { cardTitle, description }, { new: true });
+    const { cardTitle, description, watching, checklist, labels, assignTo, comments, dueDate } = req.body;
+    const card = await Card.findByIdAndUpdate(cardId, { cardTitle, description, watching, checklist, labels, assignTo, comments, dueDate }, { new: true });
     res.status(200).json(card);
 
     
-    const activity = await createActivity('List', list._id, 'updated', req.user._id);
-    await updateBoardActivityLog(list._id, activity);
+    const activity = await createActivity('List', card._id, 'updated', req.user._id);
+    await updateBoardActivityLog(card._id, activity);
 
-  } catch (error) {
+  } catch (error) { 
     console.error(error);
     res.status(500).json({ message: 'Server Error' });
   }

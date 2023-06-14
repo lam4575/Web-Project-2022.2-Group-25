@@ -3,7 +3,10 @@ import WindownCard from "../WindownCard/WindownCard";
 import { Dialog, DialogTitle } from "@material-ui/core";
 import "./Cards.css";
 
-const Cards = ({ card }) => {
+const Cards = ({ card, members}) => {
+  const [watching, setWatching] = useState(card.watching);
+  const [des, setDes] = useState(card.description);
+  const [dueDate, setDueDate] = useState(card.dueDate);
   const [isEdit, setIsEdit] = useState(false);
 
   const handleEditClick = () => {
@@ -28,22 +31,22 @@ const Cards = ({ card }) => {
 
       <div className="badges">
         <div className="badges-info">
-          <div className="badge">
+          {watching && <div className="badge">
             <span className="material-symbols-outlined badge-icon">
               visibility
             </span>
-          </div>
+          </div>}
 
-          <div className="badge badge-time">
+          {dueDate && <div className="badge badge-time">
             <span className="material-symbols-outlined badge-icon">
               schedule
             </span>
-            <span className="month"></span>
-          </div>
+            <span className="month"> {dueDate} </span>
+          </div>}
 
-          <div className="badge">
+          {des && <div className="badge">
             <span className="material-symbols-outlined badge-icon">sort</span>
-          </div>
+          </div>}
 
           <div className="badge">
             <span className="material-symbols-outlined badge-icon">
@@ -63,7 +66,7 @@ const Cards = ({ card }) => {
           boxShadow: 'none',
         },
       }} fullScreen>
-        <WindownCard handleClose={handleClose}/>
+        <WindownCard handleClose={handleClose} card={card} members={members}/>
       </Dialog>
     </div>
   );

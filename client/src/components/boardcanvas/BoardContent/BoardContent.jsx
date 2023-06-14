@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./BoardContent.css";
 import BoardList from "../BoardList/BoardList";
 import axios from 'axios';
@@ -34,9 +34,9 @@ const BoardContentScreen = () => {
   return (
     <div className="board-content">
       {board.lists && board.lists.map((list) => (
-        <BoardList board_id={boardId} list_id={list._id} title={list.listTitle} cards={list.cards} />
+        <BoardList board_id={boardId} list_id={list._id} title={list.listTitle} cards={list.cards} members={board.members}/>
       ))}
-      <AddList></AddList>
+      <AddList board_id={boardId}/>
     </div>
   );
 };

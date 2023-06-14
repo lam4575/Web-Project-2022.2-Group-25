@@ -1,21 +1,32 @@
 import React, { Component, useState } from "react";
 import { Group } from "@mantine/core";
 import { Calendar } from "@mantine/dates";
+import axios from "axios";
+import Cookies from 'js-cookie';
 import "./WindownCard.css";
 
-const WindownCard = ({handleClose}) => {
-  const [watching, setWatching] = useState(true);
+const WindownCard = ({handleClose, card, members}) => {
+  const [watching, setWatching] = useState(card.watching);
   const [openCalendar, setOpenCalendar] = useState(false);
   const [value, onChange] = useState(new Date());
   const [isVisible, setIsVisible] = useState(true);
 
-  const handleSavedataNotifi = () => {
-    setWatching(!watching);
-  };
-
-  const handleHideComponent = () => {
-    setIsVisible(false);
-  };
+  const updateWatching = () => {
+    const token = Cookies.get('token');
+    setWatching(prevWatching => !prevWatching); // use the previous state to toggle the value
+    axios.patch(`http://localhost:3030/api/cards/${card._id}/update-card`, {
+      watching: !watching // pass the updated value to the API call
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then((res)=>{
+      window.location.reload(); 
+    }).catch(err=>{
+      console.log(err)
+      alert("Failed to update card!");
+    })
+  }
 
   return (
     <>
@@ -48,24 +59,23 @@ const WindownCard = ({handleClose}) => {
                 <div className="card-data">
                   <div className="card-data-detail notifi">
                     <div className="data-title">
-                      <p className="title">Notifications</p>
+                      <span className="title">Notifications</span>
                     </div>
 
                     <div className="data-btn">
                       <button
                         className="btn-watch"
-                        onClick={handleSavedataNotifi}
                       >
                         <span className="material-symbols-outlined data-btn_icon">
                           visibility
                         </span>
                         {watching ? (
-                          <div className="watching">
+                          <div className="watching" onClick={updateWatching}>
                             <p className="watch-title">Watching</p>
-                            <input type="checkbox" defaultChecked />
+                            <input type="checkbox" defaultChecked  />
                           </div>
                         ) : (
-                          <p className="watch-title">Watch</p>
+                          <p className="watch-title" onClick={updateWatching}>Watch</p>
                         )}
                       </button>
                     </div>
@@ -73,7 +83,7 @@ const WindownCard = ({handleClose}) => {
 
                   <div className="card-data-detail due-date">
                     <div className="data-title">
-                      <p className="title">Due date</p>
+                      <span className="title">Due date</span>
                     </div>
 
                     <div className="data-btn"></div>

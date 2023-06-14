@@ -1,11 +1,13 @@
-import React, { Component, useState } from "react";
+import React, {  useState } from "react";
 import "./BoardList.css";
 import Cards from "../Cards/Cards";
 import axios from "axios";
 import WindownCard from "../WindownCard/WindownCard";
 import Cookies from 'js-cookie';
+import PopOverList from "../PopOverList/PopOverList"
 
-const BoardList = ({ board_id, list_id, title, cards }) => {
+const BoardList = ({ board_id, list_id, title, cards , members}) => {
+  const [popOver, setPopOver] = useState(false)
   const [cardText, setCardText] = useState('');
   const [editing, setEditing] = useState(false);
   const [titleheader, setTitleheader] = useState(title);
@@ -16,7 +18,6 @@ const BoardList = ({ board_id, list_id, title, cards }) => {
   };
 
   const addCard = () => {
-    console.log(board_id, list_id)
     const token = Cookies.get('token'); // assuming the token is stored in a cookie named 'token'
     axios.post(`http://localhost:3030/api/boards/${board_id}/lists/${list_id}/create-card`, {
       cardTitle: cardText // assuming you want to send the card text as the request body
@@ -26,12 +27,14 @@ const BoardList = ({ board_id, list_id, title, cards }) => {
       }
     })
       .then(response => {
-        alert("Add card success!");
         window.location.reload(); 
       })
       .catch(error => {
         alert("Failed to create card!");
       });
+  }
+  const showPopOver = () => {
+    setPopOver(!popOver)
   }
 
   const handleCloseCard = () => {
@@ -54,6 +57,7 @@ const BoardList = ({ board_id, list_id, title, cards }) => {
   return (
     <div className="js-list-content">
       <div className="list-header">
+        {/* {popOver && <PopOverList/>} */}
         <div className="list-header-target">
           {editing ? (
             <textarea
@@ -70,12 +74,12 @@ const BoardList = ({ board_id, list_id, title, cards }) => {
             </span>
           )}
         </div>
-        <div className="list-header-extras">...</div>
+        <div className="list-header-extras" onClick={showPopOver}>...</div>
       </div>
 
       <div className="list-cards">
         {cards.map((card) => {
-          return <Cards card={card}></Cards>
+          return <Cards card={card} members = {members}></Cards>
         })}
       </div>
       {addcard ? (

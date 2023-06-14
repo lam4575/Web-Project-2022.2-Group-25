@@ -7,28 +7,49 @@ const cardSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  labels:[{
-    lableTitle:String,
-    color: String
-  }],
-  dueDate: {
-    type: Date
+  watching: {
+    type: Boolean,
+    default: false
   },
-  assignTo: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  }],
+  checklist: {
+    type: Number,
+    default: 0,
+    min: 0,
+    max: 100,
+  },
+  labels: {
+    type: [{
+      labelTitle: String,
+      color: String,
+    }],
+    default: [],
+  },
+  dueDate: {
+    type: Date,
+    default: null
+  },
+  assignTo: {
+    type: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    }],
+    default: [],
+  },
   description: {
-    type: String
+    type: String,
+    default:''
   },
   createdBy:{
     type:mongoose.ObjectId,
     ref:"User"
   },
-  comments:[{
-    type:mongoose.ObjectId,
-    ref:"Comment"
-  }]
+  comments: {
+    type: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Comment',
+    }],
+    default: [],
+  }
 });
 
 const Card = mongoose.model('Card', cardSchema);
