@@ -151,13 +151,99 @@ const Header = () => {
             </div>
           </button>
 
+          {/* Avatar User */}
           <button className="btn-header_info">
             <div className="info-item">
               <img src="" alt="avatar" />
             </div>
           </button>
-        </div>
+          <div className="account-menu">
+            {/* menu section */}
+            <div className="account-menu-section">
+              <h2>ACCOUNT</h2>
+              <div className="account-info">
+                <div className="account-avatar">Linh</div>
 
+                <div className="account-info-detail">
+                  <div className="account-name">Linh Nguyen Ngoc</div>
+
+                  <div className="account-email">ngoclinhtp2002@gmail.com</div>
+                </div>
+              </div>
+              {/* account manager */}
+              <ul className="account-manager">
+                <li className="account-manager-item">
+                  <a href="" className="account-manager-link">
+                    <span className="account-manager-title">
+                      Switch accounts
+                    </span>
+                  </a>
+                </li>
+                <li className="account-manager-item">
+                  <a href="" className="account-manager-link">
+                    <span className="account-manager-title">
+                      Manage account
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            {/* menu activity */}
+            <div className="account-activity">
+              <h2>Trello</h2>
+              <ul className="account-manager">
+                <li className="account-manager-item">
+                  <a href="" className="account-manager-link">
+                    <span className="account-manager-title">
+                      Profile and visibility
+                    </span>
+                  </a>
+                </li>
+                <li className="account-manager-item">
+                  <a href="" className="account-manager-link">
+                    <span className="account-manager-title">Activity</span>
+                  </a>
+                </li>
+                <li className="account-manager-item">
+                  <a href="" className="account-manager-link">
+                    <span className="account-manager-title">Cards</span>
+                  </a>
+                </li>
+                <li className="account-manager-item">
+                  <a href="" className="account-manager-link">
+                    <span className="account-manager-title">Settings</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            {/* menu support */}
+            <div className="account-support">
+              <ul className="account-manager">
+                <li className="account-manager-item">
+                  <a href="" className="account-manager-link">
+                    <span className="account-manager-title">Help</span>
+                  </a>
+                </li>
+                <li className="account-manager-item">
+                  <a href="" className="account-manager-link">
+                    <span className="account-manager-title">Shorcuts</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            {/* Log out */}
+            <div className="account-logout">
+              <ul className="account-manager account-support-list">
+                <li className="account-manager-item">
+                  <a href="" className="account-manager-link">
+                    <span className="account-manager-title">Log out</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        {/* Search */}
         <label className="header-search">
           <div className="icon-with-search">
             <span className="material-symbols-outlined icon-search">

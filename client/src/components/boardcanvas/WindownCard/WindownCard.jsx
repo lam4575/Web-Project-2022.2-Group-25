@@ -153,6 +153,9 @@ const WindownCard = (props) => {
                     <button className="btn-header">Show Detail</button>
                   </div>
                 </div>
+
+                {/* Show Detail */}
+                <div className="comment-activity"></div>
               </div>
             </div>
           </div>

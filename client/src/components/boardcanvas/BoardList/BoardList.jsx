@@ -99,10 +99,10 @@ const BoardList = ({ title /* , cards */ }) => {
         </div>
       )}
 
-      {/* <div className="windown-overplay">
+      <div className="windown-overplay">
         <div className="overplay"></div>
         <WindownCard />
-      </div> */}
+      </div>
     </div>
   );
 };
