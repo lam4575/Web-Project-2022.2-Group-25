@@ -13,16 +13,32 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
 const WindownCard = ({ handleClose, card, members, listName }) => {
   const [watching, setWatching] = useState(card.watching);
-  const [onCheckList, setOnCheckList] = useState(false);
   const [openCalendar, setOpenCalendar] = useState(false);
-  const [value, onChange] = useState(new Date());
+  const [dueDate, setDueDate] = useState(card.dueDate ? new Date(card.dueDate) : null);
   const [isEditingDes, setIsEditingDes] = useState(false);
-  const [checkList, setChecklist] = useState(0);
   const [isEditingActivity, setIsEditingActivity] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [checkList, setChecklist] = useState(card.checklist ? card.checklist : 0);
   const [dateChange, setDateChange] = useState(null);
-  const [des, setDes] = useState("");
-  const handleSavedataNotifi = () => {
-    setWatching(!watching);
+  const [des, setDes] = useState(card.des);
+  const [comments, setComments] = useState([]);
+  const [commentText, setCommentText] = useState("");
+
+  
+
+  const fetchComments = async () => {
+    const token = Cookies.get('token');
+    try {
+      const response = await axios.get(`http://localhost:3030/api/cards/${card._id}/get-comments`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setComments(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
   useEffect(() => {
     fetchComments();
@@ -73,6 +89,7 @@ const addComment = async (comment) => {
   }
 }
   
+
   const addDueDate = () => {
     if(dateChange === null) {
       setOpenCalendar(false);
@@ -124,27 +141,10 @@ const addComment = async (comment) => {
       alert("Failed to update card!");
     })
   }
-  const fetchComments = async () => {
-    const token = Cookies.get('token');
-    try {
-      const response = await axios.get(`http://localhost:3030/api/cards/${card._id}/get-comments`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      setComments(response.data);
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  
-  useEffect(() => {
-    fetchComments();
-  }, [card._id]);
+
   return (
     <>
-      {(
+      {isVisible && (
         <div className="windown-card">
           <div className="card-detail">
             {/* Header */}
@@ -157,7 +157,7 @@ const addComment = async (comment) => {
 
               <div className="header-name">
                 <div className="header-title">
-                  <p className="name-inline">{}Linh</p>
+                  <p className="name-inline">{ }Linh</p>
                 </div>
 
                 <div className="header-inline-card">
@@ -231,51 +231,22 @@ const addComment = async (comment) => {
                 </div>}
                 {/* Checklist */}
                 {checkList !== 0 && <div className="">
-                  {onCheckList ? (
-              <div className="card-item">
-                      <div className="card-icon">
-                        <span className="material-symbols-outlined icon-detail">
-                          select_check_box
-                        </span>
-                      </div>
-
-                      <div className="card-item-content">
-                        <div className="card-item-header card-show">
-                    <div className="">
-                            <p className="title-header">Checklist</p>
-                    </div>
-                          <div className="header-button">
-                            <button
-                        className="btn-header"
-                        onClick={() => setOnCheckList(!onCheckList)}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="checklist-detail">
-                    <div className="checklist-progress-bar">
-                      <span className="progress-bar_percent">%</span>
-                      <div class="progress" id="progress"></div>
-                    </div>
-                    {/* List Checklist */}
-                    <div className="checklist-item-list">
-                      <input type="checkbox" id="progress-bar_input" />
-                      <p className="checklist-item-list_title">Linh</p>
+                  <div className="card-item card-checklist">
+                    <div className="card-icon">
+                      <span className="material-symbols-outlined icon-detail">
+                        select_check_box
+                      </span>
                     </div>
 
-                    <div className="checklist-item-list">
-                      <input type="checkbox" id="progress-bar_input" />
-                      <p className="checklist-item-list_title">Linh</p>
-                    </div>
-
-                    {/*  */}
+                    <div className="card-item-content">
+                      <div className="card-item-header">
+                        <p className="title-header">Checklist</p>
+                        <div className="header-button">
+                          <button className="btn-header">Delete</button>
                         </div>
                       </div>
                     </div>
-                  ) : null}
-
+                  </div>
                   {<div className="update">
                     <Slider defaultValue={card.checklist ? card.checklist : 0}
                       value={checkList}
@@ -293,14 +264,12 @@ const addComment = async (comment) => {
                 <div className="card-item card-activity">
                   <div className="card-icon">
                     <span className="material-symbols-outlined icon-detail">
-                  
                       mist
-                
                     </span>
                   </div>
 
                   <div className="card-item-content">
-                    <div className="card-item-header card-show">
+                    <div className="card-item-header">
                       <p className="title-header">Activity</p>
                       <div className="header-button">
                         <button className="btn-header" onClick={toggleEditingActivity}>Show Detail</button>
@@ -308,6 +277,23 @@ const addComment = async (comment) => {
                     </div>
                   </div>
                 </div>
+                {isEditingActivity && <div className="">
+                  {comments.map(comment =>
+                    <div className="comment">
+                      <Avatar style={{ marginRight: '1rem' }}>{comment.createdBy.firstName[0] + comment.createdBy.lastName[0]}</Avatar>
+                      <div className="comment-details">
+                        <p className="username">{comment.createdBy.firstName + ' ' + comment.createdBy.lastName}</p>
+                        <span className="timestamp">{dayjs().format('YYYY/MM/DD')}</span>
+                        <span className="timestamp">{dayjs().format('HH:MM A')}</span>
+                      </div>
+                      <p className="comment-text">{comment.text}</p>
+                    </div>
+                  )}
+                  <div className="update">
+                    <TextField label="Comment" fullWidth onChange={(event) => setCommentText(event.target.value)}/>
+                    <Button style={{ margin: '1rem 0 1rem 80%' }} variant="contained" onClick={() => addComment(commentText)}>Send</Button>
+                  </div>
+                </div>}
               </div>
               {/* SideBar */}
               <div className="windown-card-sidebar">
@@ -321,58 +307,41 @@ const addComment = async (comment) => {
                       <p className="add-card-item_content">Members</p>
                     </button>
 
-                <button className="add-card-item">
-                  <span className="material-symbols-outlined add-card-item_icon">
-                    select_check_box
-                  </span>
-                  <p className="add-card-item_content">Checklist</p>
-                </button>
-                <div style={{position: "relative"}}>
-                  <button
-                    className="add-card-item"
-                    onClick={() => setOpenCalendar(!openCalendar)}
-                  >
-                    <span className="material-symbols-outlined add-card-item_icon">
-                      schedule
-                    </span>
-                    <p className="add-card-item_content">Dates</p>
-                  </button>
-                  {openCalendar && (
-                    <div className="calendar">
-                      <Group position="center">
-                        <Calendar
-                          defaultDate={new Date()}
-                        />
-                      </Group>
-                      <div className="button-container">
-                        <button type="button" onClick={() => { setOpenCalendar(!openCalendar) }}> Save </button>
-                        <button type="button" onClick={() => { setOpenCalendar(!openCalendar) }}> Cancle </button>
-                      </div>
+                    <button className="add-card-item" onClick={toggleEditingChecklist}>
+                      <span className="material-symbols-outlined add-card-item_icon">
+                        select_check_box
+                      </span>
+                      <p className="add-card-item_content">Checklist</p>
+                    </button>
+                    <div style={{ position: "relative" }}>
+                      <button
+                        className="add-card-item"
+                        onClick={() => setOpenCalendar(!openCalendar)}
+                      >
+                        <span className="material-symbols-outlined add-card-item_icon">
+                          schedule
+                        </span>
+                        <p className="add-card-item_content">Dates</p>
+                      </button>
+                      {openCalendar && (
+                        <div className="calendar">
+                          <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DateTimePicker label="Pick date and time"
+                              value={dateChange}
+                              onChange={(date) => {
+                                setDateChange(date);
+                              }} />
+                          </LocalizationProvider>
+                          <div className="button-container">
+                            <Button onClick={() => addDueDate()} >Save</Button>
+                            <Button onClick={() => setOpenCalendar(false)}>Cancle</Button>
+                          </div>
+
+                        </div>
+                      )}
                     </div>
-                  )}
+                  </div>
                 </div>
-
-
-                <button className="add-card-item">
-                  <span className="material-symbols-outlined add-card-item_icon">
-                    schedule
-                  </span>
-                  <p className="add-card-item_content">Cover</p>
-                </button>
-
-                <button className="add-card-item">
-                  <span className="material-symbols-outlined add-card-item_icon">
-                    person
-                  </span>
-                  <p className="add-card-item_content">Custom Fields</p>
-                </button>
-              </div>
-            </div>
-
-            <div className="add-to-card">
-              <p className="add-to-card-title">Power-Ups</p>
-              <div className="add-to-card-items"></div>
-            </div>
 
                 <div className="add-to-card">
                   <p className="add-to-card-title">Actions</p>
