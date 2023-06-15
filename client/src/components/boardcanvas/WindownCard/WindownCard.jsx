@@ -123,7 +123,7 @@ const addComment = async (comment) => {
 
   return (
     <>
-      {isVisible && (
+      {(
         <div className="windown-card">
           <div className="card-detail">
             {/* Header */}
