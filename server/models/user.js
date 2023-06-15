@@ -17,11 +17,19 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  first_name: {
-    type: String
+  firstName: {
+    type: String,
+    require:true
   },
-  last_name: {
-    type: String
+  lastName: {
+    type: String,
+    require:true
+  },
+  avatar: {
+    type: String, 
+    default: function() {
+      return this.firstName.charAt(0) + this.lastName.charAt(0);
+    }
   },
   boards: {
     type: [{

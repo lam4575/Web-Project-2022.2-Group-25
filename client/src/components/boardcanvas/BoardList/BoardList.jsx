@@ -4,7 +4,6 @@ import Cards from "../Cards/Cards";
 import axios from "axios";
 import WindownCard from "../WindownCard/WindownCard";
 import Cookies from 'js-cookie';
-import PopOverList from "../PopOverList/PopOverList"
 
 const BoardList = ({ board_id, list_id, title, cards , members}) => {
   const [popOver, setPopOver] = useState(false)
@@ -57,7 +56,6 @@ const BoardList = ({ board_id, list_id, title, cards , members}) => {
   return (
     <div className="js-list-content">
       <div className="list-header">
-        {/* {popOver && <PopOverList/>} */}
         <div className="list-header-target">
           {editing ? (
             <textarea
@@ -79,7 +77,7 @@ const BoardList = ({ board_id, list_id, title, cards , members}) => {
 
       <div className="list-cards">
         {cards.map((card) => {
-          return <Cards card={card} members = {members}></Cards>
+          return <Cards card={card} members = {members} listName={title} ></Cards>
         })}
       </div>
       {addcard ? (

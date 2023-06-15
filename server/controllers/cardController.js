@@ -1,5 +1,6 @@
 const Card = require('../models/card');
 const List = require('../models/list');
+const Comment = require('../models/comment');
 const { createActivity, updateBoardActivityLog } = require('../utils/createActivity');
 
 const createCard = async (req, res) => {
@@ -41,6 +42,46 @@ const updateCard = async (req, res) => {
   }
 };
 
+const getCardComments = async (req, res) => {
+  try {
+    const { cardId } = req.params;
+    const card = await Card.findById(cardId).populate({
+      path: 'comments',
+      populate: {
+        path: 'createdBy',
+        select: 'firstName lastName avatar'
+      }
+    });
+    res.status(200).json(card.comments);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+};
+
+const addComment = async (req, res) => {
+  try {
+    const { cardId } = req.params;
+    const { text } = req.body;
+    const createdBy = req.user._id;
+
+    const comment = await Comment.create({ text, createdBy });
+    const card = await Card.findById(cardId);
+    card.comments.push(comment._id);
+    await card.save();
+
+    res.status(200).json(card);
+
+    const activity = await createActivity('Card', card._id, 'added comment', req.user._id);
+    await updateBoardActivityLog(card._id, activity);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+};
+
+
 const deleteCard = async (req, res) => {
   try {
     const { cardId } = req.params;
@@ -63,5 +104,7 @@ const deleteCard = async (req, res) => {
 module.exports = {
   createCard,
   updateCard,
-  deleteCard
+  deleteCard,
+  getCardComments,
+  addComment
 };

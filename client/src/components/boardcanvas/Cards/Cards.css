@@ -76,6 +76,10 @@
   color: white;
 }
 
+.month {
+  text-align: center;
+}
+
 .list-card-title{
   word-wrap: break-word;
   clear: both;
@@ -84,4 +88,9 @@
   margin: 0 0 4px;
   overflow: hidden;
   text-decoration: none;
+}
+
+
+.number {
+  color: #172b4d;
 }

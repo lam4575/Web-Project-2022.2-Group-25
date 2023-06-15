@@ -3,12 +3,12 @@ import WindownCard from "../WindownCard/WindownCard";
 import { Dialog, DialogTitle } from "@material-ui/core";
 import "./Cards.css";
 
-const Cards = ({ card, members}) => {
+const Cards = ({ card, members, listName}) => {
   const [watching, setWatching] = useState(card.watching);
   const [des, setDes] = useState(card.description);
-  const [dueDate, setDueDate] = useState(card.dueDate);
+  const [dueDate, setDueDate] = useState(card.dueDate ? new Date( card.dueDate) : null);
   const [isEdit, setIsEdit] = useState(false);
-
+  console.log(card.comments)
   const handleEditClick = () => {
     setIsEdit(!isEdit);
   };
@@ -41,7 +41,7 @@ const Cards = ({ card, members}) => {
             <span className="material-symbols-outlined badge-icon">
               schedule
             </span>
-            <span className="month"> {dueDate} </span>
+            <span className="month"> {dueDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} </span>
           </div>}
 
           {des && <div className="badge">
@@ -66,7 +66,7 @@ const Cards = ({ card, members}) => {
           boxShadow: 'none',
         },
       }} fullScreen>
-        <WindownCard handleClose={handleClose} card={card} members={members}/>
+        <WindownCard handleClose={handleClose} card={card} members={members} listName={listName}/>
       </Dialog>
     </div>
   );

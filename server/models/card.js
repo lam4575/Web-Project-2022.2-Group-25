@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const User = require('./user');
 const Activity = require('./activity');
+const dayjs = require('dayjs');
 
 const cardSchema = new mongoose.Schema({
   cardTitle: {
