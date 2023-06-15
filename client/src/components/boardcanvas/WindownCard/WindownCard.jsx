@@ -16,7 +16,11 @@ const WindownCard = ({ handleClose, card, members, listName }) => {
   const [onCheckList, setOnCheckList] = useState(false);
   const [openCalendar, setOpenCalendar] = useState(false);
   const [value, onChange] = useState(new Date());
-
+  const [isEditingDes, setIsEditingDes] = useState(false);
+  const [checkList, setChecklist] = useState(0);
+  const [isEditingActivity, setIsEditingActivity] = useState(false);
+  const [dateChange, setDateChange] = useState(null);
+  const [des, setDes] = useState("");
   const handleSavedataNotifi = () => {
     setWatching(!watching);
   };
@@ -120,7 +124,24 @@ const addComment = async (comment) => {
       alert("Failed to update card!");
     })
   }
-
+  const fetchComments = async () => {
+    const token = Cookies.get('token');
+    try {
+      const response = await axios.get(`http://localhost:3030/api/cards/${card._id}/get-comments`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setComments(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+  useEffect(() => {
+    fetchComments();
+  }, [card._id]);
   return (
     <>
       {(
