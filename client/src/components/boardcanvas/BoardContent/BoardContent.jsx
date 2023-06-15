@@ -28,15 +28,15 @@ const BoardContentScreen = () => {
         console.error("Failed to fetch user data:", error);
         throw error;
       });
-  } */
+  } 
 
   return (
     <div className="board-content">
-      {/* {board.lists &&
+      {board.lists &&
         board.lists.map((list) => (
           <BoardList board_id={boardId} list_id={list._id} title={list.listTitle} cards={list.cards} members={board.members} />
-        ))} */}
-<BoardList title="Linh" />
+        ))}
+      {/* <BoardList title="Linh" /> */}
       <AddList board_id={boardId}/>
     </div>
   );
