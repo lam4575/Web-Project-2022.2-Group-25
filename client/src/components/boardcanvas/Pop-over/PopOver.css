@@ -1,0 +1,111 @@
+.pop-over {
+  position: absolute;
+  width: 300px;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 8px 16px -4px rgba(9, 30, 66, 0.5);
+}
+
+.pop-over-header-title {
+  border-bottom: 1px solid #091e4221;
+  box-sizing: border-box;
+  color: #5e6c84;
+  display: block;
+  line-height: 40px;
+  margin: 0 12px;
+  overflow: hidden;
+  padding: 0 32px;
+  position: relative;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  z-index: 1;
+  text-align: center;
+}
+
+.pop-over-content h2 {
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans,
+    Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 4px 20px;
+}
+
+.pop-over-list {
+  padding: 0;
+  margin: 8px 0;
+  position: relative;
+}
+
+.pop-over-list::after {
+  position: absolute;
+  content: "";
+  bottom: -4px;
+  right: 3%;
+  width: 94%;
+  border: 1px solid #091e4221;
+}
+
+.pop-over-list:last-child:after {
+  position: absolute;
+  content: "";
+  bottom: 6px;
+  right: 3%;
+  width: 94%;
+  border: transparent;
+}
+
+.pop-over-item {
+  padding: 6px 20px;
+  display: list-item;
+  text-align: -webkit-match-parent;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans,
+    Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 14px;
+}
+
+.pop-over-item:hover {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+.pop-over-item-link {
+  color: black;
+  cursor: pointer;
+  display: block;
+  font-weight: 400;
+  margin: 0 -12px;
+  padding: 6px 12px;
+  position: relative;
+  text-decoration: none;
+}
+
+.pop-over-back {
+  position: absolute;
+  top: 6px;
+  right: 5px;
+
+  height: 28px;
+  width: 28px;
+}
+
+.pop-over-btn {
+  margin: 0;
+  padding: 0;
+  height: 28px;
+  width: 28px;
+  border-radius: 50%;
+  border: transparent;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.pop-over-btn:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.btn-popover-back {
+  margin: 2px 0 0 2px;
+  padding: 0;
+}

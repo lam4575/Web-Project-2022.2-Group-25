@@ -7,6 +7,8 @@ import React from "react";
 
 
 import SurFaceScreen from "./pages/SurFace/surFace";
+import PopOver from "./components/boardcanvas/Pop-over/PopOver";
+import BoardHeader from "./components/boardcanvas/BoardHeader/BoardHeader";
 
 function App() {
   return (
@@ -15,8 +17,11 @@ function App() {
         <Routes>
           <Route path="/" element={<PageOne />} />
           <Route path="/boards" element={<Boards />} />
-          <Route path="/boards/:boardId" element={<SurFaceScreen/>} />
+          <Route path="/boards/:boardId" element={<SurFaceScreen />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/surface" element={<SurFaceScreen />} />
+
+          <Route path="/board-header" element={<BoardHeader />} />
         </Routes>
       </BrowserRouter>
     </div>

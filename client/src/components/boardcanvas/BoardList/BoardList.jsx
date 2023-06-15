@@ -5,11 +5,12 @@ import axios from "axios";
 import WindownCard from "../WindownCard/WindownCard";
 import Cookies from 'js-cookie';
 
-const BoardList = ({ board_id, list_id, title, cards , members}) => {
+const BoardList = ({ board_id, list_id,  title /* , cards , members */ }) => {
   const [popOver, setPopOver] = useState(false)
   const [cardText, setCardText] = useState('');
   const [editing, setEditing] = useState(false);
   const [titleheader, setTitleheader] = useState(title);
+  console.log(cards)
   //set add card
   const [addcard, setAddcard] = useState(false);
   const handleAddCard = () => {

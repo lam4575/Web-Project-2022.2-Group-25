@@ -51,6 +51,7 @@
   align-items: center;
   position: relative;
   color: rgba(0, 0, 0, 0.5);
+  position: relative;
 }
 
 .select-text {
@@ -107,6 +108,7 @@
   width: 28px;
   border-radius: 50%;
   background-color: transparent;
+  position: relative;
 }
 
 .btn-header_info:hover {
@@ -116,4 +118,179 @@
 .icon-info-item {
   font-size: 28px;
   color: #4f4f4f;
+}
+
+/* Account menu */
+
+.account-menu {
+  position: absolute;
+  top: 48px;
+  right: 12px;
+  width: 224px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px -4px rgba(9, 30, 66, 0.5);
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans,
+    Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
+  padding: 8px 0px;
+}
+
+.account-menu-section h2,
+.account-activity h2 {
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 700;
+  margin: 16px 0 8px;
+  padding: 0 20px;
+  margin-block-start: 0.83em;
+  margin-block-end: 0.83em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+
+.account-info {
+  display: flex;
+  margin: 0;
+  padding: 8px 20px;
+}
+
+.account-avatar {
+  height: 40px;
+  min-width: 40px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  text-align: center;
+  margin-right: 8px;
+}
+
+.account-name {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Noto Sans", "Ubuntu", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 450;
+  margin-top: 2px;
+  width: 136px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.account-email {
+  font-size: 12px;
+  width: 136px;
+  line-height: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Noto Sans", "Ubuntu", "Droid Sans", "Helvetica Neue", sans-serif;
+}
+
+.account-manager {
+  margin: 0;
+  padding: 6px 0px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.account-manager-item {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Noto Sans", "Ubuntu", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: -webkit-match-parent;
+  height: 36px;
+  cursor: pointer;
+}
+
+.account-manager-item:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+  color: rgb(50, 228, 244);
+}
+
+.account-manager-link {
+  margin: 8px 20px;
+  line-height: 20px;
+  -webkit-text-size-adjust: 100%;
+  line-height: 36px;
+  color: black;
+}
+
+.account-support-list {
+  border-bottom: transparent;
+}
+
+/* nav */
+.nav-starred {
+  width: 320px;
+  position: absolute;
+  height: 210px;
+  top: 44px;
+  left: 0;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px -4px rgba(9, 30, 66, 0.5);
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans,
+    Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.img-starred {
+  width: 300px;
+  margin: 8px 12px;
+  object-fit: cover;
+}
+
+.starred-title {
+  display: flex;
+  line-height: 20px;
+  align-items: center;
+  justify-content: center;
+  margin: 8px;
+}
+
+.starred-text {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.nav-workspaces {
+  width: 280px;
+  height: 160px;
+  background-color: white;
+  position: absolute;
+  top: 44px;
+  left: 0;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px -4px rgba(9, 30, 66, 0.5);
+  font-family: BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu,
+    Droid Sans, Helvetica Neue, sans-serif;
+  z-index: 200;
+}
+
+.nav-current {
+  height: 80px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.nav-current-header {
+  color: black;
+  padding: 4px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  height: 30px;
+}
+
+.nav-current-header_text {
+  text-align: left;
+}
+
+.nav-current-user {
+  padding: 4px 12px;
+  display: flex;
+  font-size: 16px;
+  font-weight: 700;
+  color: black;
 }
