@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import './signup.css';
 import { Button, TextField } from "@mui/material";
-import { response } from "express";
 
 function Signup() {
     const navigate = useNavigate();
