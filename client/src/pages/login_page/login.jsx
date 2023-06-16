@@ -6,7 +6,6 @@ import Cookies from 'js-cookie';
 
 
 const Login = (props) => {
-    const {setCurrentForm} = props;
     const [username, setUsername] = useState('');
     const [pass, setPass] = useState('');
     const navigate = useNavigate();
@@ -41,8 +40,8 @@ const Login = (props) => {
         <div className="container_login">
             <h1 id="trello">Trello</h1>
             <div className="login">
-                <form className="form_register" onSubmit={handleSubmit}>
-                    <label for="username" className="label">Username</label>
+                <form className="form_login" onSubmit={handleSubmit}>
+                    <label for="username" className="label">User name</label>
                     <input value={username} onChange={(e) => setUsername(e.target.value)} type="username" placeholder="Enter your username" className="input"/>
                     <label for="password" className="label">Password</label>
                     <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="Enter your password" className="input"/>
@@ -50,7 +49,8 @@ const Login = (props) => {
                 </form>
                 <p>
                     <span className="account">Don't have an account?</span>
-                    <a href="#" className="link" onClick={() => setCurrentForm('register')}>Register</a>
+                    <a href=""></a>
+                    <a href="/register" className="link">Register</a>
                 </p>
             </div>
         </div>

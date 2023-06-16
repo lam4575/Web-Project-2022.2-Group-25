@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PageOne from "./pages/pageOne/pageone";
 import Boards from "./pages/Boards/Boards";
 import Login from "./pages/login_page/login";
+import Register from "./pages/register_page/register";
 import React from "react";
 
 
@@ -17,6 +18,7 @@ function App() {
           <Route path="/boards" element={<Boards />} />
           <Route path="/boards/:boardId" element={<SurFaceScreen/>} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </BrowserRouter>
     </div>
