@@ -54,6 +54,10 @@
   position: relative;
 }
 
+.account-info-detail {
+  padding-left: 1rem;
+}
+
 .select-text {
   text-align: center;
 }
@@ -96,6 +100,7 @@
 }
 
 .header-info {
+  margin-right: 1rem;
   display: flex;
   align-items: center;
 }

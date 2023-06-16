@@ -36,6 +36,8 @@ const Boards = () => {
       });
   }
 
+
+
   function getTokenFromCookie() {
     const cookieString = document.cookie;
     const cookieArray = cookieString.split(";");

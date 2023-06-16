@@ -19,8 +19,19 @@ const createUser = async (req, res) => {
 };
 
 const getAuthenticatedUser = async (req, res) => {
-  res.send("Authenticate successfully");
+  try {
+    const user = await User.findOne({ tokens: { $in: [req.token] } });
+    if (!user) {
+      return res.status(404).send({ error: 'User not found' });
+    }
+    const { _id, username, firstName, lastName, avatar, email } = user;
+    res.send({username, firstName, lastName, avatar, email });
+  } catch (error) {
+    res.status(500).send(error);
+  }
 };
+
+
 
 const getUsers = async (req, res) => {
   try {

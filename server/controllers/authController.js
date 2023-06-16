@@ -14,7 +14,7 @@ const loginUser = async (req, res) => {
     }
     const token = await user.generateAuthToken();
     await user.save();
-    res.json({ token });
+    res.json({ token, user });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });

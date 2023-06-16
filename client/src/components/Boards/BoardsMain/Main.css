@@ -92,6 +92,7 @@
 }
 
 .boards-page-board-section-list {
+  padding: 0;
   display: flex;
   justify-content: flex-start;
 }
@@ -148,4 +149,5 @@ ul, li {
     margin-bottom: 8px;
     margin-right: 8px;
     width: calc(50% - 4px);
+    max-width: 15rem;
 }

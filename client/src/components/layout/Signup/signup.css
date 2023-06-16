@@ -1,0 +1,17 @@
+.box {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+}
+
+.signup-container {
+    border: 3px solid #5468ff;
+    border-radius: 1rem;
+    padding: 1rem;
+    width: 30%;
+    margin-top: 64px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}

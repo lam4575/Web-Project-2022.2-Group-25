@@ -1,13 +1,53 @@
-import React, { Component, useState } from "react";
+import { Avatar } from "@mui/material";
+import React, { Component, useEffect, useState } from "react";
 import "./header.css";
+import { green } from '@mui/material/colors';
+import Cookies from "js-cookie";
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [onNav, setOnNav] = useState(false);
+  const navigate = useNavigate();
   const [onNavWorkspaces, setOnNavWorkspaces] = useState(false);
+  const [user, setUser] = useState({});
+  const [displayMenu, setDisplayMenu] = useState(false);
+
+  
+  const fetchUserData = async () => {
+    const token = Cookies.get('token');
+    const response = await fetch('http://localhost:3030/api/users/me', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    const userData = await response.json();
+    setUser(userData);
+    console.log(user);
+  }
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
   const onOffNav = () => {
     setOnNav(!onNav);
   };
+
+  const logout = async () => {
+    const token = Cookies.get('token');
+    await axios.post('http://localhost:3030/api/logout/', {
+      token: token
+    }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    Cookies.remove('token');
+    navigate('/')
+    window.location.reload();
+  }
+
+
 
   return (
     <header className="header">
@@ -125,7 +165,7 @@ const Header = () => {
         </button>
       </div>
 
-      <div className="search-info">
+      {!user.message && <div className="search-info">
         <div className="header-info">
           <button className="btn-header_info">
             <div className="info-item">
@@ -143,31 +183,24 @@ const Header = () => {
             </div>
           </button>
 
-          <button className="btn-header_info">
-            <div className="info-item">
-              <span className="material-symbols-outlined icon-info-item">
-                dark_mode
-              </span>
-            </div>
-          </button>
 
           {/* Avatar User */}
-          <button className="btn-header_info">
+          {user.message ? null : <button className="btn-header_info">
             <div className="info-item">
-              <img src="" alt="avatar" />
+              <Avatar sx={{ width: 32, height: 32, bgcolor: green[500] }} onClick={()=>{setDisplayMenu(prevState => !prevState)}}>{user.avatar}</Avatar>
             </div>
-          </button>
-          <div className="account-menu">
+          </button>}
+          {displayMenu && !user.message && <div className="account-menu">
             {/* menu section */}
             <div className="account-menu-section">
               <h2>ACCOUNT</h2>
               <div className="account-info">
-                <div className="account-avatar">Linh</div>
+                <Avatar>{user.avatar}</Avatar>
 
                 <div className="account-info-detail">
-                  <div className="account-name">Linh Nguyen Ngoc</div>
+                  <div className="account-name">{`${user.firstName} ${user.lastName}`}</div>
 
-                  <div className="account-email">ngoclinhtp2002@gmail.com</div>
+                  <div className="account-email">{user.email}</div>
                 </div>
               </div>
               {/* account manager */}
@@ -234,14 +267,14 @@ const Header = () => {
             {/* Log out */}
             <div className="account-logout">
               <ul className="account-manager account-support-list">
-                <li className="account-manager-item">
-                  <a href="" className="account-manager-link">
+                <li className="account-manager-item" onClick={() => logout()}>
+                  <a href="./" className="account-manager-link">
                     <span className="account-manager-title">Log out</span>
                   </a>
                 </li>
               </ul>
             </div>
-          </div>
+          </div>}
         </div>
         {/* Search */}
         <label className="header-search">
@@ -252,7 +285,7 @@ const Header = () => {
           </div>
           <input type="text" placeholder="Search" className="input-search" />
         </label>
-      </div>
+      </div>}
     </header>
   );
 };

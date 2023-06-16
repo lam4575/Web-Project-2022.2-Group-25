@@ -35,7 +35,6 @@ const WindownCard = ({ handleClose, card, members, listName }) => {
         }
       });
       setComments(response.data);
-      console.log(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -199,7 +198,7 @@ const addComment = async (comment) => {
                     <div className="data-title">
                       <span className="title">Due date</span>
                     </div>
-                    <div className="data-btn"> {dayjs(dueDate).format('YYYY-MM-DD HH:mm:ss')}  </div>
+                    <div className="data-btn"> {dayjs(dueDate).format('YYYY-MM-DD/ HH:mm A')}  </div>
                   </div>}
                 </div>
 
