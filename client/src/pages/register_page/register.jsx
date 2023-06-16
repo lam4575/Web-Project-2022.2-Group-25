@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./register_style.css";
+import validation from "./register_validation.js"
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -12,32 +13,9 @@ const Register = (props) => {
     const [pass, setPass] = useState('');
     const navigate = useNavigate();
 
-    const handleRegister = async (firstName, lastName, username, email, password) => {
-        try {
-            const response = await axios.post('http://localhost:3030/api/users', {
-                username: username,
-                password: password,
-                email: email,
-                firstName: firstName,
-                lastName: lastName,
-            });
-            // Handle the API response here (success or error)
-            const token = response.data.token;
-            Cookies.set('token', token, { expires: 7 }); // Expires in 7 days
-            //Routing to the login page
-            navigate('/login');
-            const tokenCookie = Cookies.get('token');
-            console.log(tokenCookie);
-          } catch (error) {
-            // Handle any error that occurred during the API request
-            alert("Resgister Failed!");
-            console.log(error);
-          }
-    } 
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        handleRegister(firstname, lastname, username, email, pass)
+        validation(firstname, lastname, username, email, pass);
     }
 
     return (

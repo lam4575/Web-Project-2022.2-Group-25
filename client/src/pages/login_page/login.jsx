@@ -41,7 +41,7 @@ const Login = (props) => {
             <h1 id="trello">Trello</h1>
             <div className="login">
                 <form className="form_login" onSubmit={handleSubmit}>
-                    <label for="username" className="label">User name</label>
+                    <label for="username" className="label">Username</label>
                     <input value={username} onChange={(e) => setUsername(e.target.value)} type="username" placeholder="Enter your username" className="input"/>
                     <label for="password" className="label">Password</label>
                     <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="Enter your password" className="input"/>
