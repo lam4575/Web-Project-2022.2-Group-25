@@ -2,10 +2,11 @@
 // My comment of shame
 
 const { BASE_URL, PORT } = require('../configs');
+const Card = require('../models/card');
 const File = require('../models/file');
 
 
-const uploadFile = async (fileData, owner) => {
+const uploadFile = async (fileData, cardId, owner) => {
 
     console.log(fileData);
 
@@ -20,7 +21,7 @@ const uploadFile = async (fileData, owner) => {
     let objId = file._id;
 
 
-    let URL = `http://${BASE_URL}:${PORT}/files/${objId}`;
+    let URL = `http://${BASE_URL}:${PORT}/api/files/${objId}`;
     file.URL = URL;
 
     try {
@@ -28,6 +29,15 @@ const uploadFile = async (fileData, owner) => {
     } catch (error) {
         console.log(error);
         return "NOT OK";
+    }
+
+    // Update card files
+    try {
+        const card = await Card.findById(cardId);
+        card.files.push(file._id);
+        await card.save();
+    } catch (err) {
+        console.log(err);
     }
 
     //The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
@@ -41,7 +51,9 @@ const uploadFile = async (fileData, owner) => {
         return objId;
     });
 
+
 }
+
 
 const getFile = async (fileID, user) => {
     let message = {
@@ -67,8 +79,6 @@ const getFile = async (fileID, user) => {
     message.text = "SUCCESS";
     message.path = './files/' + file.name;
     return message;
-
-
 }
 
 module.exports = { uploadFile, getFile }

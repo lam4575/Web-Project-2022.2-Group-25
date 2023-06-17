@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const dayjs = require("dayjs")
 
 const commentSchema = new mongoose.Schema({
   text: {type:String,
@@ -8,7 +9,7 @@ const commentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: () => dayjs().toDate() }
 });
 
 const Comment = mongoose.model('Comment', commentSchema);

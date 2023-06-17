@@ -71,7 +71,6 @@
   max-height: 550px;
   overflow: auto;
   min-height: 500px;
-
 }
 
 /* Content */
@@ -330,4 +329,19 @@
   padding: 0.5rem;
   display: flex;
   justify-content: space-between;
+}
+
+.time-upload > p {
+  font-size: 0.7rem;
+  margin: 0;
+  color: #5f6d84;
+}
+
+.download-item {
+  padding: 5px;
+  border: 1px solid;
+  border-radius: 3px;
+  margin: 0.5rem;
+  margin-left: 0;
+  background-color: #e4e6ea;
 }

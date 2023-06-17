@@ -43,7 +43,7 @@ function Signup() {
             password
         })
             .then(response => {
-                console.log(response.data);
+                alert("Đăng ký thành công!");
                 navigate('/login');
             })
             .catch(error => {

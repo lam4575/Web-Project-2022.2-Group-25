@@ -17,8 +17,9 @@ const sendTestMail = async (req, res) => {
 
 const uploadTestFile = async (req, res) => {
   const file = req.files.demo;
+  const cardId = req.params.cardId;
 
-  const message = await uploadFile(file, req.user);
+  const message = await uploadFile(file, cardId, req.user);
   res.status(200).json({ message: message });
 };
 

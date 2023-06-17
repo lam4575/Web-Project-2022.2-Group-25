@@ -3,12 +3,11 @@ import WindownCard from "../WindownCard/WindownCard";
 import { Dialog, DialogTitle } from "@material-ui/core";
 import "./Cards.css";
 
-const Cards = ({ card, members, listName}) => {
+const Cards = ({ card, members, listName, list_id}) => {
   const [watching, setWatching] = useState(card.watching);
   const [des, setDes] = useState(card.description);
   const [dueDate, setDueDate] = useState(card.dueDate ? new Date( card.dueDate) : null);
   const [isEdit, setIsEdit] = useState(false);
-  console.log(card.comments)
   const handleEditClick = () => {
     setIsEdit(!isEdit);
   };
@@ -66,7 +65,7 @@ const Cards = ({ card, members, listName}) => {
           boxShadow: 'none',
         },
       }} fullScreen>
-        <WindownCard handleClose={handleClose} card={card} members={members} listName={listName}/>
+        <WindownCard handleClose={handleClose} card={card} members={members} listName={listName} list_id={list_id}/>
       </Dialog>
     </div>
   );

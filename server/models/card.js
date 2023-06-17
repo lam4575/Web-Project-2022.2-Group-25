@@ -51,6 +51,14 @@ const cardSchema = new mongoose.Schema({
     }],
     default: [],
   }
+  ,
+  files :{
+    type: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'File',
+    }],
+    default: [],
+  }
 });
 
 const Card = mongoose.model('Card', cardSchema);

@@ -7,7 +7,9 @@ testRouter.post('/test/mail', sendTestMail);
 
 testRouter.post('/test/files', auth, uploadTestFile);
 
+testRouter.post("/cards/:cardId/files/send-file", auth, uploadTestFile)
+
 // Add authentication middleware if needed
-testRouter.get('/test/files/:id', /*auth, */ getTestFile);
+testRouter.get('/files/:id', /*auth, */ getTestFile);
 
 module.exports = testRouter;

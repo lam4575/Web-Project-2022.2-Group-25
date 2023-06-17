@@ -10,7 +10,6 @@ const BoardList = ({ board_id, list_id,  title , cards , members  }) => {
   const [cardText, setCardText] = useState('');
   const [editing, setEditing] = useState(false);
   const [titleheader, setTitleheader] = useState(title);
-  console.log(cards)
   //set add card
   const [addcard, setAddcard] = useState(false);
   const handleAddCard = () => {
@@ -78,7 +77,7 @@ const BoardList = ({ board_id, list_id,  title , cards , members  }) => {
 
       <div className="list-cards">
         {cards.map((card) => {
-          return <Cards card={card} members = {members} listName={title} ></Cards>
+          return <Cards card={card} members = {members} listName={title} list_id={list_id}></Cards>
         })}
       </div>
       {addcard ? (

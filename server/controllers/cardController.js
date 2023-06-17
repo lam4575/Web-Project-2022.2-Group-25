@@ -84,17 +84,43 @@ const addComment = async (req, res) => {
 
 const deleteCard = async (req, res) => {
   try {
-    const { cardId } = req.params;
+    const { cardId, listId } = req.params;
     await Card.findByIdAndDelete(cardId);
     res.status(200).json({ message: 'Card deleted successfully' });
 
-    const list = await List.findById(listId).populate('cards');
-    list.remove(cardId);
+    const list = await List.findById(listId);
+    list.cards.remove(cardId);
+    await list.save();
 
-    const activity = await createActivity('List', list._id, 'added', req.user._id);
-    await updateBoardActivityLog(list._id, activity);
+    const activity = await createActivity('Card', cardId, 'removed', req.user._id);
+    await updateBoardActivityLog(cardId, activity);
 
 
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+};
+
+const getCard = async (req, res) => {
+  try {
+    const { cardId } = req.params;
+    const card = await Card.findById(cardId)
+      .populate({
+        path: 'comments',
+        populate: {
+          path: 'createdBy',
+          select: 'firstName lastName avatar'
+        }
+      }).populate({
+        path:'files',
+        populate:{
+          path: 'owner',
+          select: 'firstName lastName username'
+        }
+      });
+
+    res.status(200).json(card);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server Error' });
@@ -106,5 +132,6 @@ module.exports = {
   updateCard,
   deleteCard,
   getCardComments,
-  addComment
+  addComment,
+  getCard
 };

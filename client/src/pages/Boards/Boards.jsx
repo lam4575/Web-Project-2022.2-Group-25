@@ -6,13 +6,16 @@ import HomeScreen from "../../components/Boards/Home/Home";
 import WorkspaceScreen from "../../components/Boards/workspaces/Workspaces";
 import SettingsScreen from "../../components/Boards/Settings/Settings";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 const Boards = () => {
+  const navigate = useNavigate();
   const listitems = document.getElementsByClassName("control-item");
   const onLists = document.getElementsByClassName("workspace_details");
   const [boards, setBoards] = useState([]);
   useEffect(()=>{
     const token = getTokenFromCookie();
+    if(!token) {return navigate("/login");}
     fetchBoards(token);
   }, [])
 

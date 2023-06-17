@@ -23,7 +23,6 @@ const Header = () => {
     });
     const userData = await response.json();
     setUser(userData);
-    console.log(user);
   }
   useEffect(() => {
     fetchUserData();
@@ -43,7 +42,7 @@ const Header = () => {
       }
     });
     Cookies.remove('token');
-    navigate('/')
+    navigate('/login');
     window.location.reload();
   }
 

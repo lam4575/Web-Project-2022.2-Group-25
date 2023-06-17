@@ -4,14 +4,20 @@ import Cookies from 'js-cookie';
 import "./WindownCard.css";
 import { Slider, TextField, Button, Avatar } from '@mui/material';
 import dayjs from 'dayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import 'dayjs/locale/vi';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import timezone from 'dayjs/plugin/timezone';
+import { Box, Popover } from "@material-ui/core";
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import AttachFile from "@mui/icons-material/AttachFile";
+import DownloadIcon from '@mui/icons-material/Download';
 
 
-
-const WindownCard = ({ handleClose, card, members, listName }) => {
+const WindownCard = ({ handleClose, card, members, listName, list_id }) => {
   const [watching, setWatching] = useState(card.watching);
   const [openCalendar, setOpenCalendar] = useState(false);
   const [dueDate, setDueDate] = useState(card.dueDate ? new Date(card.dueDate) : null);
@@ -23,8 +29,30 @@ const WindownCard = ({ handleClose, card, members, listName }) => {
   const [des, setDes] = useState(card.des);
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState("");
+  const [open, setOpen] = useState(false);
+  const [attachFile, setAttachFile] = useState(false);
+  const [files, setFiles] = useState([]);
+  const [visibleFiles, setVisibleFiles] = useState([]);
+  const [numFilesToShow, setNumFilesToShow] = useState(2);
 
-  
+  dayjs.extend(timezone);
+
+  const hanoiTimezone = 'Asia/Ho_Chi_Minh';
+
+  const handleClosePopover = () => {
+    setOpen(false);
+  }
+
+  const handleClickPopover = () => {
+    setOpen(true);
+  }
+
+  const handleFileUpload = (event) => {
+    const files = event.target.files;
+    // Process the uploaded files
+    // You can access the files using the `files` object
+    console.log(files);
+  };
 
   const fetchComments = async () => {
     const token = Cookies.get('token');
@@ -42,6 +70,29 @@ const WindownCard = ({ handleClose, card, members, listName }) => {
   useEffect(() => {
     fetchComments();
   }, [card._id]);
+  const handleLoadMore = () => {
+    setNumFilesToShow((prevNum) => prevNum + 2);
+  };
+
+
+  const fetchCard = async () => {
+    const token = Cookies.get('token');
+    try {
+      const response = await axios.get(`http://localhost:3030/api/cards/${card._id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setFiles(response.data.files);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCard();
+    console.log(files);
+  }, []);
 
 
   const toggleEditingDes = () => setIsEditingDes(prevState => !prevState);
@@ -68,29 +119,60 @@ const WindownCard = ({ handleClose, card, members, listName }) => {
     })
   }
 
-const addComment = async (comment) => {
-  const token = Cookies.get('token');
-  try {
-    await axios.post(`http://localhost:3030/api/cards/${card._id}/add-comment`, {
-      text: comment
+  const updateTitle = () => {
+    const token = Cookies.get('token');
+    axios.patch(`http://localhost:3030/api/cards/${card._id}/update-card`, {
+      cardTitle: document.getElementById("outlined-basic").value// pass the updated value to the API call
     }, {
       headers: {
         Authorization: `Bearer ${token}`
       }
-    }).then((res)=> {
+    }).then((res) => {
       window.location.reload();
     }).catch(err => {
       console.log(err)
       alert("Failed to update card!");
-    });
-  } catch (error) {
-    console.log(error);
+    })
   }
-}
-  
+
+  const deleteCard = () => {
+    const token = Cookies.get('token');
+    axios.delete(`http://localhost:3030/api/lists/${list_id}/cards/${card._id}/delete-card`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then((res) => {
+      alert("Delete card success!")
+      window.location.reload();
+    }).catch(err => {
+      console.log(err)
+      alert("Failed to delete card!");
+    })
+  }
+
+  const addComment = async (comment) => {
+    const token = Cookies.get('token');
+    try {
+      await axios.post(`http://localhost:3030/api/cards/${card._id}/add-comment`, {
+        text: comment
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then((res) => {
+        window.location.reload();
+      }).catch(err => {
+        console.log(err)
+        alert("Failed to update card!");
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 
   const addDueDate = () => {
-    if(dateChange === null) {
+    if (dateChange === null) {
       setOpenCalendar(false);
       return;
     }
@@ -125,6 +207,7 @@ const addComment = async (comment) => {
       alert("Failed to update card!");
     })
   }
+
   const updateCheckList = () => {
     const token = Cookies.get('token');
     axios.patch(`http://localhost:3030/api/cards/${card._id}/update-card`, {
@@ -139,6 +222,35 @@ const addComment = async (comment) => {
       console.log(err)
       alert("Failed to update card!");
     })
+  }
+
+
+  function handleSubmitFile() {
+    const token = Cookies.get('token');
+    // Get the file from the input element
+    let file = document.querySelector("input[type=file]").files[0];
+
+    // Create a new FormData object
+    let formData = new FormData();
+
+    // Append the file to the formData object
+    formData.append("demo", file);
+
+    // Specify the url
+    let url = `http://localhost:3030/api/cards/${card._id}/files/send-file`;
+
+    // Make the post request with the formData object
+    axios.post(
+      url, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(response => alert("Upload success")) // Print the data
+      .catch(error => console.error(error)); // Handle errors
+
+    // Close the popover
+    setAttachFile(false);
   }
 
   return (
@@ -282,14 +394,14 @@ const addComment = async (comment) => {
                       <Avatar style={{ marginRight: '1rem' }}>{comment.createdBy.firstName[0] + comment.createdBy.lastName[0]}</Avatar>
                       <div className="comment-details">
                         <p className="username">{comment.createdBy.firstName + ' ' + comment.createdBy.lastName}</p>
-                        <span className="timestamp">{dayjs(comment.createdAt).format('YYYY/MM/DD')}</span>
-                        <span className="timestamp">{dayjs(comment.createdAt).format('HH:MM A')}</span>
+                        <span className="timestamp">{dayjs(comment.createdAt).format('DD/MM/YYYY')}</span>
+                        <span className="timestamp">{dayjs(comment.createdAt).tz(hanoiTimezone).format('HH:mm A')}</span>
                       </div>
                       <p className="comment-text">{comment.text}</p>
                     </div>
                   )}
                   <div className="update">
-                    <TextField label="Comment" fullWidth onChange={(event) => setCommentText(event.target.value)}/>
+                    <TextField label="Comment" fullWidth onChange={(event) => setCommentText(event.target.value)} />
                     <Button style={{ margin: '1rem 0 1rem 80%' }} variant="contained" onClick={() => addComment(commentText)}>Send</Button>
                   </div>
                 </div>}
@@ -322,6 +434,27 @@ const addComment = async (comment) => {
                         </span>
                         <p className="add-card-item_content">Dates</p>
                       </button>
+                      <button
+                        className="add-card-item"
+                        id="attach-file-btn"
+                        onClick={() => { setAttachFile(true) }}
+                      >
+                        <AttachFile></AttachFile>
+                        <p className="add-card-item_content">Attach File</p>
+                      </button>
+                      <Popover
+                        open={attachFile}
+                        onClose={() => { setAttachFile(false) }}
+                        anchorEl={document.getElementById("attach-file-btn")}
+                        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+                      >
+                        <div className="" style={{ padding: '1rem' }} >
+                          <h4>Choose file to attach</h4>
+                          <input type="file" onChange={handleFileUpload} />
+                        </div>
+                        <Button onClick={() => { handleSubmitFile() }}>Attach</Button>
+                        <Button onClick={() => { setAttachFile(false) }}>Cancle</Button>
+                      </Popover>
                       {openCalendar && (
                         <div className="calendar">
                           <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -344,7 +477,61 @@ const addComment = async (comment) => {
 
                 <div className="add-to-card">
                   <p className="add-to-card-title">Actions</p>
-                  <div className="add-to-card-items"></div>
+                  <div className="add-to-card-items">
+                    <div className="add-to-card">
+                      <div className="add-to-card-items">
+                        <button id="edit-card-btn" className="add-card-item" onClick={handleClickPopover}>
+                          <EditOutlinedIcon className="material-symbols-outlined add-card-item_icon">
+                            person
+                          </EditOutlinedIcon>
+                          <p className="add-card-item_content">Edit card title</p>
+                        </button>
+                        <Popover
+                          open={open}
+                          anchorEl={document.getElementById("edit-card-btn")}
+                          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+                          onClose={handleClosePopover}
+                        >
+                          <div className="" style={{ padding: '1rem' }}>
+                            <TextField id="outlined-basic" label="Nhập tiêu đề mới cho thẻ"></TextField>
+                            <div className="btn-containner" style={{ display: "flex", justifyContent: "space-between", marginTop: "0.5rem" }}>
+                              <Button onClick={updateTitle}>Save</Button>
+                              <Button onClick={handleClosePopover}>Cancle</Button>
+                            </div>
+                          </div>
+                        </Popover>
+                        <button className="add-card-item" onClick={deleteCard}>
+                          <DeleteOutlineOutlinedIcon className="material-symbols-outlined add-card-item_icon">
+                            person
+                          </DeleteOutlineOutlinedIcon>
+                          <p className="add-card-item_content">Delete card</p>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="add-to-card">
+
+                  <p className="add-to-card-title">
+                    File
+                  </p>
+                  {files.slice(0, numFilesToShow).map((file) => (
+                    <Box className="download-item" key={file.id}>
+                      <div className="download-link">
+                        <a href={file.URL} download={file.name}>
+                          <DownloadIcon></DownloadIcon>
+                          {file.name}
+                        </a>
+                      </div>
+                      <div className="time-upload">
+                        <p>Uploaded by {file.owner.username}</p>
+                        <p>{dayjs(file.createdAt).format("DD/MM/YYYY h:mm A")}</p>
+                      </div>
+                    </Box>
+                  ))}
+                  {numFilesToShow < files.length && (
+                    <Button onClick={handleLoadMore}>Load more</Button>
+                  )}
                 </div>
               </div>
             </div>

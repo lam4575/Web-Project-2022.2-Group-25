@@ -1,11 +1,45 @@
-import React from "react";
+
+import React, { useState } from "react";
 import "./Main.css";
+import AddIcon from '@mui/icons-material/Add';
+import { Button, createTheme, Popover } from "@mui/material";
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const MainScreen = ({ boards }) => {
+
+  const createBoard = async () => {
+    const boardTitle = document.querySelector(".popover-containner input").value;
+    const boardType = document.querySelector(".popover-containner select").value;
+    const token = Cookies.get('token');
+    await axios.post("http://localhost:3030/api/boards/", {
+        boardName: boardTitle,
+        boardType: boardType,
+      }, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then(res=>{
+        window.location.reload();
+        alert("Tạo bảng thành công!")
+      }).catch(err=>{
+        console.log(err);
+      });
+  };
+
+
+
   const handleBoardClick = (boardId) => {
     window.location.href = `/boards/${boardId}`;
   };
-
+  const [open, setOpen] = useState(false);
+  const handleClick = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  
 
   return (
     <div className="main-body">
@@ -16,20 +50,46 @@ const MainScreen = ({ boards }) => {
           </span>
           <p>Recently viewed</p>
         </div>
-        <div style={{display : "block"}}>
-        <ul className="boards-page-board-section-list">
-          {boards.slice(0,4).map(board => (
-            <li className="boards-page-board-section-list-item" key={board._id}>
-              <a className="board-tile" onClick={() => handleBoardClick(board._id)}>
-                <div className="board-tile-details is-badged">
-                  <div className="board-tile-details-name">
-                    {board.boardName}
+        <div style={{ display: "block" }}>
+          <ul className="boards-page-board-section-list">
+            {boards.slice(0, 4).map(board => (
+              <li className="boards-page-board-section-list-item" key={board._id}>
+                <a className="board-tile" onClick={() => handleBoardClick(board._id)}>
+                  <div className="board-tile-details is-badged">
+                    <div className="board-tile-details-name">
+                      {board.boardName}
+                    </div>
                   </div>
-                </div>
-              </a>
-            </li>
-          ))}
-        </ul>
+                </a>
+              </li>
+            ))}
+            <button id="add-btn" className="add-board" title="Add Board" onClick={() => { setOpen(true) }}>
+              <AddIcon fontSize="large">Add Board</AddIcon>
+            </button>
+            <Popover 
+            className="rootElement"
+              id="popover"
+              anchorEl={document.getElementById("add-btn")}
+              open={open}
+              onClose={()=>handleClose()}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+            >
+              <div className="popover-containner">
+                <input type="text" placeholder="Board Title" style={{ width: "100%", marginBottom: "10px" }} />
+                <select style={{ width: "100%" }}>
+                  <option value="public">Public</option>
+                  <option value="private">Private</option>
+                  <option value="workspace">Workspace</option>
+                </select>
+                <Button variant="contained" onClick={()=>createBoard()}>Create Card</Button>
+              </div>
+            </Popover>
+
+
+          </ul>
         </div>
       </div>
 
@@ -92,3 +152,6 @@ const MainScreen = ({ boards }) => {
 };
 
 export default MainScreen;
+
+
+
