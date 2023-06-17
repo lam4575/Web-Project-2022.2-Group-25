@@ -5,13 +5,14 @@ import axios from "axios";
 import WindownCard from "../WindownCard/WindownCard";
 import Cookies from 'js-cookie';
 
-const BoardList = ({ board_id, list_id,  title , cards , members  }) => {
+const BoardList = ({ board_id, list_id,  title , card , members  }) => {
   const [popOver, setPopOver] = useState(false)
   const [cardText, setCardText] = useState('');
   const [editing, setEditing] = useState(false);
   const [titleheader, setTitleheader] = useState(title);
-  //set add card
+  const [cards,setCards] = useState(card);
   const [addcard, setAddcard] = useState(false);
+  
   const handleAddCard = () => {
     setAddcard(true);
   };
@@ -26,7 +27,10 @@ const BoardList = ({ board_id, list_id,  title , cards , members  }) => {
       }
     })
       .then(response => {
-        window.location.reload(); 
+        let newCard = response.data;
+        setCards([...cards, newCard]);
+        setCardText("");
+        setAddcard(false);
       })
       .catch(error => {
         alert("Failed to create card!");
@@ -77,7 +81,7 @@ const BoardList = ({ board_id, list_id,  title , cards , members  }) => {
 
       <div className="list-cards">
         {cards.map((card) => {
-          return <Cards card={card} members = {members} listName={title} list_id={list_id}></Cards>
+          return <Cards card={card} members = {members} listName={title} list_id={list_id} setCards={setCards} cards={cards}></Cards>
         })}
       </div>
       {addcard ? (

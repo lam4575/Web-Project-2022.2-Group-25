@@ -3,9 +3,8 @@ import WindownCard from "../WindownCard/WindownCard";
 import { Dialog, DialogTitle } from "@material-ui/core";
 import "./Cards.css";
 
-const Cards = ({ card, members, listName, list_id}) => {
+const Cards = ({ card, members, listName, list_id, setCards, cards}) => {
   const [watching, setWatching] = useState(card.watching);
-  const [des, setDes] = useState(card.description);
   const [dueDate, setDueDate] = useState(card.dueDate ? new Date( card.dueDate) : null);
   const [isEdit, setIsEdit] = useState(false);
   const handleEditClick = () => {
@@ -43,10 +42,6 @@ const Cards = ({ card, members, listName, list_id}) => {
             <span className="month"> {dueDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} </span>
           </div>}
 
-          {des && <div className="badge">
-            <span className="material-symbols-outlined badge-icon">sort</span>
-          </div>}
-
           <div className="badge">
             <span className="material-symbols-outlined badge-icon">
               mark_chat_unread
@@ -65,7 +60,12 @@ const Cards = ({ card, members, listName, list_id}) => {
           boxShadow: 'none',
         },
       }} fullScreen>
-        <WindownCard handleClose={handleClose} card={card} members={members} listName={listName} list_id={list_id}/>
+        <WindownCard handleClose={handleClose} card={card} members={members} listName={listName}
+         list_id={list_id} 
+         setCards={setCards} cards={cards}
+          dueDate_p={dueDate} setDueDate_p={setDueDate}
+          watching_p={watching} setWatching_p={setWatching}
+          />
       </Dialog>
     </div>
   );

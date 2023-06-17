@@ -43,7 +43,6 @@ const Header = () => {
     });
     Cookies.remove('token');
     navigate('/login');
-    window.location.reload();
   }
 
 

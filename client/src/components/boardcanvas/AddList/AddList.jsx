@@ -6,27 +6,29 @@ import Cookies from 'js-cookie';
 import AddIcon from '@mui/icons-material/Add';
 
 
-function AddList({board_id}) {
+function AddList({ board_id, setLists, lists }) {
 
     const addList = (event) => {
-    const token = Cookies.get('token'); // assuming the token is stored in a cookie named 'token'
-    const listTitle = event.target.elements.name.value; // get the value of the input element with name "name"
-    axios.post(`http://localhost:3030/api/boards/${board_id}/create-list`, {
-        listTitle: listTitle
-    }, {
-      headers: {
-        Authorization: `Bearer ${token}` // set the token as a Bearer token in the Authorization header
-      }
-    })
-      .then(response => {
-        alert("Add list success!");
-        window.location.reload(); 
-      })
-      .catch(error => {
-        console.log(error)
-        alert("Failed to create list!");
-      });
-  }
+        event.preventDefault();
+        const token = Cookies.get('token'); // assuming the token is stored in a cookie named 'token'
+        const listTitle = event.target.elements.name.value; // get the value of the input element with name "name"
+        axios.post(`http://localhost:3030/api/boards/${board_id}/create-list`, {
+            listTitle: listTitle
+        }, {
+            headers: {
+                Authorization: `Bearer ${token}` // set the token as a Bearer token in the Authorization header
+            }
+        })
+            .then(response => {
+                let newList = response.data
+                setLists([...lists, newList])
+            })
+            .catch(error => {
+                console.log(error)
+                alert("Failed to create list!");
+            });
+        event.target.reset();
+    }
     const handleClick = () => {
         setDisplay(!display);
     }
@@ -37,7 +39,7 @@ function AddList({board_id}) {
                 {display && (<a className='open-add-list js-open-add-list' href="#" onClick={handleClick}>
                     <span>
                         <span className='icon-sm icon-add'>
-                        <AddIcon/>
+                            <AddIcon />
                         </span>
                         Add another List
                     </span>

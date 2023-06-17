@@ -17,7 +17,7 @@ import AttachFile from "@mui/icons-material/AttachFile";
 import DownloadIcon from '@mui/icons-material/Download';
 
 
-const WindownCard = ({ handleClose, card, members, listName, list_id }) => {
+const WindownCard = ({ handleClose, card, members, listName, list_id, setCards, cards, dueDate_p, setDueDate_p, watching_p, setWatching_p }) => {
   const [watching, setWatching] = useState(card.watching);
   const [openCalendar, setOpenCalendar] = useState(false);
   const [dueDate, setDueDate] = useState(card.dueDate ? new Date(card.dueDate) : null);
@@ -26,7 +26,7 @@ const WindownCard = ({ handleClose, card, members, listName, list_id }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [checkList, setChecklist] = useState(card.checklist ? card.checklist : 0);
   const [dateChange, setDateChange] = useState(null);
-  const [des, setDes] = useState(card.des);
+  const [des, setDes] = useState(card.description);
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState("");
   const [open, setOpen] = useState(false);
@@ -34,24 +34,19 @@ const WindownCard = ({ handleClose, card, members, listName, list_id }) => {
   const [files, setFiles] = useState([]);
   const [visibleFiles, setVisibleFiles] = useState([]);
   const [numFilesToShow, setNumFilesToShow] = useState(2);
+  const [cardTitle, setCardTitle] = useState(card.cardTitle)
 
   dayjs.extend(timezone);
 
-  const hanoiTimezone = 'Asia/Ho_Chi_Minh';
 
   const handleClosePopover = () => {
     setOpen(false);
   }
-
   const handleClickPopover = () => {
     setOpen(true);
   }
-
   const handleFileUpload = (event) => {
     const files = event.target.files;
-    // Process the uploaded files
-    // You can access the files using the `files` object
-    console.log(files);
   };
 
   const fetchComments = async () => {
@@ -69,12 +64,10 @@ const WindownCard = ({ handleClose, card, members, listName, list_id }) => {
   };
   useEffect(() => {
     fetchComments();
-  }, [card._id]);
+  }, []);
   const handleLoadMore = () => {
     setNumFilesToShow((prevNum) => prevNum + 2);
   };
-
-
   const fetchCard = async () => {
     const token = Cookies.get('token');
     try {
@@ -91,7 +84,6 @@ const WindownCard = ({ handleClose, card, members, listName, list_id }) => {
 
   useEffect(() => {
     fetchCard();
-    console.log(files);
   }, []);
 
 
@@ -104,7 +96,6 @@ const WindownCard = ({ handleClose, card, members, listName, list_id }) => {
   const toggleEditingActivity = () => setIsEditingActivity(prevState => !prevState);
   const updateWatching = () => {
     const token = Cookies.get('token');
-    setWatching(prevWatching => !prevWatching); // use the previous state to toggle the value
     axios.patch(`http://localhost:3030/api/cards/${card._id}/update-card`, {
       watching: !watching // pass the updated value to the API call
     }, {
@@ -112,13 +103,13 @@ const WindownCard = ({ handleClose, card, members, listName, list_id }) => {
         Authorization: `Bearer ${token}`
       }
     }).then((res) => {
-      window.location.reload();
+      setWatching(prevWatching => !prevWatching);
+      setWatching_p(prevWatching => !prevWatching);
     }).catch(err => {
       console.log(err)
       alert("Failed to update card!");
     })
   }
-
   const updateTitle = () => {
     const token = Cookies.get('token');
     axios.patch(`http://localhost:3030/api/cards/${card._id}/update-card`, {
@@ -128,28 +119,31 @@ const WindownCard = ({ handleClose, card, members, listName, list_id }) => {
         Authorization: `Bearer ${token}`
       }
     }).then((res) => {
-      window.location.reload();
+      setCardTitle(document.getElementById("outlined-basic").value)
     }).catch(err => {
       console.log(err)
       alert("Failed to update card!");
     })
   }
-
   const deleteCard = () => {
     const token = Cookies.get('token');
-    axios.delete(`http://localhost:3030/api/lists/${list_id}/cards/${card._id}/delete-card`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }).then((res) => {
-      alert("Delete card success!")
-      window.location.reload();
-    }).catch(err => {
-      console.log(err)
-      alert("Failed to delete card!");
-    })
-  }
-
+    axios
+      .delete(`http://localhost:3030/api/lists/${list_id}/cards/${card._id}/delete-card`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        // Function to remove the deleted card from the cards array
+        const updatedCards = cards.filter((c) => c._id !== card._id);
+        handleClose();
+        setCards(updatedCards);
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("Failed to delete card!");
+      });
+  };
   const addComment = async (comment) => {
     const token = Cookies.get('token');
     try {
@@ -160,10 +154,11 @@ const WindownCard = ({ handleClose, card, members, listName, list_id }) => {
           Authorization: `Bearer ${token}`
         }
       }).then((res) => {
-        window.location.reload();
+        let comment = res.data;
+        setComments([...comments, comment]);
       }).catch(err => {
         console.log(err)
-        alert("Failed to update card!");
+        alert("Failed to add card!");
       });
     } catch (error) {
       console.log(error);
@@ -176,21 +171,23 @@ const WindownCard = ({ handleClose, card, members, listName, list_id }) => {
       setOpenCalendar(false);
       return;
     }
+    const newDate = new Date(dateChange.$d);
     const token = Cookies.get('token');
     axios.patch(`http://localhost:3030/api/cards/${card._id}/update-card`, {
-      dueDate: new Date(dateChange.$d) // pass the updated value to the API call
+      dueDate: newDate // pass the updated value to the API call
     }, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     }).then((res) => {
-      window.location.reload();
+      setDueDate(newDate);
+      setDueDate_p(newDate);
+      setOpenCalendar(false);
     }).catch(err => {
       console.log(err)
       alert("Failed to update card!");
     })
   }
-
   const updateDes = () => {
     const token = Cookies.get('token');
     const newDescription = des;
@@ -201,13 +198,13 @@ const WindownCard = ({ handleClose, card, members, listName, list_id }) => {
         Authorization: `Bearer ${token}`
       }
     }).then((res) => {
-      window.location.reload();
+      setDes(newDescription);
+      alert(`Update description of ${res.data.cardTitle} success!`);
     }).catch(err => {
       console.log(err)
       alert("Failed to update card!");
     })
   }
-
   const updateCheckList = () => {
     const token = Cookies.get('token');
     axios.patch(`http://localhost:3030/api/cards/${card._id}/update-card`, {
@@ -217,7 +214,7 @@ const WindownCard = ({ handleClose, card, members, listName, list_id }) => {
         Authorization: `Bearer ${token}`
       }
     }).then((res) => {
-      window.location.reload();
+      alert(`Update checklist of ${res.data.cardTitle} success!`)
     }).catch(err => {
       console.log(err)
       alert("Failed to update card!");
@@ -246,7 +243,9 @@ const WindownCard = ({ handleClose, card, members, listName, list_id }) => {
         Authorization: `Bearer ${token}`
       }
     })
-      .then(response => alert("Upload success")) // Print the data
+      .then(response => {
+        alert("Upload file success!");
+      }) // Print the data
       .catch(error => console.error(error)); // Handle errors
 
     // Close the popover
@@ -268,7 +267,7 @@ const WindownCard = ({ handleClose, card, members, listName, list_id }) => {
 
               <div className="header-name">
                 <div className="header-title">
-                  <p className="name-inline">{ }Linh</p>
+                  <p className="name-inline">{cardTitle}</p>
                 </div>
 
                 <div className="header-inline-card">
@@ -333,7 +332,7 @@ const WindownCard = ({ handleClose, card, members, listName, list_id }) => {
                     </div>
                   </div>
                   {isEditingDes && <div className="update">
-                    <TextField label="Description" defaultValue={card.description ? card.description : ""}
+                    <TextField label="Description" defaultValue={des}
                       onChange={(event) => setDes(event.target.value)} fullWidth />
                     <Button variant="contained" style={{ margin: '1rem 0 0 80%' }} onClick={updateDes}>
                       Update
@@ -395,7 +394,7 @@ const WindownCard = ({ handleClose, card, members, listName, list_id }) => {
                       <div className="comment-details">
                         <p className="username">{comment.createdBy.firstName + ' ' + comment.createdBy.lastName}</p>
                         <span className="timestamp">{dayjs(comment.createdAt).format('DD/MM/YYYY')}</span>
-                        <span className="timestamp">{dayjs(comment.createdAt).tz(hanoiTimezone).format('HH:mm A')}</span>
+                        <span className="timestamp">{dayjs(comment.createdAt).format('HH:mm A')}</span>
                       </div>
                       <p className="comment-text">{comment.text}</p>
                     </div>

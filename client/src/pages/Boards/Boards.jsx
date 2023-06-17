@@ -65,7 +65,7 @@ const Boards = () => {
   const renderTabScreen = (index) => {
     switch (index) {
       case 0:
-        return <MainScreen boards={boards}/>;
+        return <MainScreen boards={boards} setBoards={setBoards}/>;
       case 1:
         return;
       case 2:

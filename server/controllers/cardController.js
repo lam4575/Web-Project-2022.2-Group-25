@@ -65,12 +65,18 @@ const addComment = async (req, res) => {
     const { text } = req.body;
     const createdBy = req.user._id;
 
-    const comment = await Comment.create({ text, createdBy });
+    let comment = await Comment
+    .create({ text, createdBy })
+    
     const card = await Card.findById(cardId);
     card.comments.push(comment._id);
     await card.save();
 
-    res.status(200).json(card);
+    comment = await comment.populate({
+      path:"createdBy",
+      select: ["firstName", "lastName"]
+    });
+    res.status(200).json(comment);
 
     const activity = await createActivity('Card', card._id, 'added comment', req.user._id);
     await updateBoardActivityLog(card._id, activity);

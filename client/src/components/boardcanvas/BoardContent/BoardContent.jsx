@@ -8,6 +8,7 @@ import AddList from "../AddList/AddList"
 const BoardContentScreen = () => {
   const { boardId } = useParams();
   const [board, setBoard] = useState({});
+  const [lists,setLists] = useState([]);
   useEffect(() => {
     fetchBoard(boardId);
   }, []);
@@ -20,8 +21,7 @@ const BoardContentScreen = () => {
         // Extract the boards from the response data
         let board = response.data;
         setBoard(board);
-        // Process the boards or return them for further use
-        return board;
+        setLists(board.lists);
       })
       .catch((error) => {
         // Handle errors
@@ -32,12 +32,11 @@ const BoardContentScreen = () => {
 
   return (
     <div className="board-content">
-      {board.lists &&
-        board.lists.map((list) => (
-          <BoardList board_id={boardId} list_id={list._id} title={list.listTitle} cards={list.cards} members={board.members} />
+      {lists &&
+        lists.map((list) => (
+          <BoardList board_id={boardId} list_id={list._id} title={list.listTitle} card={list.cards} members={board.members} />
         ))}
-      {/* <BoardList title="Linh" /> */}
-      <AddList board_id={boardId}/>
+      <AddList board_id={boardId} setLists={setLists} lists={lists}/>
     </div>
   );
 };
