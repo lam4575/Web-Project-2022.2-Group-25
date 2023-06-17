@@ -20,7 +20,8 @@ const uploadTestFile = async (req, res) => {
   const cardId = req.params.cardId;
 
   const message = await uploadFile(file, cardId, req.user);
-  res.status(200).json({ message: message });
+  console.log(message);
+  res.status(200).json( {message: message, name: file.name });
 };
 
 const getTestFile = async (req, res) => {

@@ -246,7 +246,13 @@ const WindownCard = ({ handleClose, card, members, listName, list_id }) => {
         Authorization: `Bearer ${token}`
       }
     })
-      .then(response => alert("Upload success")) // Print the data
+      .then(response =>
+        // cap nhat file state
+        {
+          fetchCard();
+          // console.log(response.data.message.name);
+          // setFiles([...files,{owner: , createdAt: , response.data.message.name]);
+         alert("Upload success")}) // Print the data
       .catch(error => console.error(error)); // Handle errors
 
     // Close the popover
