@@ -10,7 +10,6 @@ const Login = (props) => {
     const [pass, setPass] = useState('');
     const navigate = useNavigate();
 
-
     const handleLogin = async (username, password) => {
         try {
             const response = await axios.post('http://localhost:3030/api/login/', {
@@ -31,9 +30,30 @@ const Login = (props) => {
           }
     } 
 
+    const validation = (username, password) => {
+        const username_pattern = /^[a-zA-Z0-9]+$/
+        const password_pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/
+        
+        if(username === "") {
+            alert("Username should not be empty")
+        }
+        else if(password === "") {
+            alert("Password should not be empty")
+        }
+        else if(!username_pattern.test(username)) {
+            alert("Login Failed!")
+        }
+        else if(!password_pattern.test(password)) {
+            alert("Login Failed!")
+        }
+        else {
+            handleLogin(username, password)
+        }
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        handleLogin(username, pass);
+        validation(username, pass);
     }
 
     return (

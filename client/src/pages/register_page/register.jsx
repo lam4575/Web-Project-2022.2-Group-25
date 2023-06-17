@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./register_style.css";
-import validation from "./register_validation.js"
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -12,6 +11,85 @@ const Register = (props) => {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const navigate = useNavigate();
+
+    const handleLogin = async (username, password) => {
+        try {
+            const response = await axios.post('http://localhost:3030/api/login/', {
+              username: username,
+              password: password
+            });
+            // Handle the API response here (success or error)
+            const token = response.data.token;
+            Cookies.set('token', token, { expires: 7 }); // Expires in 7 days
+            //Routing to the profile page
+            navigate('/boards');
+            const tokenCookie = Cookies.get('token');
+            console.log(tokenCookie);
+          } catch (error) {
+            // Handle any error that occurred during the API request
+            alert("Login Failed!");
+            console.log(error);
+          }
+    }
+
+    const handleRegister = async (firstname, lastname, username, email, password) => {
+        try {
+            const response = await axios.post('http://localhost:3030/api/users/', {
+                firstName : firstname, 
+                lastName: lastname,
+                username: username,
+                email: email,
+                password: password
+            });
+            // login
+            handleLogin(response.data.username, response.data.password)
+          } catch (error) {
+            // Handle any error that occurred during the API request
+            alert("Register Failed!");
+            console.log(error);
+          }
+    }
+
+    const validation = (firstname, lastname, username, email, password) => {
+        const name_pattern = /^[a-zA-Z]+$/
+        const username_pattern = /^[a-zA-Z0-9]+$/
+        const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        const password_pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/
+        
+        if(firstname === "") {
+            alert("First name should not be empty")
+        }
+        else if(lastname === "") {
+            alert("Last name should not be empty")
+        } 
+        else if(username === "") {
+            alert("Username should not be empty")
+        }
+        else if(email === "") {
+            alert("Email should not be empty")
+        }
+        else if(password === "") {
+            alert("Password should not be empty")
+        }
+        else if(!name_pattern.test(firstname)) {
+            alert("First name just include a-z, A-Z!")
+        }
+        else if(!name_pattern.test(lastname)) {
+            alert("Last name just include a-z, A-Z!")
+        }
+        else if(!username_pattern.test(username)) {
+            alert("Username just include a-z, A-Z and 0-9!")
+        }
+        else if(!email_pattern.test(email)) {
+            alert("Register Failed!")
+        }
+        else if(!password_pattern.test(password)) {
+            alert("Register Failed!")
+        }
+        else {
+            handleRegister(firstname, lastname, username, email, password)
+        }
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
