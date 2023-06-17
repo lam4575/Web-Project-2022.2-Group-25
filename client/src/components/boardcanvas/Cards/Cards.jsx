@@ -7,6 +7,7 @@ const Cards = ({ card, members, listName, list_id, setCards, cards}) => {
   const [watching, setWatching] = useState(card.watching);
   const [dueDate, setDueDate] = useState(card.dueDate ? new Date( card.dueDate) : null);
   const [isEdit, setIsEdit] = useState(false);
+  const [commentNum, setCommentNum] = useState(card.comments.length > 0 && card.comments.length)
   const handleEditClick = () => {
     setIsEdit(!isEdit);
   };
@@ -47,7 +48,7 @@ const Cards = ({ card, members, listName, list_id, setCards, cards}) => {
               mark_chat_unread
             </span>
             <span className="number">
-              {card.comments.length > 0 && card.comments.length}
+              {commentNum}
             </span>
           </div>
         </div>
@@ -65,6 +66,7 @@ const Cards = ({ card, members, listName, list_id, setCards, cards}) => {
          setCards={setCards} cards={cards}
           dueDate_p={dueDate} setDueDate_p={setDueDate}
           watching_p={watching} setWatching_p={setWatching}
+          commentNum_p = {commentNum} setCommentNum_p={setCommentNum}
           />
       </Dialog>
     </div>

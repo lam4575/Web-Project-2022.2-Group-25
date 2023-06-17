@@ -17,7 +17,13 @@ import AttachFile from "@mui/icons-material/AttachFile";
 import DownloadIcon from '@mui/icons-material/Download';
 
 
-const WindownCard = ({ handleClose, card, members, listName, list_id, setCards, cards, dueDate_p, setDueDate_p, watching_p, setWatching_p }) => {
+const WindownCard = 
+({ handleClose, card, members, listName, list_id, 
+  setCards, cards, 
+  dueDate_p, setDueDate_p, 
+  watching_p, setWatching_p,
+  commentNum_p, setCommentNum_p
+ }) => {
   const [watching, setWatching] = useState(card.watching);
   const [openCalendar, setOpenCalendar] = useState(false);
   const [dueDate, setDueDate] = useState(card.dueDate ? new Date(card.dueDate) : null);
@@ -156,6 +162,7 @@ const WindownCard = ({ handleClose, card, members, listName, list_id, setCards, 
       }).then((res) => {
         let comment = res.data;
         setComments([...comments, comment]);
+        setCommentNum_p(commentNum_p=> commentNum_p+1 )
       }).catch(err => {
         console.log(err)
         alert("Failed to add card!");
