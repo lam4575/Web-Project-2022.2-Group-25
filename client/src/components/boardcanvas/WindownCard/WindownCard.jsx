@@ -395,7 +395,7 @@ const WindownCard = ({ handleClose, card, members, listName, list_id }) => {
                       <div className="comment-details">
                         <p className="username">{comment.createdBy.firstName + ' ' + comment.createdBy.lastName}</p>
                         <span className="timestamp">{dayjs(comment.createdAt).format('DD/MM/YYYY')}</span>
-                        <span className="timestamp">{dayjs(comment.createdAt).tz(hanoiTimezone).format('HH:mm A')}</span>
+                        <span className="timestamp">{dayjs(comment.createdAt).format('HH:mm A')}</span>
                       </div>
                       <p className="comment-text">{comment.text}</p>
                     </div>
