@@ -282,8 +282,8 @@ const addComment = async (comment) => {
                       <Avatar style={{ marginRight: '1rem' }}>{comment.createdBy.firstName[0] + comment.createdBy.lastName[0]}</Avatar>
                       <div className="comment-details">
                         <p className="username">{comment.createdBy.firstName + ' ' + comment.createdBy.lastName}</p>
-                        <span className="timestamp">{dayjs().format('YYYY/MM/DD')}</span>
-                        <span className="timestamp">{dayjs().format('HH:MM A')}</span>
+                        <span className="timestamp">{dayjs(comment.createdAt).format('YYYY/MM/DD')}</span>
+                        <span className="timestamp">{dayjs(comment.createdAt).format('HH:MM A')}</span>
                       </div>
                       <p className="comment-text">{comment.text}</p>
                     </div>
