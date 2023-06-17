@@ -345,3 +345,11 @@
   margin-left: 0;
   background-color: #e4e6ea;
 }
+
+
+.download-link {
+  border: 0;
+  background-color: #5f6d8400;
+  display: flex;
+  flex-flow: row;
+}
