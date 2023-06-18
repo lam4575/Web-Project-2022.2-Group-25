@@ -247,6 +247,7 @@ const WindownCard =
           Authorization: `Bearer ${token}`
         }
       }).then((res) => {
+        fetchCard();
         sendWatchingEmail(`${cardTitle} has added a new checklist!`);
       }).catch(err => {
         console.log(err)
@@ -277,6 +278,7 @@ const WindownCard =
         }
       })
         .then(response => {
+
         sendWatchingEmail(`${cardTitle} has been added a new file!`);
         }) // Print the data
         .catch(error => console.error(error)); // Handle errors
