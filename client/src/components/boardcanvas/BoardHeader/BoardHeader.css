@@ -8,6 +8,7 @@
 }
 
 .board-header-container {
+  position: relative;
   display: flex;
   justify-content: center;
 }
@@ -47,6 +48,7 @@
 }
 
 .bhc-workspace {
+  align-items: center;
   display: flex;
   margin: 0 16px;
   padding: 0;
@@ -113,7 +115,10 @@
 }
 
 .bhc-avatar {
-  margin: 0 4px 0 12px;
+  margin-left: 1rem;
+}
+.bhc-avatar:last-of-type {
+  margin-right: 1rem;
 }
 
 .bhc-share {

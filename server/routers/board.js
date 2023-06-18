@@ -30,7 +30,7 @@ router.post('/', auth, createBoard);
 router.get('/', auth ,getAllBoards);
 
 // Get a board by ID
-router.get('/:id', getBoardById);
+router.get('/:id', auth ,getBoardById);
 
 // Update a board by ID
 router.patch('/:id', auth, updateBoardById);

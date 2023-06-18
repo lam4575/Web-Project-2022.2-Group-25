@@ -7,38 +7,50 @@ const Card = require('../models/card');
 
 const shareBoard = async (req, res) => {
   try {
-    const board = await Board.findById(req.params.id);
+    const boardId = req.params.id;
+    const username = req.body.username;
+
+    const board = await Board.findById(boardId).populate("members");
     if (!board) {
       return res.status(404).send();
     }
-    const userToShareWith = await User.findOne({username: req.body.username});
-    if (board.createdBy.toString() === userToShareWith._id.toString()) { // check if user is the owner of the board
-      return res.status(401).send({error: 'User is the owner of the board and cannot share with themselves'});
-    }
+
+    const userToShareWith = await User.findOne({ username });
     if (!userToShareWith) {
-      return res.status(404).send({error: 'User not found'});
+      return res.status(404).send({ error: 'User not found' });
     }
-    if (board.members.includes(userToShareWith._id)) {
-      return res.status(400).send({error: 'User already a member of the board'});
+
+    if (board.createdBy.toString() === userToShareWith._id.toString()) {
+      return res.status(401).send({ error: 'User is the owner of the board and cannot share with themselves' });
     }
+
+    const isUserAlreadyMember = await Board.exists({
+      _id: boardId,
+      members: userToShareWith._id
+    });
+    if (isUserAlreadyMember) {
+      return res.status(400).send({ error: 'User already a member of the board' });
+    }
+
     board.members.push(userToShareWith._id);
     if (req.body.isAdmin) {
       board.adminMembers.push(userToShareWith._id);
     }
-    await board.save();
+
+    const updatedBoard = await board.save();
 
     const activity = await createActivity('User', userToShareWith._id, 'shared', req.user._id);
     await updateBoardActivityLog(board._id, activity);
 
-    // Add the board to the userToShareWith's boards
     userToShareWith.boards.push(board._id);
     await userToShareWith.save();
 
-    res.send(board);
+    res.send(updatedBoard);
   } catch (error) {
     res.status(500).send(error);
   }
 };
+
 
 const leaveBoard = async (req, res) => {
   try {
@@ -55,7 +67,7 @@ const leaveBoard = async (req, res) => {
       // If the user is the owner of the board
       board.closed = true;
       await board.save();
-      
+
       const activity = await createActivity('User', req.user._id, 'closed', req.user._id);
       await updateBoardActivityLog(board._id, activity);
 
@@ -65,12 +77,12 @@ const leaveBoard = async (req, res) => {
       const memberIndex = board.members.indexOf(req.user._id);
       if (memberIndex > -1) {
         board.members.splice(memberIndex, 1);
-        if ( adminIndex > -1) board.adminMembers.splice(adminIndex, 1);
+        if (adminIndex > -1) board.adminMembers.splice(adminIndex, 1);
         await board.save();
-        
+
         board.lists.forEach(list => {
           list.cards.forEach(async card => {
-            if(card.assignTo.includes(req.user._id)) {
+            if (card.assignTo.includes(req.user._id)) {
               card.assignTo.splice(card.assignTo.indexOf(req.user._id), 1);
               await card.save();
             }
@@ -82,8 +94,8 @@ const leaveBoard = async (req, res) => {
       }
       const user = req.user;
       const index = user.boards.indexOf(req.params.id);
-      if(index > -1) {
-        user.boards.splice(index,1);
+      if (index > -1) {
+        user.boards.splice(index, 1);
         await user.save();
       }
     }
@@ -100,7 +112,7 @@ const openBoard = async (req, res) => {
       return res.status(404).send();
     }
     if (board.createdBy.toString() !== req.user._id.toString()) {
-      return res.status(401).send({error: 'User is not the owner of the board'});
+      return res.status(401).send({ error: 'User is not the owner of the board' });
     }
     board.closed = false;
     await board.save();
@@ -157,11 +169,11 @@ const getBoardById = async (req, res) => {
         path: 'cards',
         model: 'Card',
       },
-    });
+    }).populate("members");
     if (!board) {
       return res.status(404).send();
     }
-    res.send(board);
+    res.json({board:board, userId:req.user._id});
   } catch (error) {
     res.status(500).send(error);
   }

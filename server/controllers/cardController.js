@@ -6,16 +6,16 @@ const { createActivity, updateBoardActivityLog } = require('../utils/createActiv
 const createCard = async (req, res) => {
   try {
     const { listId, boardId } = req.params;
-    const createdBy =  req.user._id
-    const { cardTitle , description} = req.body;
+    const createdBy = req.user._id
+    const { cardTitle, description } = req.body;
 
     const list = await List.findById(listId).populate('cards');
-    const card = await Card.create({ cardTitle , description, createdBy });
+    const card = await Card.create({ cardTitle, description, createdBy });
     list.cards.push(card)
     await list.save();
     res.status(201).json(card);
     //Add activity log
-    
+
     const activity = await createActivity('List', list._id, 'added', req.user._id);
     await updateBoardActivityLog(list._id, activity);
 
@@ -32,15 +32,35 @@ const updateCard = async (req, res) => {
     const card = await Card.findByIdAndUpdate(cardId, { cardTitle, description, watching, checklist, labels, assignTo, comments, dueDate }, { new: true });
     res.status(200).json(card);
 
-    
+
     const activity = await createActivity('List', card._id, 'updated', req.user._id);
     await updateBoardActivityLog(card._id, activity);
 
-  } catch (error) { 
+  } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server Error' });
   }
 };
+
+
+const addWatching = async (req, res) => {
+  try {
+    const { cardId } = req.params;
+    const userId = req.user._id;
+    let card = await Card.findById(cardId);
+    if(card.watching.includes(userId)) {
+      card.watching.remove(userId)
+    } else {
+      card.watching.push(userId); // Push userId to the watching array
+    }
+    await card.save();
+    res.status(200).json(card);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 
 const getCardComments = async (req, res) => {
   try {
@@ -66,14 +86,14 @@ const addComment = async (req, res) => {
     const createdBy = req.user._id;
 
     let comment = await Comment
-    .create({ text, createdBy })
-    
+      .create({ text, createdBy })
+
     const card = await Card.findById(cardId);
     card.comments.push(comment._id);
     await card.save();
 
     comment = await comment.populate({
-      path:"createdBy",
+      path: "createdBy",
       select: ["firstName", "lastName"]
     });
     res.status(200).json(comment);
@@ -119,8 +139,8 @@ const getCard = async (req, res) => {
           select: 'firstName lastName avatar'
         }
       }).populate({
-        path:'files',
-        populate:{
+        path: 'files',
+        populate: {
           path: 'owner',
           select: 'firstName lastName username'
         }
@@ -139,5 +159,6 @@ module.exports = {
   deleteCard,
   getCardComments,
   addComment,
-  getCard
+  getCard,
+  addWatching
 };

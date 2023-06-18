@@ -3,13 +3,13 @@ const { uploadFile, getFile } = require('../services/fileUpload');
 const { ROOT_ABSOLUTE } = require('../configs');
 
 const sendTestMail = async (req, res) => {
-  const { subject, content, recceiver } = req.body;
+  const { subject, content, receiver } = req.body;
   const mail = {
     subject: subject,
     content: content
   };
 
-  const returnMessage = await sendMail(mail, recceiver);
+  const returnMessage = await sendMail(mail, receiver);
 
   console.log(returnMessage);
   res.status(200).json({ message: returnMessage });

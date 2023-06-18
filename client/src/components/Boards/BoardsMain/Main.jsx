@@ -14,7 +14,7 @@ const MainScreen = ({ boards, setBoards }) => {
     const token = Cookies.get('token');
     await axios.post("http://localhost:3030/api/boards/", {
         boardName: boardTitle,
-        boardType: boardType,
+        visibility: boardType,
       }, {
         headers: {
           'Authorization': `Bearer ${token}`

@@ -1,10 +1,12 @@
 .share-board {
-  width: 584px;
+  width: 380px;
   background-color: white;
   padding: 20px 0 0 20px;
   border-radius: 12px;
   border: 1px solid black;
-  position: relative;
+  position: absolute;
+  top: 6rem;
+  right: 1rem;
 }
 
 .share-board-header {
@@ -26,7 +28,7 @@
 }
 
 .share-user-input {
-  width: 80%;
+  width: 90%;
   padding-left: 12px;
   line-height: 36px;
   border-radius: 6px;
@@ -34,7 +36,13 @@
   margin-right: 24px;
 }
 
+.user-info {
+  flex:2
+}
+
 .share-user-btn {
+  flex: 3;
+  margin-right: 1rem;
   height: 36px;
   width: 68px;
   border-color: transparent;
@@ -43,15 +51,20 @@
   color: rgb(237, 230, 230);
 }
 
+
 .share-user-btn:hover {
   background-color: blue;
 }
 
 .user-share {
+  margin: 1rem 0;
   display: flex;
 }
 
 .user-info-share {
+  flex: 8;
+  display: flex;
+  justify-content: space-between;
   margin-left: 16px;
 }
 

@@ -3,19 +3,17 @@ import WindownCard from "../WindownCard/WindownCard";
 import { Dialog, DialogTitle } from "@material-ui/core";
 import "./Cards.css";
 
-const Cards = ({ card, members, listName, list_id, setCards, cards}) => {
-  const [watching, setWatching] = useState(card.watching);
+const Cards = ({ card, members, listName, list_id, setCards, cards, userId}) => {
+  const [watching, setWatching] = useState(card.watching.includes(userId)? true : false);
   const [dueDate, setDueDate] = useState(card.dueDate ? new Date( card.dueDate) : null);
   const [isEdit, setIsEdit] = useState(false);
   const [commentNum, setCommentNum] = useState(card.comments.length > 0 && card.comments.length)
   const handleEditClick = () => {
     setIsEdit(!isEdit);
   };
-
   const handleClose = () => {
     setIsEdit(false);
   };
-
   return (
     <div className="cards">
       <div className="card-content">

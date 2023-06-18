@@ -44,7 +44,7 @@ function AddList({ board_id, setLists, lists }) {
                     </span>
                 </a>)}
                 {!display && (<div>
-                    <input className="list-name-input" type="text" name="name" placeholder="Enter list title…" autocomplete="off" dir="auto" maxLength="512" />
+                    <input className="list-name-input" type="text" name="name" placeholder="Enter list title…" autoComplete="off" dir="auto" maxLength="512" />
                     <div className='list-add-controls u-clearfix'>
                         <input className="nch-button nch-button--primary mod-list-add-button js-save-edit" type="submit" value="Add list" />
                         <a className="icon-lg js-cancel-edit" aria-label="Cancel list editing" onClick={handleClick}>

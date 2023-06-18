@@ -10,7 +10,7 @@ import { width } from "@mui/system";
 import { Button } from "@mui/material";
 import EditOutlined from "@mui/icons-material/EditOutlined";
 
-const BoardList = ({ board_id, list_id, title, card, members, lists, setLists }) => {
+const BoardList = ({ board_id, list_id, title, card, members, lists, setLists, userId }) => {
   const [popOver, setPopOver] = useState(false)
   const [cardText, setCardText] = useState('');
   const [editing, setEditing] = useState(false);
@@ -22,7 +22,6 @@ const BoardList = ({ board_id, list_id, title, card, members, lists, setLists })
   const handleAddCard = () => {
     setAddcard(true);
   };
-
   const addCard = () => {
     const token = Cookies.get('token'); // assuming the token is stored in a cookie named 'token'
     axios.post(`http://localhost:3030/api/boards/${board_id}/lists/${list_id}/create-card`, {
@@ -45,7 +44,6 @@ const BoardList = ({ board_id, list_id, title, card, members, lists, setLists })
   const showPopOver = () => {
     setPopOver(prevState => !prevState)
   }
-
   const handleCloseCard = () => {
     setAddcard(false);
   };
@@ -54,7 +52,6 @@ const BoardList = ({ board_id, list_id, title, card, members, lists, setLists })
     setTitleText(titleheader);
     setEditing(false);
   };
-
   const updateTitle = async () => {
     const token = Cookies.get('token');
     await axios.patch(`http://localhost:3030/api/lists/${list_id}/update-list`, {
@@ -70,7 +67,6 @@ const BoardList = ({ board_id, list_id, title, card, members, lists, setLists })
       alert("Failed to update card!");
     })
   }
-
   const deleteList = async () => {
     const token = Cookies.get('token');
     await axios
@@ -129,7 +125,14 @@ const BoardList = ({ board_id, list_id, title, card, members, lists, setLists })
       </PopOver>}
       <div className="list-cards">
         {cards.map((card) => {
-          return <Cards card={card} members={members} listName={title} list_id={list_id} setCards={setCards} cards={cards}></Cards>
+          return <Cards
+            key={card._id}
+            card={card}
+            members={members} listName={title}
+            list_id={list_id} setCards={setCards}
+            cards={cards}
+            userId={userId}
+          ></Cards>
         })}
       </div>
       {addcard ? (

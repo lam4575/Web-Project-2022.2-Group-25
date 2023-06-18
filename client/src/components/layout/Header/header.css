@@ -130,6 +130,7 @@
 
 .account-menu {
   position: absolute;
+  z-index: 10;
   top: 48px;
   right: 12px;
   width: 224px;

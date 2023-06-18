@@ -1,3 +1,4 @@
+const Board = require('../models/board');
 const User = require('../models/user');
 
 const createUser = async (req, res) => {
@@ -32,15 +33,39 @@ const getAuthenticatedUser = async (req, res) => {
 };
 
 
-
 const getUsers = async (req, res) => {
   try {
-    const users = await User.find({});
+    const { username, email, boardId } = req.query;
+    const usernamePattern = new RegExp(`^${username}`, 'i');
+    const emailPattern = new RegExp(`^${email}`, 'i');
+
+    // Find the board with the specified boardId
+    const board = await Board.findById(boardId);
+    // Construct the MongoDB query to search for usernames and emails
+    // and exclude users that are members of the specified board
+    const query = {
+      $and: [
+        {
+          $or: [
+            { username: { $regex: usernamePattern } },
+            { email: { $regex: emailPattern } }
+          ]
+        },
+        {
+          _id: { $nin: board.members }
+        }
+      ]
+    };
+    const users = await User.find(query);
+    if(users.length === 0) {
+      return res.json({msg:"User not found!"});
+    }
     res.send(users);
   } catch (error) {
     res.status(500).send(error);
   }
 };
+
 
 const updateUser = async (req, res) => {
   const updates = Object.keys(req.body);
