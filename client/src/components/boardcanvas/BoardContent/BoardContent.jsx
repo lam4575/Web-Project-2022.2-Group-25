@@ -8,7 +8,7 @@ import AddList from "../AddList/AddList"
 const BoardContentScreen = () => {
   const { boardId } = useParams();
   const [board, setBoard] = useState({});
-  const [lists,setLists] = useState([]);
+  const [lists, setLists] = useState([]);
   useEffect(() => {
     fetchBoard(boardId);
   }, []);
@@ -28,15 +28,21 @@ const BoardContentScreen = () => {
         console.error("Failed to fetch user data:", error);
         throw error;
       });
-  } 
+  }
 
   return (
     <div className="board-content">
       {lists &&
         lists.map((list) => (
-          <BoardList board_id={boardId} list_id={list._id} title={list.listTitle} card={list.cards} members={board.members} />
+          <BoardList board_id={boardId}
+            list_id={list._id}
+            title={list.listTitle}
+            card={list.cards}
+            members={board.members}
+            setLists={setLists}
+            lists={lists} />
         ))}
-      <AddList board_id={boardId} setLists={setLists} lists={lists}/>
+      <AddList board_id={boardId} setLists={setLists} lists={lists} />
     </div>
   );
 };

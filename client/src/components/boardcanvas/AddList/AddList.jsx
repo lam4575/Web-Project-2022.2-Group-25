@@ -7,7 +7,6 @@ import AddIcon from '@mui/icons-material/Add';
 
 
 function AddList({ board_id, setLists, lists }) {
-
     const addList = (event) => {
         event.preventDefault();
         const token = Cookies.get('token'); // assuming the token is stored in a cookie named 'token'
@@ -48,7 +47,7 @@ function AddList({ board_id, setLists, lists }) {
                     <input className="list-name-input" type="text" name="name" placeholder="Enter list title…" autocomplete="off" dir="auto" maxLength="512" />
                     <div className='list-add-controls u-clearfix'>
                         <input className="nch-button nch-button--primary mod-list-add-button js-save-edit" type="submit" value="Add list" />
-                        <a className="icon-lg js-cancel-edit" href="#" aria-label="Cancel list editing" onClick={handleClick}>
+                        <a className="icon-lg js-cancel-edit" aria-label="Cancel list editing" onClick={handleClick}>
                             <CloseIcon />
                         </a>
                     </div>

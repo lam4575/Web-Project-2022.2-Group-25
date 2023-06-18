@@ -131,9 +131,9 @@ const WindownCard =
       alert("Failed to update card!");
     })
   }
-  const deleteCard = () => {
+  const deleteCard = async () => {
     const token = Cookies.get('token');
-    axios
+    await axios
       .delete(`http://localhost:3030/api/lists/${list_id}/cards/${card._id}/delete-card`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -150,6 +150,8 @@ const WindownCard =
         alert("Failed to delete card!");
       });
   };
+
+  
   const addComment = async (comment) => {
     const token = Cookies.get('token');
     try {
