@@ -45,6 +45,8 @@ const WindownCard =
     dayjs.extend(timezone);
 
 
+    console.log(card);
+
     const handleClosePopover = () => {
       setOpen(false);
     }
@@ -87,7 +89,22 @@ const WindownCard =
         console.log(error);
       }
     };
-
+    const sendWatchingEmail = async (message) => {
+      const token = Cookies.get("token");
+      try {
+        const payload = {
+          subject: `Notice about ${cardTitle}` ,
+          content: message
+        };
+        const response = await axios.post('http://localhost:3030/api/cards/648f29a1fbcdccb69972bac4/send-watching', payload, {
+          headers:{
+            Authorization: `Bearer ${token}`
+          }
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
     useEffect(() => {
       fetchCard();
     }, []);
@@ -121,14 +138,16 @@ const WindownCard =
     };
     const updateTitle = () => {
       const token = Cookies.get('token');
+      const title = document.getElementById("outlined-basic").value;
       axios.patch(`http://localhost:3030/api/cards/${card._id}/update-card`, {
-        cardTitle: document.getElementById("outlined-basic").value// pass the updated value to the API call
+        cardTitle: title// pass the updated value to the API call
       }, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       }).then((res) => {
-        setCardTitle(document.getElementById("outlined-basic").value)
+        setCardTitle(document.getElementById("outlined-basic").value);
+        sendWatchingEmail(`Title of ${cardTitle} has been changed to ${title}`);
       }).catch(err => {
         console.log(err)
         alert("Failed to update card!");
@@ -147,6 +166,7 @@ const WindownCard =
           const updatedCards = cards.filter((c) => c._id !== card._id);
           handleClose();
           setCards(updatedCards);
+          sendWatchingEmail(`${cardTitle} has been deleted!`);
         })
         .catch((err) => {
           console.log(err);
@@ -195,6 +215,7 @@ const WindownCard =
         setDueDate(newDate);
         setDueDate_p(newDate);
         setOpenCalendar(false);
+        sendWatchingEmail(`${cardTitle} has been been added a new Duedate!`);
       }).catch(err => {
         console.log(err)
         alert("Failed to update card!");
@@ -226,7 +247,7 @@ const WindownCard =
           Authorization: `Bearer ${token}`
         }
       }).then((res) => {
-        alert(`Update checklist of ${res.data.cardTitle} success!`)
+        sendWatchingEmail(`${cardTitle} has added a new checklist!`);
       }).catch(err => {
         console.log(err)
         alert("Failed to update card!");
@@ -256,7 +277,7 @@ const WindownCard =
         }
       })
         .then(response => {
-          alert("Upload file success!");
+        sendWatchingEmail(`${cardTitle} has been added a new file!`);
         }) // Print the data
         .catch(error => console.error(error)); // Handle errors
 
