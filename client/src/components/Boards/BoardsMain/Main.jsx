@@ -6,7 +6,7 @@ import { Button, createTheme, Popover } from "@mui/material";
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const MainScreen = ({ boards }) => {
+const MainScreen = ({ boards, setBoards }) => {
 
   const createBoard = async () => {
     const boardTitle = document.querySelector(".popover-containner input").value;
@@ -14,14 +14,15 @@ const MainScreen = ({ boards }) => {
     const token = Cookies.get('token');
     await axios.post("http://localhost:3030/api/boards/", {
         boardName: boardTitle,
-        boardType: boardType,
+        visibility: boardType,
       }, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       }).then(res=>{
-        window.location.reload();
-        alert("Tạo bảng thành công!")
+        let newBoard = res.data;
+        setBoards([...boards, newBoard]);
+        setOpen(false);
       }).catch(err=>{
         console.log(err);
       });
@@ -84,7 +85,7 @@ const MainScreen = ({ boards }) => {
                   <option value="private">Private</option>
                   <option value="workspace">Workspace</option>
                 </select>
-                <Button variant="contained" onClick={()=>createBoard()}>Create Card</Button>
+                <Button variant="contained" onClick={()=>createBoard()}>Create Board</Button>
               </div>
             </Popover>
 

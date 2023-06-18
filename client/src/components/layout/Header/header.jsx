@@ -43,7 +43,6 @@ const Header = () => {
     });
     Cookies.remove('token');
     navigate('/login');
-    window.location.reload();
   }
 
 
@@ -202,52 +201,9 @@ const Header = () => {
                   <div className="account-email">{user.email}</div>
                 </div>
               </div>
-              {/* account manager */}
-              <ul className="account-manager">
-                <li className="account-manager-item">
-                  <a href="" className="account-manager-link">
-                    <span className="account-manager-title">
-                      Switch accounts
-                    </span>
-                  </a>
-                </li>
-                <li className="account-manager-item">
-                  <a href="" className="account-manager-link">
-                    <span className="account-manager-title">
-                      Manage account
-                    </span>
-                  </a>
-                </li>
-              </ul>
             </div>
             {/* menu activity */}
-            <div className="account-activity">
-              <h2>Trello</h2>
-              <ul className="account-manager">
-                <li className="account-manager-item">
-                  <a href="" className="account-manager-link">
-                    <span className="account-manager-title">
-                      Profile and visibility
-                    </span>
-                  </a>
-                </li>
-                <li className="account-manager-item">
-                  <a href="" className="account-manager-link">
-                    <span className="account-manager-title">Activity</span>
-                  </a>
-                </li>
-                <li className="account-manager-item">
-                  <a href="" className="account-manager-link">
-                    <span className="account-manager-title">Cards</span>
-                  </a>
-                </li>
-                <li className="account-manager-item">
-                  <a href="" className="account-manager-link">
-                    <span className="account-manager-title">Settings</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
+
             {/* menu support */}
             <div className="account-support">
               <ul className="account-manager">

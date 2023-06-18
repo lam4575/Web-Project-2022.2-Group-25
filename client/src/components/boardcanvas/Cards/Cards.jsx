@@ -3,19 +3,17 @@ import WindownCard from "../WindownCard/WindownCard";
 import { Dialog, DialogTitle } from "@material-ui/core";
 import "./Cards.css";
 
-const Cards = ({ card, members, listName, list_id}) => {
-  const [watching, setWatching] = useState(card.watching);
-  const [des, setDes] = useState(card.description);
+const Cards = ({ card, members, listName, list_id, setCards, cards, userId}) => {
+  const [watching, setWatching] = useState(card.watching.includes(userId)? true : false);
   const [dueDate, setDueDate] = useState(card.dueDate ? new Date( card.dueDate) : null);
   const [isEdit, setIsEdit] = useState(false);
+  const [commentNum, setCommentNum] = useState(card.comments.length > 0 && card.comments.length)
   const handleEditClick = () => {
     setIsEdit(!isEdit);
   };
-
   const handleClose = () => {
     setIsEdit(false);
   };
-
   return (
     <div className="cards">
       <div className="card-content">
@@ -43,16 +41,12 @@ const Cards = ({ card, members, listName, list_id}) => {
             <span className="month"> {dueDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} </span>
           </div>}
 
-          {des && <div className="badge">
-            <span className="material-symbols-outlined badge-icon">sort</span>
-          </div>}
-
           <div className="badge">
             <span className="material-symbols-outlined badge-icon">
               mark_chat_unread
             </span>
             <span className="number">
-              {card.comments.length > 0 && card.comments.length}
+              {commentNum}
             </span>
           </div>
         </div>
@@ -65,7 +59,13 @@ const Cards = ({ card, members, listName, list_id}) => {
           boxShadow: 'none',
         },
       }} fullScreen>
-        <WindownCard handleClose={handleClose} card={card} members={members} listName={listName} list_id={list_id}/>
+        <WindownCard handleClose={handleClose} card={card} members={members} listName={listName}
+         list_id={list_id} 
+         setCards={setCards} cards={cards}
+          dueDate_p={dueDate} setDueDate_p={setDueDate}
+          watching_p={watching} setWatching_p={setWatching}
+          commentNum_p = {commentNum} setCommentNum_p={setCommentNum}
+          />
       </Dialog>
     </div>
   );

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { auth } = require('../middlewares/auth');
-const { createCard, updateCard, deleteCard, getCardComments,addComment, getCard } = require('../controllers/cardController');
+const { createCard, updateCard, deleteCard, getCardComments,addComment, getCard, addWatching } = require('../controllers/cardController');
 
 // Create route for creating a new card
 router.post('/boards/:boardId/lists/:listId/create-card', auth, createCard);
@@ -15,6 +15,8 @@ router.patch('/cards/:cardId/update-card', auth, updateCard);
 router.delete('/lists/:listId/cards/:cardId/delete-card', auth, deleteCard);
 
 router.get('/cards/:cardId', auth, getCard);
+
+router.post('/cards/:cardId/add-watching', auth, addWatching);
 
 // Create route for fetching card comments
 router.get('/cards/:cardId/get-comments', auth, getCardComments);
