@@ -42,11 +42,11 @@ const Header = () => {
     }
     const regexPattern = new RegExp(`^${inputValue}`, 'i');
     const filtered = boards.filter((board) => board && board.boardName.match(regexPattern));
-    if (filtered.length > 0) {
+    if (filtered?.length > 0) {
       setSearch(true);
       setError(false);
       setFilteredBoards(filtered);
-    } else if (filtered.length === 0) {
+    } else if (filtered?.length === 0) {
       setError(true);
     }
   };
@@ -117,7 +117,7 @@ const Header = () => {
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         >
           <div className="board-containner">
-            {boards.length > 0 ? (
+            {boards?.length > 0 ? (
               <div>
                 <div style={{ padding: "1rem", borderBottom: "1px solid #6c757d", backgroundColor: "#f5f5f5", fontWeight: "700", fontSize: "1.5rem" }}>BOARD</div>
                 {boards.slice(0, 3).map((board, index) => (
