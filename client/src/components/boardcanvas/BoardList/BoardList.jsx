@@ -10,7 +10,7 @@ import { width } from "@mui/system";
 import { Button } from "@mui/material";
 import EditOutlined from "@mui/icons-material/EditOutlined";
 
-const BoardList = ({ board_id, list_id, title, card, members, lists, setLists, userId }) => {
+const BoardList = ({ board_id, list_id, title, card, members, lists, setLists, userId, setMembers }) => {
   const [popOver, setPopOver] = useState(false)
   const [cardText, setCardText] = useState('');
   const [editing, setEditing] = useState(false);
@@ -128,7 +128,8 @@ const BoardList = ({ board_id, list_id, title, card, members, lists, setLists, u
           return <Cards
             key={card._id}
             card={card}
-            members={members} listName={title}
+            members={members} setMembers={setMembers} 
+            listName={title}
             list_id={list_id} setCards={setCards}
             cards={cards}
             userId={userId}

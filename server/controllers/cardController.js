@@ -25,6 +25,36 @@ const createCard = async (req, res) => {
   }
 };
 
+
+const joinCard = async (req, res) => {
+  const cardId = req.params.cardId;
+  const userId = req.params.userId;
+  try {
+    // Find the card
+    const card = await Card.findById(cardId);
+
+    if (!card) {
+      return res.status(404).json({ message: 'Card not found' });
+    }
+
+    // Check if the user is already joined
+    if (card.assignTo.includes(userId)) {
+      return res.status(400).json({ message: 'User already joined the card' });
+    }
+
+    // Add the user to the join array
+    card.assignTo.push(userId);
+    await card.save();
+    await card.populate('assignTo');
+    
+    return res.status(200).json({card});
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
+
 const updateCard = async (req, res) => {
   try {
     const { cardId } = req.params;
@@ -100,7 +130,6 @@ const addComment = async (req, res) => {
 
     const activity = await createActivity('Card', card._id, 'added comment', req.user._id);
     await updateBoardActivityLog(card._id, activity);
-
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server Error' });
@@ -144,7 +173,7 @@ const getCard = async (req, res) => {
           path: 'owner',
           select: 'firstName lastName username'
         }
-      });
+      }).populate("assignTo");
 
     res.status(200).json(card);
   } catch (error) {
@@ -160,5 +189,6 @@ module.exports = {
   getCardComments,
   addComment,
   getCard,
-  addWatching
+  addWatching,
+  joinCard
 };

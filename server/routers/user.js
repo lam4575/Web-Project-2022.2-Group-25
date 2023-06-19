@@ -6,7 +6,8 @@ const {
   getAuthenticatedUser,
   getUsers,
   updateUser,
-  deleteUser
+  deleteUser,
+  getUserById
 } = require('../controllers/userController');
 
 // CREATE
@@ -17,6 +18,8 @@ router.get('/users/me', auth, getAuthenticatedUser);
 
 // READ
 router.get('/users', getUsers);
+
+router.get('/users/:id', getUserById);
 
 // UPDATE
 router.patch('/users/:id', updateUser);

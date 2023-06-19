@@ -44,7 +44,7 @@ const shareBoard = async (req, res) => {
 
     userToShareWith.boards.push(board._id);
     await userToShareWith.save();
-
+    await updatedBoard.populate("members");
     res.send(updatedBoard);
   } catch (error) {
     res.status(500).send(error);

@@ -2,7 +2,7 @@ import React, { Component, useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from 'js-cookie';
 import "./WindownCard.css";
-import { Slider, TextField, Button, Avatar } from '@mui/material';
+import { Slider, TextField, Button, Avatar, ButtonBase } from '@mui/material';
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -38,15 +38,25 @@ const WindownCard =
     const [open, setOpen] = useState(false);
     const [attachFile, setAttachFile] = useState(false);
     const [files, setFiles] = useState([]);
-    const [visibleFiles, setVisibleFiles] = useState([]);
     const [numFilesToShow, setNumFilesToShow] = useState(2);
     const [cardTitle, setCardTitle] = useState(card.cardTitle)
+    const [member, setMember] = useState([]);
+    const [openMember, setOpenMember] = useState(false);
+    const [nonJoinMembers, setNonJoinMembers] = useState([]);
+
+    useEffect(() => {
+      //members is boardMember, member is cardMember
+      const nonCardBoardMembers = members.filter(
+        boardMember => !member.some(cardMember => cardMember._id === boardMember._id)
+      );
+      setNonJoinMembers(nonCardBoardMembers);
+    }, [member, members])
+
+    const handleOpenMember = () => {
+      setOpenMember(true);
+    }
 
     dayjs.extend(timezone);
-
-
-    console.log(card);
-
     const handleClosePopover = () => {
       setOpen(false);
     }
@@ -85,6 +95,7 @@ const WindownCard =
           }
         });
         setFiles(response.data.files);
+        setMember(response.data.assignTo);
       } catch (error) {
         console.log(error);
       }
@@ -93,11 +104,11 @@ const WindownCard =
       const token = Cookies.get("token");
       try {
         const payload = {
-          subject: `Notice about ${cardTitle}` ,
+          subject: `Notice about ${cardTitle}`,
           content: message
         };
         const response = await axios.post('http://localhost:3030/api/cards/648f29a1fbcdccb69972bac4/send-watching', payload, {
-          headers:{
+          headers: {
             Authorization: `Bearer ${token}`
           }
         });
@@ -108,6 +119,26 @@ const WindownCard =
     useEffect(() => {
       fetchCard();
     }, []);
+    const assignUser = async (userId) => {
+      const token = Cookies.get("token");
+      axios.post(`http://localhost:3030/api/cards/${card._id}/join-card/${userId}`, {}, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then(res => {
+        console.log(res.data);
+        if (res.data.msg) { return alert(res.data.msg); }
+        const newMembers = res.data.card.assignTo;
+        const newMember = newMembers[newMembers.length-1];
+        setMember([...member, newMember]);
+        setNonJoinMembers(nonJoinMembers=>nonJoinMembers.filter(mem => mem._id !== newMember._id));
+        setOpenMember(false);
+      }).catch(err =>
+        console.log(err)
+      )
+    }
+
+
 
 
     const toggleEditingDes = () => setIsEditingDes(prevState => !prevState);
@@ -121,7 +152,7 @@ const WindownCard =
       const token = Cookies.get('token');
       const updatedWatching = !watching; // Calculate the updated value
       axios
-        .post(`http://localhost:3030/api/cards/${card._id}/add-watching`,{},
+        .post(`http://localhost:3030/api/cards/${card._id}/add-watching`, {},
           {
             headers: {
               Authorization: `Bearer ${token}`
@@ -277,8 +308,8 @@ const WindownCard =
         }
       })
         .then(response => {
-        fetchCard();
-        sendWatchingEmail(`${cardTitle} has been added a new file!`);
+          fetchCard();
+          sendWatchingEmail(`${cardTitle} has been added a new file!`);
         }) // Print the data
         .catch(error => console.error(error)); // Handle errors
 
@@ -337,6 +368,7 @@ const WindownCard =
                           )}
                         </button>
                       </div>
+
                     </div>
 
                     {dueDate && <div className="card-data-detail due-date">
@@ -345,6 +377,17 @@ const WindownCard =
                       </div>
                       <div className="data-btn"> {dayjs(dueDate).format('YYYY-MM-DD/ HH:mm A')}  </div>
                     </div>}
+                    <div className="avatar-containner" style={{ display: "flex" }}>
+                      {member.slice(0, 3).map(mem =>
+                        <div style={{ padding: "0 0.4rem" }} key={mem._id}>
+                          <Avatar>{mem.avatar}</Avatar>
+                        </div>
+                      )
+                      }
+                      {member.length > 3 && <div>...</div>}
+                    </div>
+
+
                   </div>
 
                   {/* Description */}
@@ -423,7 +466,7 @@ const WindownCard =
                   </div>
                   {isEditingActivity && <div className="">
                     {comments.map(comment =>
-                      <div className="comment">
+                      <div className="comment" key={comment._id}>
                         <Avatar style={{ marginRight: '1rem' }}>{comment.createdBy.firstName[0] + comment.createdBy.lastName[0]}</Avatar>
                         <div className="comment-details">
                           <p className="username">{comment.createdBy.firstName + ' ' + comment.createdBy.lastName}</p>
@@ -444,13 +487,32 @@ const WindownCard =
                   <div className="add-to-card">
                     <p className="add-to-card-title">Add to card</p>
                     <div className="add-to-card-items">
-                      <button className="add-card-item">
+                      <button id="member-btn" className="add-card-item" onClick={handleOpenMember}>
                         <span className="material-symbols-outlined add-card-item_icon">
                           person
                         </span>
                         <p className="add-card-item_content">Members</p>
                       </button>
-
+                      <Popover
+                        open={openMember}
+                        onClose={() => { setOpenMember(false) }}
+                        anchorEl={document.getElementById("member-btn")}
+                        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+                      >
+                        <div className="member-containner" style={{width:"100%"}}>
+                          {
+                            nonJoinMembers.map((nonJoinMember) => (
+                              (<div key={nonJoinMember._id} className="member-item" style={{padding:"1rem"}}>
+                                <div className="member-name" style={{padding:"0.5rem 0"}}>
+                                  {nonJoinMember.username}
+                                </div>
+                                <Button variant="contained" onClick={() => assignUser(nonJoinMember._id)}>Assign User</Button>
+                              </div>)
+                            ))
+                          }
+                          {nonJoinMembers.length===0 && <div className="" style={{padding:"1rem"}}>There is no user to assign!</div>}
+                        </div>
+                      </Popover>
                       <button className="add-card-item" onClick={toggleEditingChecklist}>
                         <span className="material-symbols-outlined add-card-item_icon">
                           select_check_box
@@ -551,18 +613,18 @@ const WindownCard =
                     {files.slice(0, numFilesToShow).map((file) => (
                       <Box className="download-item" key={file.id}>
                         <form action={file.URL} target="blank" method="GET" >
-                        <button type="submit" className="download-link">
-                          <DownloadIcon></DownloadIcon>
-                          {file.name.length < 20 ?  file.name : file.name.slice(0,20) + "..."}
-                        </button>
+                          <button type="submit" className="download-link">
+                            <DownloadIcon></DownloadIcon>
+                            {file.name.length < 20 ? file.name : file.name.slice(0, 20) + "..."}
+                          </button>
 
-                        {/* <div className="download-link">
+                          {/* <div className="download-link">
                             <a href={file.URL} download={file.name}>
                               <DownloadIcon></DownloadIcon>
                               {file.name}
                             </a>
                           </div> */}
-                      </form>
+                        </form>
                         <div className="time-upload">
                           <p>Uploaded by {file.owner.username}</p>
                           <p>{dayjs(file.createdAt).format("DD/MM/YYYY h:mm A")}</p>

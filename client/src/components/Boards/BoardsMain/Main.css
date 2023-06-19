@@ -109,7 +109,8 @@ li {
   background-image: url(https://d2k1ftgv7pobq7.cloudfront.net/images/backgrounds/gradients/snow.svg);
 }
 
-ul, li {
+ul,
+li {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -135,7 +136,7 @@ ul, li {
 }
 
 .board-tile {
-  background-color: var(--ds-skeleton,#97a0af);
+  background-color: var(--ds-skeleton, #97a0af);
   background-position: 50%;
   background-size: cover;
   color: #fff;
@@ -146,10 +147,10 @@ ul, li {
 }
 
 .boards-page-board-section-list-item {
-    margin-bottom: 8px;
-    margin-right: 8px;
-    width: calc(50% - 4px);
-    max-width: 15rem;
+  margin-bottom: 8px;
+  margin-right: 8px;
+  width: calc(50% - 4px);
+  max-width: 10rem;
 }
 
 .add-board {
@@ -175,4 +176,73 @@ ul, li {
 
 .modal {
   padding: 1rem;
+}
+
+.board_containner {
+  display: inline-block;
+  width: 100%;
+}
+
+.board_item{
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5rem 0;
+  background-color: #e0e0e0;
+  border-radius: 1rem;
+}
+
+.board_name {
+  font-size: larger;
+  font-weight: 600;
+}
+
+.add-btn {
+  width: 4rem;
+  height: 4rem;
+}
+
+.board_visibility {
+  font-size: small;
+  font-weight: 450;
+  font-style: italic;
+}
+
+.load-more {
+  display: flex;
+  justify-content: center;
+}
+
+.left {
+  flex: 8;
+  padding: 1rem 0 1rem 1rem;
+}
+
+.right {
+  flex: 1;
+  align-items: center;
+  padding: 1rem;
+}
+
+.hover-effect {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #e5e5e5;
+  transition: background-color 0.3s;
+}
+
+.hover-effect:hover>.right>a {
+  color: #f5f5f5;
+}
+
+.hover-effect:hover {
+  background-color: #a0c9ff;
+}
+
+.hover-effect:hover .translate-right {
+  transform: translateX(2rem);
+  transition: transform 0.3s;
+  background-color: #3b71ca;
+  border-radius: 0 1rem 1rem 0;
+  cursor: pointer;
 }

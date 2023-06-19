@@ -5,27 +5,33 @@ import AddIcon from '@mui/icons-material/Add';
 import { Button, createTheme, Popover } from "@mui/material";
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 const MainScreen = ({ boards, setBoards }) => {
+  const [displayedBoards, setDisplayedBoards] = useState(2);
+  const handleLoadMore = () => {
+    setDisplayedBoards(prevCount => prevCount + 2);
+  };
 
   const createBoard = async () => {
     const boardTitle = document.querySelector(".popover-containner input").value;
     const boardType = document.querySelector(".popover-containner select").value;
     const token = Cookies.get('token');
     await axios.post("http://localhost:3030/api/boards/", {
-        boardName: boardTitle,
-        visibility: boardType,
-      }, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      }).then(res=>{
-        let newBoard = res.data;
-        setBoards([...boards, newBoard]);
-        setOpen(false);
-      }).catch(err=>{
-        console.log(err);
-      });
+      boardName: boardTitle,
+      visibility: boardType,
+    }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(res => {
+      let newBoard = res.data;
+      setBoards([...boards, newBoard]);
+      setOpen(false);
+    }).catch(err => {
+      console.log(err);
+    });
   };
 
 
@@ -40,7 +46,7 @@ const MainScreen = ({ boards, setBoards }) => {
   const handleClose = () => {
     setOpen(false);
   };
-  
+
 
   return (
     <div className="main-body">
@@ -67,12 +73,12 @@ const MainScreen = ({ boards, setBoards }) => {
             <button id="add-btn" className="add-board" title="Add Board" onClick={() => { setOpen(true) }}>
               <AddIcon fontSize="large">Add Board</AddIcon>
             </button>
-            <Popover 
-            className="rootElement"
+            <Popover
+              className="rootElement"
               id="popover"
               anchorEl={document.getElementById("add-btn")}
               open={open}
-              onClose={()=>handleClose()}
+              onClose={() => handleClose()}
               anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'left',
@@ -85,7 +91,7 @@ const MainScreen = ({ boards, setBoards }) => {
                   <option value="private">Private</option>
                   <option value="workspace">Workspace</option>
                 </select>
-                <Button variant="contained" onClick={()=>createBoard()}>Create Board</Button>
+                <Button variant="contained" onClick={() => createBoard()}>Create Board</Button>
               </div>
             </Popover>
 
@@ -146,7 +152,29 @@ const MainScreen = ({ boards, setBoards }) => {
           </div>
         </div>
 
-        <div className="your_work-body"></div>
+        <div className="board_containner">
+          {boards.slice(0, displayedBoards).map(
+            board =>
+              <div className="board_item hover-effect" href={`/boards/${board._id}`} key={board._id}>
+                <div className="left">
+                  <div className="board_name">{board.boardName}</div>
+                  <div className="board_visibility">{board.visibility}</div>
+                </div>
+                <div className="right translate-right">
+                  <a className="board-link" href={`/boards/${board._id}`}>
+                    <ArrowRightIcon sx={{ fontSize: "3rem" }} />
+                  </a>
+                </div>
+              </div>
+          )}
+          {displayedBoards < boards.length && (
+            <div className="load-more">
+              <Button variant="contained" onClick={handleLoadMore}>
+                <KeyboardArrowDownIcon/>
+              </Button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

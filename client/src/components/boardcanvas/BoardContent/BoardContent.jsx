@@ -58,7 +58,7 @@ const BoardContentScreen = () => {
               list_id={list._id}
               title={list.listTitle}
               card={list.cards}
-              members={board.members}
+              members={members} setMembers={setMembers}
               setLists={setLists}
               lists={lists}
               userId={userId}

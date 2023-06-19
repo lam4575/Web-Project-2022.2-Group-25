@@ -35,7 +35,6 @@ const ShareBoard = ({ setOpenShare, boardId, setMembers }) => {
           setError(true);
           setUsers([]);
         }
-        console.log(res);
         setError(false);
         let newUsers = res.data;
         setUsers(newUsers);
@@ -58,8 +57,13 @@ const ShareBoard = ({ setOpenShare, boardId, setMembers }) => {
         }
       })
       .then(res=>{
+        const newMembers = res.data.members; 
+        const newMember = newMembers[newMembers.length-1];
+        console.log(newMember);
+        console.log(res.data.members);
+        if(!newMember.username) return; 
         setMembers(res.data.members);
-        setUsers(users.filter(user=>user.username!==username));
+        setUsers(users.filter(user=>user.username!==newMember.username));
       })
       .catch(err=>{
         console.log(err);

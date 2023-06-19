@@ -3,7 +3,7 @@ import WindownCard from "../WindownCard/WindownCard";
 import { Dialog, DialogTitle } from "@material-ui/core";
 import "./Cards.css";
 
-const Cards = ({ card, members, listName, list_id, setCards, cards, userId}) => {
+const Cards = ({ card, members, listName, list_id, setCards, cards, userId, setMembers}) => {
   const [watching, setWatching] = useState(card.watching.includes(userId)? true : false);
   const [dueDate, setDueDate] = useState(card.dueDate ? new Date( card.dueDate) : null);
   const [isEdit, setIsEdit] = useState(false);
@@ -59,7 +59,7 @@ const Cards = ({ card, members, listName, list_id, setCards, cards, userId}) => 
           boxShadow: 'none',
         },
       }} fullScreen>
-        <WindownCard handleClose={handleClose} card={card} members={members} listName={listName}
+        <WindownCard handleClose={handleClose} card={card} members={members} setMembers={setMembers} listName={listName}
          list_id={list_id} 
          setCards={setCards} cards={cards}
           dueDate_p={dueDate} setDueDate_p={setDueDate}
