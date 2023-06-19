@@ -1,5 +1,5 @@
 .header {
-  width: 100;
+  width: 100%;
   display: flex;
   top: 0;
   height: 48px;
@@ -80,12 +80,14 @@
 }
 
 .header-search {
+  position: relative;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 6px;
   align-items: center;
   display: flex;
   margin-right: 12px;
 }
+
 
 .icon-search {
   margin: 6px 4px 0 4px;
@@ -124,6 +126,48 @@
 .icon-info-item {
   font-size: 28px;
   color: #4f4f4f;
+}
+
+.board-containner {
+  width: 30rem;
+}
+
+.board-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #6c757d;
+  background-color: #f5f5f5;
+  transition: transform 0.3s ease;
+}
+
+.board-item:hover {
+  transform: translateX(1rem);
+}
+
+.board-info {
+  padding: 1rem;
+}
+
+.board-name {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.arrow-right-icon {
+  padding: 1rem;
+}
+
+.arrow-right-icon:hover {
+  background-color: green;
+  cursor: pointer;
+  color: #f5f5f5;
+
+}
+
+.board-visibility{
+  font-weight: 400;
+  font-size: 0.7rem;
 }
 
 /* Account menu */
@@ -225,6 +269,14 @@
 
 .account-support-list {
   border-bottom: transparent;
+}
+
+.search-containner {
+  width: 100%;
+  z-index: 5;
+  background-color: #f5f5f5;
+  position: absolute;
+  top: 110%;
 }
 
 /* nav */

@@ -1,18 +1,61 @@
-import { Avatar } from "@mui/material";
-import React, { Component, useEffect, useMemo, useState } from "react";
+import { Avatar, Button, Popover } from "@mui/material";
+import React, { Component, useEffect, useState } from "react";
 import "./header.css";
 import { green } from '@mui/material/colors';
 import Cookies from "js-cookie";
 import axios from 'axios';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { useNavigate } from "react-router-dom";
 
 const Header = () => {
-  const [onNav, setOnNav] = useState(false);
   const navigate = useNavigate();
-  const [onNavWorkspaces, setOnNavWorkspaces] = useState(false);
   const [user, setUser] = useState({});
   const [displayMenu, setDisplayMenu] = useState(false);
+  const [search, setSearch] = useState(false);
+  const [openBoard, setOpenBoard] = useState(false);
+  const [boards, setBoards] = useState([]);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [searchInput, setSearchInput] = useState('');
+  const [filteredBoards, setFilteredBoards] = useState([]);
+  const [error, setError] = useState(false);
+  
+  const handleLinkClick = (boardId) => {
+    navigate(`/boards/${boardId}`);
+  };
+  const handleOpenBoard = (event) => {
+    setOpenBoard(true);
+    setAnchorEl(event.currentTarget);
+  };
 
+  const handleCloseBoard = () => {
+    setOpenBoard(false);
+    setAnchorEl(null);
+  };
+
+  const handleSearchChange = (event) => {
+    const inputValue = event.target.value;
+    setSearchInput(inputValue);
+    if (inputValue === "") {
+      setFilteredBoards([]);
+      setError(false);
+      return;
+    }
+    const regexPattern = new RegExp(`^${inputValue}`, 'i');
+    const filtered = boards.filter((board) => board && board.boardName.match(regexPattern));
+    if (filtered.length > 0) {
+      setSearch(true);
+      setError(false);
+      setFilteredBoards(filtered);
+    } else if (filtered.length === 0) {
+      setError(true);
+    }
+  };
+
+  const handleInputBlur = () => {
+    setFilteredBoards([]);
+    setError(false);
+    setSearch(false);
+  }
 
   const fetchUserData = async () => {
     const token = Cookies.get('token');
@@ -22,6 +65,7 @@ const Header = () => {
       }
     });
     const userData = await response.json();
+    setBoards(userData.boards);
     setUser(userData);
   }
   useEffect(() => {
@@ -29,11 +73,6 @@ const Header = () => {
     fetchUserData();
   }, []);
 
-
-
-  const onOffNav = () => {
-    setOnNav(!onNav);
-  };
 
   const logout = async () => {
     const token = Cookies.get('token');
@@ -52,15 +91,8 @@ const Header = () => {
 
   return (
     <header className="header">
-      {/* <div className="presentation">
-        <button className="presentation-button">
-          <span className="material-symbols-outlined">
-            format_align_justify
-          </span>
-        </button>
-      </div> */}
       <div className="logo">
-        <a href="/" className="logo-name">
+        <a href="/boards" className="logo-name">
           <img
             src={require("../../../assets/img/logo.png")}
             alt="Logo"
@@ -70,99 +102,41 @@ const Header = () => {
       </div>
 
       <div className="select">
-        <button
-          className="select-button"
-          onClick={() => setOnNavWorkspaces(!onNavWorkspaces)}
-          onBlur={() => setOnNavWorkspaces(false)}
+        <button className="select-button" onClick={handleOpenBoard}>
+          <span className="select-text">Boards</span>
+          <div className="select-icon">
+            <span className="material-symbols-outlined select-icon-item">
+              expand_more
+            </span>
+          </div>
+        </button>
+        <Popover
+          open={openBoard}
+          onClose={handleCloseBoard}
+          anchorEl={anchorEl}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         >
-          <span className="select-text">Workspaces </span>
-          <div className="select-icon">
-            <span className="material-symbols-outlined select-icon-item">
-              expand_more
-            </span>
-          </div>
-
-          {/* Nav workspaces */}
-          {onNavWorkspaces ? (
-            <div className="nav-workspaces">
-              <div className="nav-current">
-                <div className="nav-current-header">
-                  <p className="nav-current-header_text">Current Workspace</p>
-                </div>
-
-                <nav className="nav-current-user">
-                  <img src="" alt="" />
-                  <p className="nav-current-user name">Ngoc Linh</p>
-                </nav>
+          <div className="board-containner">
+            {boards.length > 0 ? (
+              <div>
+                <div style={{ padding: "1rem", borderBottom: "1px solid #6c757d", backgroundColor: "#f5f5f5", fontWeight: "700", fontSize: "1.5rem" }}>BOARD</div>
+                {boards.slice(0, 3).map((board, index) => (
+                  <div key={board._id} className="board-item">
+                    <div style={{ padding: "1rem" }}>
+                      <div className="board-name">{board.boardName}</div>
+                      <div className="board-visibility">{board.visibility}</div>
+                    </div>
+                    <a className="arrow-right-icon" href={`/boards/${board._id}`}>
+                        <KeyboardArrowRightIcon sx={{ fontSize: "3rem" }} />
+                    </a>
+                  </div>
+                ))}
               </div>
-              {/* nav your workspace */}
-              <div className="nav-yourworkspace">
-                <div className="nav-current-header">
-                  <p className="nav-current-header_text">Current Workspace</p>
-                </div>
-
-                <nav className="nav-current-user">
-                  <img src="" alt="" />
-                  <p className="nav-current-user name">Ngoc Linh</p>
-                </nav>
-              </div>
-            </div>
-          ) : (
-            ""
-          )}
-        </button>
-
-        <button className="select-button">
-          <span className="select-text">Recent</span>
-          <div className="select-icon">
-            <span className="material-symbols-outlined select-icon-item">
-              expand_more
-            </span>
+            ) : (
+              <p>No results found.</p>
+            )}
           </div>
-        </button>
-
-        <button
-          className="select-button"
-          onClick={() => onOffNav()}
-          onBlur={() => setOnNav(false)}
-        >
-          <span className="select-text">Started</span>
-          <div className="select-icon">
-            <span className="material-symbols-outlined select-icon-item">
-              expand_more
-            </span>
-          </div>
-
-          {/* nav started */}
-          {onNav ? (
-            <div className="nav-starred">
-              <div className="starred-img">
-                <img
-                  src={require("../../../assets/img/details.jpg")}
-                  alt="Starred"
-                  className="img-starred"
-                />
-              </div>
-
-              <div className="starred-title">
-                <p className="starred-text">
-                  Star import boards to access them quickly<br></br> and easily.
-                </p>
-              </div>
-            </div>
-          ) : (
-            ""
-          )}
-        </button>
-
-        <button className="select-button">
-          <span className="select-text">Templates</span>
-          <div className="select-icon">
-            <span className="material-symbols-outlined select-icon-item">
-              expand_more
-            </span>
-          </div>
-        </button>
+        </Popover>
       </div>
       {(!user || user.message) && <div className="search-info">
         <a href="/register">
@@ -178,38 +152,20 @@ const Header = () => {
       </div>
       }
 
-      {
-        !user.message && <div className="search-info">
-          <div className="header-info">
-            <button className="btn-header_info">
-              <div className="info-item">
-                <span className="material-symbols-outlined icon-info-item">
-                  circle_notifications
-                </span>
-              </div>
-            </button>
-
-            <button className="btn-header_info">
-              <div className="info-item">
-                <span className="material-symbols-outlined icon-info-item">
-                  help
-                </span>
-              </div>
-            </button>
-
-
-            {/* Avatar User */}
-            {user.message ? null : <button className="btn-header_info">
-              <div className="info-item">
-                <Avatar sx={{ width: 32, height: 32, bgcolor: green[500] }} onClick={() => { setDisplayMenu(prevState => !prevState) }}>{user.avatar}</Avatar>
-              </div>
-            </button>}
-            {displayMenu && !user.message && <div className="account-menu">
-              {/* menu section */}
-              <div className="account-menu-section">
-                <h2>ACCOUNT</h2>
-                <div className="account-info">
-                  <Avatar>{user.avatar}</Avatar>
+      {!user.message && <div className="search-info">
+        <div className="header-info">
+          {/* Avatar User */}
+          {user.message ? null : <button className="btn-header_info">
+            <div className="info-item">
+              <Avatar sx={{ width: 32, height: 32, bgcolor: green[500] }} onClick={() => { setDisplayMenu(prevState => !prevState) }}>{user.avatar}</Avatar>
+            </div>
+          </button>}
+          {displayMenu && !user.message && <div className="account-menu">
+            {/* menu section */}
+            <div className="account-menu-section">
+              <h2>ACCOUNT</h2>
+              <div className="account-info">
+                <Avatar>{user.avatar}</Avatar>
 
                   <div className="account-info-detail">
                     <div className="account-name">{`${user.firstName} ${user.lastName}`}</div>
@@ -249,16 +205,40 @@ const Header = () => {
           </div>
           {/* Search */}
           <label className="header-search">
-            <div className="icon-with-search">
+            <div id="search" className="icon-with-search">
               <span className="material-symbols-outlined icon-search">
                 search
               </span>
             </div>
-            <input type="text" placeholder="Search" className="input-search" />
-          </label>
-        </div>
+            <input
+            type="text"
+            placeholder="Search board..."
+            className="input-search"
+            value={searchInput}
+            onChange={handleSearchChange}
+          />
+            <div className="search-containner">
+            {!error && search && filteredBoards.slice(0, 3).map((board) => (
+              <div key={board._id} className="board-item">
+                <div style={{ padding: "1rem" }}>
+                  <div className="board-name">{board.boardName}</div>
+                  <div className="board-visibility">{board.visibility}</div>
+                </div>
+                <a className="arrow-right-icon" 
+                href={`/boards/${board._id}`}
+                onClick={()=>handleLinkClick(board._id)}
+                >
+                    <KeyboardArrowRightIcon sx={{ fontSize: "3rem" }} />
+                </a>
+              </div>
+            ))}
+            {error && <div style={{width:"100%", height:"2 rem", fontSize:"1.5rem"}}>Board not found!</div>}
+          </div>
+        </label>
+  
+      </div >
       }
-    </header >
+    </header  >
   );
 };
 
