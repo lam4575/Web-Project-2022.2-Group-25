@@ -277,6 +277,7 @@ const WindownCard =
         }
       })
         .then(response => {
+        fetchCard();
         sendWatchingEmail(`${cardTitle} has been added a new file!`);
         }) // Print the data
         .catch(error => console.error(error)); // Handle errors
@@ -549,12 +550,19 @@ const WindownCard =
                     </p>
                     {files.slice(0, numFilesToShow).map((file) => (
                       <Box className="download-item" key={file.id}>
-                        <div className="download-link">
-                          <a href={file.URL} download={file.name}>
-                            <DownloadIcon></DownloadIcon>
-                            {file.name}
-                          </a>
-                        </div>
+                        <form action={file.URL} target="blank" method="GET" >
+                        <button type="submit" className="download-link">
+                          <DownloadIcon></DownloadIcon>
+                          {file.name.length < 20 ?  file.name : file.name.slice(0,20) + "..."}
+                        </button>
+
+                        {/* <div className="download-link">
+                            <a href={file.URL} download={file.name}>
+                              <DownloadIcon></DownloadIcon>
+                              {file.name}
+                            </a>
+                          </div> */}
+                      </form>
                         <div className="time-upload">
                           <p>Uploaded by {file.owner.username}</p>
                           <p>{dayjs(file.createdAt).format("DD/MM/YYYY h:mm A")}</p>
