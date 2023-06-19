@@ -26,7 +26,6 @@ function App() {
           {/* <Route path="/signup" element={<Signup />} /> */}
           <Route path="/board-header" element={<BoardHeader />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/board-header" element={<ShareBoard />} />
         </Routes>
       </BrowserRouter>
     </div>
