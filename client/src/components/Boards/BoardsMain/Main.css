@@ -172,6 +172,10 @@ li {
 
 .popover-containner {
   padding: 1rem;
+  display: flex;
+  gap: 20px;
+  flex-flow: column;
+  width: 400px;
 }
 
 .modal {

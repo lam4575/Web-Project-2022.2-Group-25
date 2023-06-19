@@ -42,11 +42,11 @@ const Header = () => {
     }
     const regexPattern = new RegExp(`^${inputValue}`, 'i');
     const filtered = boards.filter((board) => board && board.boardName.match(regexPattern));
-    if (filtered.length > 0) {
+    if (filtered?.length > 0) {
       setSearch(true);
       setError(false);
       setFilteredBoards(filtered);
-    } else if (filtered.length === 0) {
+    } else if (filtered?.length === 0) {
       setError(true);
     }
   };
@@ -69,6 +69,7 @@ const Header = () => {
     setUser(userData);
   }
   useEffect(() => {
+    console.log(user);
     fetchUserData();
   }, []);
 
@@ -116,7 +117,7 @@ const Header = () => {
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         >
           <div className="board-containner">
-            {boards.length > 0 ? (
+            {boards?.length > 0 ? (
               <div>
                 <div style={{ padding: "1rem", borderBottom: "1px solid #6c757d", backgroundColor: "#f5f5f5", fontWeight: "700", fontSize: "1.5rem" }}>BOARD</div>
                 {boards.slice(0, 3).map((board, index) => (
@@ -137,6 +138,19 @@ const Header = () => {
           </div>
         </Popover>
       </div>
+      {(!user || user.message) && <div className="search-info">
+        <a href="/register">
+          <div className="button bg-blue">
+            Register
+          </div>
+        </a>
+        <a href="/login">
+          <div className="button bg-none">
+            Login
+          </div>
+        </a>
+      </div>
+      }
 
       {!user.message && <div className="search-info">
         <div className="header-info">
@@ -153,57 +167,57 @@ const Header = () => {
               <div className="account-info">
                 <Avatar>{user.avatar}</Avatar>
 
-                <div className="account-info-detail">
-                  <div className="account-name">{`${user.firstName} ${user.lastName}`}</div>
+                  <div className="account-info-detail">
+                    <div className="account-name">{`${user.firstName} ${user.lastName}`}</div>
 
-                  <div className="account-email">{user.email}</div>
+                    <div className="account-email">{user.email}</div>
+                  </div>
                 </div>
               </div>
-            </div>
-            {/* menu activity */}
+              {/* menu activity */}
 
-            {/* menu support */}
-            <div className="account-support">
-              <ul className="account-manager">
-                <li className="account-manager-item">
-                  <a href="" className="account-manager-link">
-                    <span className="account-manager-title">Help</span>
-                  </a>
-                </li>
-                <li className="account-manager-item">
-                  <a href="" className="account-manager-link">
-                    <span className="account-manager-title">Shorcuts</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-            {/* Log out */}
-            <div className="account-logout">
-              <ul className="account-manager account-support-list">
-                <li className="account-manager-item" onClick={() => logout()}>
-                  <a href="./" className="account-manager-link">
-                    <span className="account-manager-title">Log out</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>}
-        </div>
-        {/* Search */}
-        <label className="header-search">
-          <div id="search" className="icon-with-search">
-            <span className="material-symbols-outlined icon-search">
-              search
-            </span>
+              {/* menu support */}
+              <div className="account-support">
+                <ul className="account-manager">
+                  <li className="account-manager-item">
+                    <a href="" className="account-manager-link">
+                      <span className="account-manager-title">Help</span>
+                    </a>
+                  </li>
+                  <li className="account-manager-item">
+                    <a href="" className="account-manager-link">
+                      <span className="account-manager-title">Shorcuts</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              {/* Log out */}
+              <div className="account-logout">
+                <ul className="account-manager account-support-list">
+                  <li className="account-manager-item" onClick={() => logout()}>
+                    <a href="./" className="account-manager-link">
+                      <span className="account-manager-title">Log out</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>}
           </div>
-          <input
+          {/* Search */}
+          <label className="header-search">
+            <div id="search" className="icon-with-search">
+              <span className="material-symbols-outlined icon-search">
+                search
+              </span>
+            </div>
+            <input
             type="text"
             placeholder="Search board..."
             className="input-search"
             value={searchInput}
             onChange={handleSearchChange}
           />
-          <div className="search-containner">
+            <div className="search-containner">
             {!error && search && filteredBoards.slice(0, 3).map((board) => (
               <div key={board._id} className="board-item">
                 <div style={{ padding: "1rem" }}>
@@ -221,9 +235,10 @@ const Header = () => {
             {error && <div style={{width:"100%", height:"2 rem", fontSize:"1.5rem"}}>Board not found!</div>}
           </div>
         </label>
-
-      </div >}
-    </header >
+  
+      </div >
+      }
+    </header  >
   );
 };
 
