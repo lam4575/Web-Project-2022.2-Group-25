@@ -79,8 +79,8 @@ const MainScreen = ({ boards, setBoards }) => {
               }}
             >
               <div className="popover-containner">
-                <input type="text" placeholder="Board Title" style={{ width: "100%", marginBottom: "10px" }} />
-                <select style={{ width: "100%" }}>
+                <input type="text" placeholder="Board Title" style={{ width: "100%", height: "32px"}} />
+                <select style={{ width: "100%", height: "32px" }}>
                   <option value="public">Public</option>
                   <option value="private">Private</option>
                   <option value="workspace">Workspace</option>
