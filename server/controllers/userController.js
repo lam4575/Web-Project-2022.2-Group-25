@@ -21,12 +21,12 @@ const createUser = async (req, res) => {
 
 const getAuthenticatedUser = async (req, res) => {
   try {
-    const user = await User.findOne({ tokens: { $in: [req.token] } });
+    const user = await User.findOne({ tokens: { $in: [req.token] } }).populate("boards");
     if (!user) {
       return res.status(404).send({ error: 'User not found' });
     }
-    const { _id, username, firstName, lastName, avatar, email } = user;
-    res.send({username, firstName, lastName, avatar, email });
+    const { _id, username, firstName, lastName, avatar, email, boards } = user;
+    res.send({username, firstName, lastName, avatar, email, boards });
   } catch (error) {
     res.status(500).send(error);
   }
