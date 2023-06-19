@@ -1,4 +1,4 @@
-import React  from "react";
+import React from "react";
 import "./pageOne.css";
 
 import Header from "../../components/layout/Header/header";
@@ -30,12 +30,10 @@ const PageOne = () => {
           <div className="container">
             <div className="container-content">
               <h3 className="text-content-header">
-                Trello tập hợp tất cả các nhiệm vụ, thành viên nhóm và công cụ
-                của bạn lại với nhau
+                Trello brings all your tasks, teammates, and tools together
               </h3>
               <p className="text-content">
-                Duy trì mọi thứ ở cùng một nơi - dù cho nhóm của bạn không ở
-                cùng nhau
+                Keep everything in the same place—even if your team isn’t.
               </p>
               <form action="" className="form-skip">
                 <input
@@ -46,7 +44,7 @@ const PageOne = () => {
                   className="input-skip-container"
                 />
                 <button className="button-skip" type="submit">
-                  Đăng ký - hoàn toàn miễn phí
+                  Sign up - It's free!
                 </button>
               </form>
             </div>
@@ -65,11 +63,10 @@ const PageOne = () => {
       <div className="skip-target-one">
         <div className="ui-section">
           <div className="main-content">
-            <h6 className="main-content-header">THÔNG TIN CƠ BẢN VỀ TRELLO</h6>
-            <h2>Đỉnh cao về năng suất</h2>
+            <h6 className="main-content-header">TRELLO 101</h6>
+            <h2>A productivity powerhouse</h2>
             <p>
-              Đơn giản, linh hoạt và mạnh mẽ. Chỉ với bảng, danh sách và thẻ,
-              bạn sẽ biết rõ ai đang làm gì và những việc cần làm.
+              Simple, flexible, and powerful. All it takes are boards, lists, and cards to get a clear view of who’s doing what and what needs to get done.
             </p>
           </div>
         </div>
@@ -80,31 +77,27 @@ const PageOne = () => {
           <div className="content-info">
             <div className="content-default">
               <button className="default default-chart" onClick={handleClick}>
-                <h6>Các bảng</h6>
+                <h6>Boards</h6>
                 <p>
-                  Bảng Trello giúp bạn sắp xếp hợp lý các nhiệm vụ và thúc đẩy
-                  công việc. Bạn có thể xem mọi thông tin, từ việc cần làm đến
-                  việc đã hoàn thành, chỉ trong nháy mắt.
+                  Trello boards keep tasks organized and work moving forward.
+                  In a glance, see everything from “things to do” to “aww yeah, we did it!”
                 </p>
               </button>
 
               <button className="default" onClick={handleClick}>
-                <h6>DANH SÁCH</h6>
+                <h6>Lists</h6>
                 <p>
-                  Các giai đoạn khác nhau của một nhiệm vụ. Hãy bắt đầu thật đơn
-                  giản với Việc cần làm, Việc đang làm hoặc Việc đã xong—hoặc
-                  xây dựng một quy trình làm việc tùy chỉnh theo đúng nhu cầu
-                  của nhóm bạn. Với Trello, cách nào cũng phát huy hiệu quả.
+                  The different stages of a task.
+                  Start as simple as To Do, Doing or Done—or build a workflow custom fit to your team’s needs.
+                  There’s no wrong way to Trello.
                 </p>
               </button>
 
               <button className="default" onClick={handleClick}>
-                <h6>THẺ</h6>
+                <h6>Cards</h6>
                 <p>
-                  Thẻ trình bày các nhiệm vụ và ý tưởng, đồng thời lưu giữ mọi
-                  thông tin giúp hoàn thành công việc. Trong quá trình thực hiện
-                  nhiệm vụ, bạn có thể di chuyển thẻ qua các danh sách để thể
-                  hiện trạng thái của thẻ.
+                  Cards represent tasks and ideas and hold all the information to get the job done.
+                  As you make progress, move cards across lists to show their status.
                 </p>
               </button>
             </div>
@@ -141,7 +134,7 @@ const PageOne = () => {
       <div className="skip-target-three">
         <div className="ui-section">
           <div className="content-start">
-            <h3>Bắt đầu sử dụng Trello ngay hôm nay</h3>
+            <h3>Get started with Trello today</h3>
             <form action="" className="form-skip">
               <input
                 type="email"
@@ -151,7 +144,7 @@ const PageOne = () => {
                 className="input-skip-container"
               />
               <button className="button-skip" type="submit">
-                Đăng ký - hoàn toàn miễn phí
+                Register - Totally free!
               </button>
             </form>
           </div>
@@ -166,27 +159,27 @@ const PageOne = () => {
             </div>
 
             <div className="text-content">
-              <h4 className="text-title">Tìm hiểu về Trello</h4>
-              <p>Công nghệ nền tảng.</p>
+              <h4 className="text-title">About Us</h4>
+              <p>What is behind the board</p>
             </div>
 
             <div className="text-content">
-              <h4 className="text-title">Việc làm</h4>
+              <h4 className="text-title">Jobs</h4>
               <p>
-                Tìm hiểu về các vai trò chưa ai đảm nhiệm trong nhóm Trello.
+                Learn about open roles on our team
               </p>
             </div>
 
             <div className="text-content">
-              <h4 className="text-title">Ứng dụng</h4>
+              <h4 className="text-title">Application</h4>
               <p>
-                Tải xuống Ứng dụng Trello cho Máy tính hoặc Thiết bị di động.
+                Download the app for Android and iOS
               </p>
             </div>
 
             <div className="text-content">
-              <h4 className="text-title">Liên hệ với chúng tôi</h4>
-              <p>Bạn cần giúp đỡ? Hãy liên lạc để chúng tôi có thể hỗ trợ</p>
+              <h4 className="text-title">Contact</h4>
+              <p>Need anything? Get in touch and we can help</p>
             </div>
           </div>
         </div>

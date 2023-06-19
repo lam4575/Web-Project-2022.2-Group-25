@@ -1,5 +1,5 @@
 import { Avatar } from "@mui/material";
-import React, { Component, useEffect, useState } from "react";
+import React, { Component, useEffect, useMemo, useState } from "react";
 import "./header.css";
 import { green } from '@mui/material/colors';
 import Cookies from "js-cookie";
@@ -13,7 +13,7 @@ const Header = () => {
   const [user, setUser] = useState({});
   const [displayMenu, setDisplayMenu] = useState(false);
 
-  
+
   const fetchUserData = async () => {
     const token = Cookies.get('token');
     const response = await fetch('http://localhost:3030/api/users/me', {
@@ -25,8 +25,11 @@ const Header = () => {
     setUser(userData);
   }
   useEffect(() => {
+    console.log(user);
     fetchUserData();
   }, []);
+
+
 
   const onOffNav = () => {
     setOnNav(!onNav);
@@ -49,16 +52,15 @@ const Header = () => {
 
   return (
     <header className="header">
-      <div className="presentation">
+      {/* <div className="presentation">
         <button className="presentation-button">
           <span className="material-symbols-outlined">
             format_align_justify
           </span>
         </button>
-      </div>
-
+      </div> */}
       <div className="logo">
-        <a href="" className="logo-name">
+        <a href="/" className="logo-name">
           <img
             src={require("../../../assets/img/logo.png")}
             alt="Logo"
@@ -162,86 +164,101 @@ const Header = () => {
           </div>
         </button>
       </div>
+      {(!user || user.message) && <div className="search-info">
+        <a href="/register">
+          <div className="button bg-blue">
+            Register
+          </div>
+        </a>
+        <a href="/login">
+          <div className="button bg-none">
+            Login
+          </div>
+        </a>
+      </div>
+      }
 
-      {!user.message && <div className="search-info">
-        <div className="header-info">
-          <button className="btn-header_info">
-            <div className="info-item">
-              <span className="material-symbols-outlined icon-info-item">
-                circle_notifications
-              </span>
-            </div>
-          </button>
+      {
+        !user.message && <div className="search-info">
+          <div className="header-info">
+            <button className="btn-header_info">
+              <div className="info-item">
+                <span className="material-symbols-outlined icon-info-item">
+                  circle_notifications
+                </span>
+              </div>
+            </button>
 
-          <button className="btn-header_info">
-            <div className="info-item">
-              <span className="material-symbols-outlined icon-info-item">
-                help
-              </span>
-            </div>
-          </button>
+            <button className="btn-header_info">
+              <div className="info-item">
+                <span className="material-symbols-outlined icon-info-item">
+                  help
+                </span>
+              </div>
+            </button>
 
 
-          {/* Avatar User */}
-          {user.message ? null : <button className="btn-header_info">
-            <div className="info-item">
-              <Avatar sx={{ width: 32, height: 32, bgcolor: green[500] }} onClick={()=>{setDisplayMenu(prevState => !prevState)}}>{user.avatar}</Avatar>
-            </div>
-          </button>}
-          {displayMenu && !user.message && <div className="account-menu">
-            {/* menu section */}
-            <div className="account-menu-section">
-              <h2>ACCOUNT</h2>
-              <div className="account-info">
-                <Avatar>{user.avatar}</Avatar>
+            {/* Avatar User */}
+            {user.message ? null : <button className="btn-header_info">
+              <div className="info-item">
+                <Avatar sx={{ width: 32, height: 32, bgcolor: green[500] }} onClick={() => { setDisplayMenu(prevState => !prevState) }}>{user.avatar}</Avatar>
+              </div>
+            </button>}
+            {displayMenu && !user.message && <div className="account-menu">
+              {/* menu section */}
+              <div className="account-menu-section">
+                <h2>ACCOUNT</h2>
+                <div className="account-info">
+                  <Avatar>{user.avatar}</Avatar>
 
-                <div className="account-info-detail">
-                  <div className="account-name">{`${user.firstName} ${user.lastName}`}</div>
+                  <div className="account-info-detail">
+                    <div className="account-name">{`${user.firstName} ${user.lastName}`}</div>
 
-                  <div className="account-email">{user.email}</div>
+                    <div className="account-email">{user.email}</div>
+                  </div>
                 </div>
               </div>
-            </div>
-            {/* menu activity */}
+              {/* menu activity */}
 
-            {/* menu support */}
-            <div className="account-support">
-              <ul className="account-manager">
-                <li className="account-manager-item">
-                  <a href="" className="account-manager-link">
-                    <span className="account-manager-title">Help</span>
-                  </a>
-                </li>
-                <li className="account-manager-item">
-                  <a href="" className="account-manager-link">
-                    <span className="account-manager-title">Shorcuts</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-            {/* Log out */}
-            <div className="account-logout">
-              <ul className="account-manager account-support-list">
-                <li className="account-manager-item" onClick={() => logout()}>
-                  <a href="./" className="account-manager-link">
-                    <span className="account-manager-title">Log out</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>}
-        </div>
-        {/* Search */}
-        <label className="header-search">
-          <div className="icon-with-search">
-            <span className="material-symbols-outlined icon-search">
-              search
-            </span>
+              {/* menu support */}
+              <div className="account-support">
+                <ul className="account-manager">
+                  <li className="account-manager-item">
+                    <a href="" className="account-manager-link">
+                      <span className="account-manager-title">Help</span>
+                    </a>
+                  </li>
+                  <li className="account-manager-item">
+                    <a href="" className="account-manager-link">
+                      <span className="account-manager-title">Shorcuts</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              {/* Log out */}
+              <div className="account-logout">
+                <ul className="account-manager account-support-list">
+                  <li className="account-manager-item" onClick={() => logout()}>
+                    <a href="./" className="account-manager-link">
+                      <span className="account-manager-title">Log out</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>}
           </div>
-          <input type="text" placeholder="Search" className="input-search" />
-        </label>
-      </div>}
-    </header>
+          {/* Search */}
+          <label className="header-search">
+            <div className="icon-with-search">
+              <span className="material-symbols-outlined icon-search">
+                search
+              </span>
+            </div>
+            <input type="text" placeholder="Search" className="input-search" />
+          </label>
+        </div>
+      }
+    </header >
   );
 };
 
