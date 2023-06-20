@@ -58,6 +58,7 @@ const ShareBoard = ({ setOpenShare, boardId, setMembers }) => {
         }
       })
       .then(res=>{
+        console.log(res.data);
         setMembers(res.data.members);
         setUsers(users.filter(user=>user.username!==username));
       })
