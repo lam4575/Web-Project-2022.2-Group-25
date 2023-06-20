@@ -3,22 +3,19 @@ import "./BoardHeader.css";
 import { Avatar } from "@mui/material";
 import ShareBoard from "../ShareBoard/ShareBoard";
 
-const BoardHeader = () => {
-  const [onMenuBhc, setOnMenuBhc] = useState(true);
+const BoardHeader = ({boardId, boardTitle, members_p, visibility, setMembers_p }) => {
+  const [openShare, setOpenShare] = useState(false);
 
   return (
     <div className="board-header">
       {/* Board Header Container */}
       <div className="board-header-container">
-        <div className="bhc-name">Linh</div>
-        <button className="bhc-star">
-          <span className="material-symbols-outlined">grade</span>
-        </button>
+        <div className="bhc-name">{boardTitle}</div>
         <div className="bhc-workspace">
           <span className="material-symbols-outlined bhc-icon-header">
             groups
           </span>
-          <p className="bhc-title">Workspace visible</p>
+          <p className="bhc-title"><b>{visibility?.toUpperCase()}</b></p>
         </div>
         {/*  <div className="bhc-table">
           <span className="material-symbols-outlined">table</span>
@@ -35,56 +32,30 @@ const BoardHeader = () => {
           <p className="bhc-title">Filter</p>
         </div>
 
-        <div className="bhc-avatar">
-          <Avatar sx={{ width: 32, height: 32 }}></Avatar>
-        </div>
+        {
+          members_p?.length > 0 && members_p.map(member => (
+            <div className="bhc-avatar" key={member._id}>
+              <Avatar
+                sx={{
+                  width: 32,
+                  height: 32
+                }}
+              >
+                {member.avatar}
+              </Avatar>
+            </div>
+          ))
+        }
+
 
         <button className="bhc-share">
           <span className="material-symbols-outlined bhc-icon-share">
             person_add
           </span>
-
-          <p className="bhc-title">Share</p>
+          <p className="bhc-title" onClick={()=>{setOpenShare(true)}}>Share</p>
         </button>
-
-        {onMenuBhc ? (
-          <button className="bhc-menu" onClick={() => setOnMenuBhc(!onMenuBhc)}>
-            <span className="material-symbols-outlined icon-bhc-menu">
-              more_horiz
-            </span>
-          </button>
-        ) : (
-          <div className="box-bhc-menu">
-            <div className="no-back-bhc">
-              <div className="box-bhc-menu-header">
-                <span className="box-bhc-menu-header-title">Menu</span>
-              </div>
-
-              {/* Pop content */}
-              <div className="bhc-menu-content">
-                <ul className="bhc-menu-list"></ul>
-                {/* menu activity */}
-                <div className="bhc-menu-activity">
-                  <span className="material-symbols-outlined ">mist</span>
-                  <p className="bhc-menu-title">Activity</p>
-                </div>
-                <ul className="bhc-menu-list"></ul>
-              </div>
-            </div>
-
-            <div className="pop-over-back">
-              <button
-                className="pop-over-btn"
-                onClick={() => setOnMenuBhc(!onMenuBhc)}
-              >
-                <span className="material-symbols-outlined btn-popover-back">
-                  close
-                </span>
-              </button>
-            </div>
-          </div>
-        )}
       </div>
+      {openShare && <ShareBoard boardId={boardId} openShare={openShare} setOpenShare={setOpenShare} setMembers={setMembers_p}/>}
     </div>
   );
 };

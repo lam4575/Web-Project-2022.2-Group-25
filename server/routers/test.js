@@ -1,9 +1,11 @@
 const express = require('express');
 const { auth } = require('../middlewares/auth');
-const { sendTestMail, uploadTestFile, getTestFile } = require('../controllers/testController');
+const { sendTestMail, uploadTestFile, getTestFile, sendEmailToWatching } = require('../controllers/testController');
 const testRouter = express.Router();
 
 testRouter.post('/test/mail', sendTestMail);
+
+testRouter.post('/cards/:cardId/send-watching', sendEmailToWatching);
 
 testRouter.post('/test/files', auth, uploadTestFile);
 

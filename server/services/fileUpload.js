@@ -19,6 +19,7 @@ const uploadFile = async (fileData, cardId, owner) => {
     });
 
     let objId = file._id;
+    let creationDate;
 
 
     let URL = `http://${BASE_URL}:${PORT}/api/files/${objId}`;
@@ -26,6 +27,7 @@ const uploadFile = async (fileData, cardId, owner) => {
 
     try {
         await file.save();
+        creationDate = file.createdAt;
     } catch (error) {
         console.log(error);
         return "NOT OK";
@@ -48,9 +50,9 @@ const uploadFile = async (fileData, cardId, owner) => {
         if (err)
             return err;
 
-        return objId;
     });
 
+    return { objId: objId, creationDate: creationDate };
 
 }
 

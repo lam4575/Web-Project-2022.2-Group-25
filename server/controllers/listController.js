@@ -4,6 +4,7 @@ const List = require('../models/list');
 const Board = require('../models/board');
 const User = require("../models/user");
 const { createActivity, updateBoardActivityLog } = require('../utils/createActivity');
+const File = require('../models/file');
 
 const getAllLists = async (req, res) => {
   try {
@@ -56,8 +57,75 @@ const moveListToBoard = async (req, res) => {
   }
 };
 
+const updateList = async (req, res) => {
+  try {
+    const { listId } = req.params;
+    const { listTitle } = req.body;
+
+    const list = await List.findById(listId);
+    if (!list) {
+      return res.status(404).send();
+    }
+
+    list.listTitle = listTitle;
+    await list.save();
+
+    res.send(list);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+// Define a function that takes a list id as an argument
+const deleteList = async (req, res) => {
+  const { listId } = req.params;
+  try {
+    // Find the list by id and populate its cards, comments and files
+    const list = await List.findById(listId).populate({
+      path: 'cards',
+      populate: [{
+        path: 'comments'
+      }, {
+        path: 'files'
+      }]
+    });
+    // If the list does not exist, throw an error
+    if (!list) {
+      res.json({ msg: 'List not found' });
+    }
+    // Loop through the cards and delete their comments, files and themselves
+    for (const card of list.cards) {
+      for (const comment of card.comments) {
+        await Comment.findByIdAndDelete(comment._id);
+      }
+      for (const file of card.files) {
+        await File.findByIdAndDelete(file._id);
+      }
+      await Card.findByIdAndDelete(card._id);
+    }
+    // Delete the list
+    await List.findByIdAndDelete(listId);
+    const board = await Board.findOneAndUpdate({ lists: listId }, { $pull: { lists: listId } });
+    // If the board does not exist, throw an error
+    if (!board) {
+      throw new Error('Board not found');
+    }
+    // Return a success message
+    res.json({listId:list._id, msg: `Delete ${list.listTitle} success!`});
+  } catch (error) {
+    // Handle any errors
+    console.error(error);
+    res.json({ msg: "Delete failed!" });
+  }
+};
+
+
+
+
 module.exports = {
   getAllLists,
   createList,
-  moveListToBoard
+  moveListToBoard,
+  updateList,
+  deleteList
 };

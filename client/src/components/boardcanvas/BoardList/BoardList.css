@@ -6,6 +6,7 @@
   margin: 1rem 0.5rem;
   border-radius: 10px;
   scroll-margin: 8px;
+  position: relative;
 }
 
 /*List header */

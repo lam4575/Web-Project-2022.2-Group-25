@@ -9,8 +9,11 @@ const cardSchema = new mongoose.Schema({
     required: true
   },
   watching: {
-    type: Boolean,
-    default: false
+    type: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    }],
+    default: [],
   },
   checklist: {
     type: Number,
@@ -38,11 +41,11 @@ const cardSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    default:''
+    default: ''
   },
-  createdBy:{
-    type:mongoose.ObjectId,
-    ref:"User"
+  createdBy: {
+    type: mongoose.ObjectId,
+    ref: "User"
   },
   comments: {
     type: [{
@@ -52,7 +55,7 @@ const cardSchema = new mongoose.Schema({
     default: [],
   }
   ,
-  files :{
+  files: {
     type: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'File',

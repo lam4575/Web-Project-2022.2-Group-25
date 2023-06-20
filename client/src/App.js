@@ -22,10 +22,8 @@ function App() {
           <Route path="/boards/:boardId" element={<SurFaceScreen />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/surface" element={<SurFaceScreen />} />
-          {/* <Route path="/signup" element={<Signup />} /> */}
-          <Route path="/board-header" element={<BoardHeader />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/board-header" element={<ShareBoard />} />
         </Routes>
       </BrowserRouter>
     </div>
