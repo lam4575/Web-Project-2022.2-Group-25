@@ -19,6 +19,7 @@ const sendTestMail = async (req, res) => {
 const sendEmailToWatching = async (req,res) => {
   const { subject, content } = req.body;
   const {cardId} = req.params;
+
   try {
     const card = await Card.findById(cardId).populate('watching');
     if (!card) {
@@ -42,7 +43,7 @@ const sendEmailToWatching = async (req,res) => {
 const uploadTestFile = async (req, res) => {
   const file = req.files.demo;
   const cardId = req.params.cardId;
-
+  console.log(cardId)
   const message = await uploadFile(file, cardId, req.user);
   console.log(message);
   res.status(200).json( {message: message, name: file.name });

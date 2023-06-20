@@ -30,7 +30,7 @@ const WindownCard =
     const [isEditingDes, setIsEditingDes] = useState(false);
     const [isEditingActivity, setIsEditingActivity] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
-    const [checkList, setChecklist] = useState(card.checklist ? card.checklist : 0);
+    const [checkList, setChecklist] = useState(card.checklist);
     const [dateChange, setDateChange] = useState(null);
     const [des, setDes] = useState(card.description);
     const [comments, setComments] = useState([]);
@@ -67,39 +67,30 @@ const WindownCard =
       const files = event.target.files;
     };
 
-    const fetchComments = async () => {
-      const token = Cookies.get('token');
-      try {
-        const response = await axios.get(`http://localhost:3030/api/cards/${card._id}/get-comments`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-        setComments(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    useEffect(() => {
-      fetchComments();
-    }, []);
     const handleLoadMore = () => {
       setNumFilesToShow((prevNum) => prevNum + 2);
     };
     const fetchCard = async () => {
       const token = Cookies.get('token');
       try {
-        const response = await axios.get(`http://localhost:3030/api/cards/${card._id}`, {
+        await axios.get(`http://localhost:3030/api/cards/${card._id}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
-        });
-        setFiles(response.data.files);
-        setMember(response.data.assignTo);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+        }).then(response=>{
+          const newCard = response.data
+          setFiles(newCard.files);
+          setMember(newCard.assignTo);
+          setChecklist(newCard.checklist);
+          setDes(newCard.description);
+          setComments(newCard.comments);
+        }).catch(err=>{
+          console.log(err);
+        })
+    } catch(error) {
+      console.log(error);
+    }
+  };
     const sendWatchingEmail = async (message) => {
       const token = Cookies.get("token");
       try {
@@ -107,18 +98,18 @@ const WindownCard =
           subject: `Notice about ${cardTitle}`,
           content: message
         };
-        const response = await axios.post('http://localhost:3030/api/cards/648f29a1fbcdccb69972bac4/send-watching', payload, {
+        await axios.post(`http://localhost:3030/api/cards/${card._id}/send-watching`, payload, {
           headers: {
             Authorization: `Bearer ${token}`
           }
-        });
+        })
       } catch (error) {
         console.error(error);
       }
     };
     useEffect(() => {
       fetchCard();
-    }, []);
+    }, [card]);
     const assignUser = async (userId) => {
       const token = Cookies.get("token");
       axios.post(`http://localhost:3030/api/cards/${card._id}/join-card/${userId}`, {}, {
@@ -126,7 +117,6 @@ const WindownCard =
           Authorization: `Bearer ${token}`
         }
       }).then(res => {
-        console.log(res.data);
         if (res.data.msg) { return alert(res.data.msg); }
         const newMembers = res.data.card.assignTo;
         const newMember = newMembers[newMembers.length-1];
@@ -194,10 +184,10 @@ const WindownCard =
         })
         .then((res) => {
           // Function to remove the deleted card from the cards array
+          console.log(res); 
           const updatedCards = cards.filter((c) => c._id !== card._id);
           handleClose();
           setCards(updatedCards);
-          sendWatchingEmail(`${cardTitle} has been deleted!`);
         })
         .catch((err) => {
           console.log(err);
@@ -278,6 +268,8 @@ const WindownCard =
           Authorization: `Bearer ${token}`
         }
       }).then((res) => {
+        const newChecklist = res.data.checklist;
+        setChecklist(newChecklist);
         sendWatchingEmail(`${cardTitle} has added a new checklist!`);
       }).catch(err => {
         console.log(err)
@@ -310,6 +302,7 @@ const WindownCard =
         .then(response => {
           fetchCard();
           sendWatchingEmail(`${cardTitle} has been added a new file!`);
+          // console.log(newCard);
         }) // Print the data
         .catch(error => console.error(error)); // Handle errors
 
@@ -428,9 +421,6 @@ const WindownCard =
                       <div className="card-item-content">
                         <div className="card-item-header">
                           <p className="title-header">Checklist</p>
-                          <div className="header-button">
-                            <button className="btn-header">Delete</button>
-                          </div>
                         </div>
                       </div>
                     </div>

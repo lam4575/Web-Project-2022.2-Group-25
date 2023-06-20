@@ -321,6 +321,17 @@
   margin-bottom: 0.5rem;
 }
 
+.badge-time {
+  align-items: center;
+  display: flex;
+  width: 30%;
+}
+
+
+.badges-info {
+  display: flex;
+}
+
 .comment-text {
   margin: 0;
 }

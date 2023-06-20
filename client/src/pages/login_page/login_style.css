@@ -1,3 +1,7 @@
+* {
+    font-family: 'Baskerville, Baskerville Old Face, Garamond, Times New Roman, serif';
+
+}
 
 .container_login {
     width: 100vw;
@@ -18,6 +22,7 @@
     font-size: 50px;
     padding: 20px;
 }
+
 .login {
     display: block;
     padding: 40px 40px 30px 40px;
@@ -26,7 +31,7 @@
 }
 
 .label {
-    color:black;
+    color: black;
     font-size: 16px;
     display: inline-block;
     cursor: pointer;
@@ -66,10 +71,19 @@
     cursor: pointer;
     box-shadow: 0 5px 10px 0 rgba(128, 16, 22, 0.5);
     margin: 15px 0;
+    transition: background-color scale 1s ease-in;
 }
 
-div > p {
-    text-align: end; 
+.submit:hover {
+    scale: 1.1;
+    font-weight: 700;
+    font-size: larger;
+    background-color: rgb(48, 204, 21);
+    opacity: 0.8;
+}
+
+div>p {
+    text-align: end;
     margin-right: 10px;
     margin-bottom: 0px;
 }
@@ -82,6 +96,15 @@ div > p {
 }
 
 .link {
-    color:blue;
+    padding-left: 1rem;
+    color: blue;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+
+.link:active {
+    color: rgb(48, 204, 21);
+    font-weight: 800;
     text-decoration: none;
 }
