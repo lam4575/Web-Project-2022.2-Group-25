@@ -8,6 +8,7 @@ const boardRoutes = require('./routers/board');
 const listRoutes = require('./routers/list');
 const testRouter = require('./routers/test');
 const cardRouter = require('./routers/card')
+
 require('./DB/connectDB');
 var cors = require('cors')
 
