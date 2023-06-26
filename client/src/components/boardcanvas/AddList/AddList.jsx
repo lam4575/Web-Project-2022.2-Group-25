@@ -46,7 +46,7 @@ function AddList({ board_id, setLists, lists }) {
                 {!display && (<div>
                     <input className="list-name-input" type="text" name="name" placeholder="Enter list title…"/>
                     <div className='list-add-controls u-clearfix'>
-                        <input className="nch-button nch-button--primary mod-list-add-button js-save-edit" type="text" value="Add list" />
+                        <input className="nch-button nch-button--primary mod-list-add-button js-save-edit" type="submit" value="Add list" />
                         <a className="icon-lg js-cancel-edit" aria-label="Cancel list editing" onClick={handleClick}>
                             <CloseIcon />
                         </a>

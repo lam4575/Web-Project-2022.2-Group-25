@@ -103,7 +103,7 @@ const Boards = () => {
     <div className="boards">
       <Header />
       <div className="container-control">
-        <div className="sidebar">
+        {/* <div className="sidebar">
           <div className="control">
             <ul className="list-control">
               <li className="control-item active">
@@ -201,7 +201,7 @@ const Boards = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="content">{renderTabScreen(activeTab)}</div>
       </div>
     </div>
